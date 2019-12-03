@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\vehicle_master;
 use App\Exports\RCDetailsExport;
-use App\Imports\PUCDetailsImport;
+use App\Imports\RCDetailsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\RcDetails;
 use Session;
@@ -124,10 +124,10 @@ class RcDetailsController extends Controller
 
      public function import(Request $request) 
     {
-        $validator = $request->validate(['file'=> 'required|mimes:doc,csv,xlsx,xls,docx,ppt,odt,ods,odp']);
-        $data = Excel::import(new PUCDetailsImport,request()->file('file'));
+        //$validator = $request->validate(['file'=> 'required|mimes:doc,csv,xlsx,xls,docx,ppt,odt,ods,odp']);
+        $data = Excel::import(new RCDetailsImport,request()->file('file'));
         
-        return redirect('pucdetails');
+        return redirect('rcdetails');
     }
    
     public function download(){        

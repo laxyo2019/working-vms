@@ -23,6 +23,18 @@ class AccountUserController extends Controller
 
     public function index()
     {
+        $owner = Auth::user()->id;
+        $user = User::where('acc_type','=','C')->count();
+        $u_fleet = User::where('id',$owner)->with('fleet_name.vehicles')->first();
+        $i =0;
+        foreach($u_fleet->fleet_name as $fleet ){
+            $i = $i + count($fleet->vehicles);
+        }
+        $fleet = Fleet::where('fleet_owner','=',$owner)->count();
+        return view('account_user.dashboard',compact('user','fleet','i'));
+    }
+    public function account_user()
+    {
         $user = User::where('parent_id',Auth::user()->id)->get();
         return view('account_user.index',compact('user'));
     }
@@ -99,7 +111,7 @@ class AccountUserController extends Controller
             $data['password'] = Hash::make($request->password);
         }
        $data->save();
-        return redirect('accountuser');
+        return redirect('account_users');
     }
 
     
@@ -107,7 +119,7 @@ class AccountUserController extends Controller
     { 
         User::destroy($id);
         DB::table('fleet_mast')->where('fleet_owner',$id)->delete();
-        return redirect('accountuser');
+        return redirect('account_users');
     }
 
     public function add_on_user(Request $request){

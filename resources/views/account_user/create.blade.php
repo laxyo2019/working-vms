@@ -143,7 +143,7 @@
 
 
     document.getElementById("btn_close").onclick = function () {
-    	location.href = "{{'/accountuser'}}";
+    	location.href = "{{'/account_users'}}";
     }
 </script>
 @endsection

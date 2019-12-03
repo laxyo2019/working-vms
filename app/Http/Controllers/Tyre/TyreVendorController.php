@@ -32,8 +32,8 @@ class TyreVendorController extends Controller
    
     public function store(Request $request)
     {
-        $data = $request->validate(["name" => 'required|alpha',
-                                    "contact_person_name" => 'nullable|alpha',
+        $data = $request->validate(["name" => 'required|regex:/^[\pL\s\-]+$/u',
+                                    "contact_person_name" => 'nullable|regex:/^[\pL\s\-]+$/u',
                                     "contact_person_phone" => 'nullable|min:10|max:10',
                                     "gst" => 'required|numeric',
                                     "mobile" => 'nullable|min:10|max:10',
@@ -42,7 +42,7 @@ class TyreVendorController extends Controller
                                     "state_id" => "required|not_in:0",
                                     "city_id" => "required|not_in:0",
                                     "addr" => 'nullable',
-                                    'phone'=> 'nullable|min:10|max:10',
+                                    'phone'=> 'nullable|min:12|max:12',
                                     'vendor_type'=>'required'
                                     ]);
         $data['fleet_code'] = session('fleet_code');
@@ -66,8 +66,8 @@ class TyreVendorController extends Controller
 
     public function update(Request $request, $id)
     {
-       $data = $request->validate(["name" => 'required|alpha',
-                                    "contact_person_name" => 'nullable|alpha',
+       $data = $request->validate(["name" => 'required|regex:/^[\pL\s\-]+$/u',
+                                    "contact_person_name" => 'nullable|regex:/^[\pL\s\-]+$/u',
                                     "contact_person_phone" => 'nullable|min:10|max:10',
                                     "gst" => 'required|numeric',
                                     "mobile" => 'nullable|min:10|max:10',
@@ -76,7 +76,7 @@ class TyreVendorController extends Controller
                                     "state_id" => "required|not_in:0",
                                     "city_id" => "required|not_in:0",
                                     "addr" => 'nullable',
-                                    'phone'=> 'nullable|min:10|max:10',
+                                    'phone'=> 'nullable|min:12|max:12',
                                     'vendor_type'=>'required'
                                     ]);
         $data['fleet_code'] = session('fleet_code');
@@ -109,12 +109,13 @@ class TyreVendorController extends Controller
 
     public function get_city(Request $request){
         $id   = $request->id;
+        $c_id = !empty($request->c_id) ? $request->c_id:'';
         $fleet_code = session('fleet_code');
         $city = City::where('state_id',$id)->where('fleet_code',$fleet_code)->get(); ?>
         <option>Select..</option>
         <?php 
         foreach ($city as $cities) { ?>
-            <option value="<?php echo $cities->id; ?>"><?php echo $cities->city_name; ?></option>
+                <option <?php if($c_id == $cities->id ){ echo 'selected' ; } ?> value="<?php echo $cities->id; ?>"><?php echo $cities->city_name; ?></option>
     <?php    }
          
     }

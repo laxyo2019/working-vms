@@ -70,7 +70,12 @@
 				                <div class="col-md-3 col-xl-3 mt-2">
 				                    <label class="">Select Insurance Type</label>				                    
 			                        <select name="ins_type" class="selectpicker form-control">
-			                            <option value="0" selected=" true " disabled="true">Select..</option>
+			                            
+			                            <option value="1" selected=" true ">Vehicle Insurance</option>
+			                            <option value="2">Medical Insurance</option>
+			                            <option value="3">WC Insurance</option>
+			                            <option value="4">AR Policy</option>
+			                            <option value="5">Fire Insurance</option>
 			                        </select>
 			                        @error('ins_type')
 			                              <span class="invalid-feedback d-block pull-right" role="alert">

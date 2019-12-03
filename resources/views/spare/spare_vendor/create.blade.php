@@ -46,7 +46,7 @@
 	                            </div>
 	                        
 	                             <div class="col-md-4 col-xl-4 mt-2">
-	                                <label for="KM Reading">Phone No </label>
+	                                <label for="KM Reading">Land-Line No </label>
 	                                  <input id="email1" class="form-control" name="phone" value="{{old('phone')}}">
 	                                  @error('phone')
 			                            <span class="invalid-feedback d-block" role="alert">
@@ -94,7 +94,7 @@
 
                             <div class='row'>   
                                <div class="col-md-3 col-xl-3 mt-2">
-                                 <label for="KM Reading">Person Phone </label>
+                                 <label for="KM Reading">Contact Person Phone </label>
                                     <input id="email1" class="form-control" name="contact_person_phone" value="{{old('contact_person_phone')}}">
                                     @error('contact_person_phone')
                                   <span class="invalid-feedback d-block" role="alert">
@@ -130,7 +130,7 @@
 		                        	@enderror                                 
                              	</div>
 	                             <div class="col-md-3 col-xl-3 mt-2">
-                               		<span style="color: #FF0000;font-size:15px;">*</span><label for="vehicle_model ">Select Type</label>
+                               		<span style="color: #FF0000;font-size:15px;">*</span><label for="vehicle_model ">Select cikty</label>
                                    <select id="city_id" name="city_id" class="selectpicker form-control">
                                         <option value="0">Select..</option>
                                     </select>    

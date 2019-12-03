@@ -148,8 +148,8 @@
 	                            <div class="col-md-3 col-xl-3 mt-2 fvalid_till" style="display: none;">
 	                                <span style="color: #FF0000;font-size:15px;">*</span><label for="Engine No">Expiry Date</label>
 	                               
-	                                <input id="email1" type="text" class="form-control fvalid_till" readonly="true" name="expire_time" value="{{old('valid_till')}}">
-	                                 @error('valid_till')
+	                                <input id="email1" type="text" class="form-control fvalid_till" readonly="true" name="expire_time" value="{{old('expire_time')}}">
+	                                 @error('expire_time')
 			                            <span class="invalid-feedback d-block" role="alert">
 			                               <strong>{{ 'Plesae select till date' }}</strong>
 			                            </span>
@@ -499,7 +499,7 @@
     	{	
     		$('.fvalid_till').show();
     		$('.valid_till').hide();
-    		$('.fvalid_till').val('LIFE TIME')
+    		$('.fvalid_till').val('LIFETIME')
     	}
     })
 

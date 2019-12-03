@@ -491,7 +491,7 @@
     	{	
     		$('.fvalid_till').show();
     		$('.valid_till').hide();
-    		$('.fvalid_till').val('LIFE TIME')
+    		$('.fvalid_till').val('LIFETIME')
     	}
     	if(re == '2')
     	{	

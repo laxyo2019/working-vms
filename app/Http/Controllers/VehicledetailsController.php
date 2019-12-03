@@ -320,7 +320,7 @@ class VehicledetailsController extends Controller
     }
 
     public function import(Request $request) 
-    {
+    { 
         $data = Excel::import(new VehicleDetailsImport,request()->file('file'));
         
         return redirect('vehicledetails');

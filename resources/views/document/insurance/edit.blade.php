@@ -74,7 +74,11 @@
 				                    <label class="">Select Insurance Type</label>
 				                    
 			                       <select name="ins_type" class="selectpicker form-control">
-			                            <option value="0" selected=" true " disabled="true">Select..</option>
+			                            <option value="1" {{$data->ins_type  == 1 ? 'selected' :''}} >Vehicle Insurance</option>
+			                            <option value="2" {{$data->ins_type  == 2 ? 'selected' :''}}>Medical Insurance</option>
+			                            <option value="3" {{$data->ins_type  == 3 ? 'selected' :''}}>WC Insurance</option>
+			                            <option value="4" {{$data->ins_type  == 4 ? 'selected' :''}}>AR Policy</option>
+			                            <option value="5" {{$data->ins_type  == 5 ? 'selected' :''}}>Fire Insurance</option>
 			                            
 			                        </select>
 			                        @error('ins_type')

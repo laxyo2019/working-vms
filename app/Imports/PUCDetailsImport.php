@@ -22,34 +22,33 @@ class PUCDetailsImport implements ToCollection,WithHeadingRow
 
         foreach ($rows as $row) {
             $row['fleet_code'] =  $fleet_code;
-            if(!empty($row['vehicle_number']) && !empty($row['valid_from'])  && !empty($row['puc_number'])
-                && !empty($row['payment_mode']))
+            if(!empty($row['vehicle_number']))
             {                   
-                $pay_date   = Date::excelToDateTimeObject($row['pay_date']);
-                $valid_from = Date::excelToDateTimeObject($row['valid_from']);
-                $valid_till = Date::excelToDateTimeObject($row['valid_till']);  
+                //$pay_date   = Date::excelToDateTimeObject($row['pay_date']); 
+
 
                 $vch_num  = vehicle_master::where('fleet_code',$fleet_code)->where('vch_no', 'like',$row['vehicle_number'])->first();
-                 $pay_date   = $pay_date->format('Y-m-d');
-                $valid_from = $valid_from->format('Y-m-d');
-                $valid_till = $valid_till->format('Y-m-d');
-   
+
+                $valid_date   = !empty($row['puc_valid_from']) ?   Date::excelToDateTimeObject($row['puc_valid_from']) : null;
+                $expire_date  = !empty($row['puc_valid_till']) ? Date::excelToDateTimeObject($row['puc_valid_till']) : null ;
+                $valid_date   = $valid_date == null ? null : $valid_date->format('Y-m-d');
+                $expire_date  = $expire_date == null ?  null : $expire_date->format('Y-m-d') ;
+
+                //$pay_date   = $pay_date->format('Y-m-d');
                 if(!empty($vch_num)){
-                    
                     PUCDetails::create([
                         'fleet_code'  => $row['fleet_code'],
-                        'vch_id'      => $vch_num->id ,
-                        'agent_id'    => 1,
-                        'puc_no'      => $row['puc_number'],
-                        'puc_amt'     => $row['amount'],
-                        'payment_mode'=> $row['payment_mode'],
-                        'pay_no'      => $row['pay_number'],
-                        'pay_dt'      => $pay_date,
-                        'pay_bank'    => $row['pay_bank'],
-                        'pay_branch'  => $row['pay_branch'],
-                        'valid_from'  => $valid_from,
-                        'valid_till'  => $valid_till,
-                        'valid_till'  =>$valid_till,
+                        'vch_id'      => $vch_num->id,
+                        'puc_no'      => $row['puc_no'],
+                        'puc_amt'     => $row['puc_amount'],
+                        'payment_mode'=> $row['puc_payment_mode'],
+                        //'pay_no'      => $row['pay_number'],
+                        //'pay_dt'      => $pay_date,
+                        'pay_bank'    => $row['puc_bank_name'],
+                        'pay_branch'  => $row['puc_branch_name'],
+                        'valid_from'  => !empty($valid_date) ? $valid_date:null,
+                        'valid_till'  => !empty($expire_date) ? $expire_date:null,
+                        //'valid_till'  =>$valid_till,
                         'created_by'  => Auth::user()->id
                         ]); 
                     //}

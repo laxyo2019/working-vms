@@ -136,16 +136,16 @@
                                     <li  class='dropdown-submenu'><a href="#">Setup</a>
                                         <ul class="dropdown-menu">
                                             <li><a href="{{route('tyrecompany.index')}}">Tyre Company</a></li>
-                                            <li><a href="{{route('tyremodel.index')}}">Tyre Model</a></li>
-                                            <li><a href="{{route('tyretype.index')}}">Tyre Type</a></li>
+                                            <li><a href="{{route('tyremodel.index')}}">Tyre Type</a></li>
+                                            {{-- <li><a href="{{route('tyretype.index')}}">Tyre Type</a></li> --}}
                                             <li><a href="{{route('tyrevendor.index')}}">Supplier/Vendor</a></li>
                                         </ul>
                                     </li>
                                     <li class='dropdown-submenu'><a href="#">Transactions</a>
                                         <ul class="dropdown-menu">
-                                            <li><a href="fTmtr.aspx">Material Request</a></li>
+                                            <li><a href="{{route('tyre_material_request.index')}}">Material Request</a></li>
                                             <li><a href="fTpo.aspx">Purchase Order</a></li>
-                                            <li><a href="ftyrepurchaseentry.aspx">Goods Receipt Note(GRN)</a></li>
+                                            <li ><a href="ftyrepurchaseentry.aspx" >Goods Receipt Note(GRN)</a></li>
                                             <li><a href="tyreremoldissue.aspx">Tyre Remolding Issue</a></li>
                                             <li><a href="tyreremoldreturn.aspx">Tyre Remold Return</a></li>
                                             <li><a href="ftyrestockentry.aspx">Tyre Stock</a></li>

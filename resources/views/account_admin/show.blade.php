@@ -57,7 +57,8 @@
 			</div>
 		</div>
 	</div>
-</main>			
+</main>	
+		
 <script>
 	$(document).ready(function(){
 		$('#fleet_table').DataTable();

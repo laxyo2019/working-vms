@@ -131,7 +131,7 @@
 		                        	@enderror                                 
                              	</div>
 	                             <div class="col-md-3 col-xl-3 mt-2">
-                               		<span style="color: #FF0000;font-size:15px;">*</span><label for="vehicle_model ">Select Type</label>
+                               		<span style="color: #FF0000;font-size:15px;">*</span><label for="vehicle_model ">Select City</label>
                                    <select id="city_id" name="city_id" class="selectpicker form-control">
                                         <option value="0">Select..</option>
                                     </select>    
@@ -212,11 +212,27 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
+  var id = {{$data->state_id}};
+  var c_id = {{$data->city_id}}
+  $.ajax({
+          url: '{{route('tyrevendor.get_city')}}',
+          type: 'POST',
+          headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+          data: {'id':id,'c_id':c_id},
+          success: function (data) {           
+              $('#city_id').html(data);
+          },
+          error: function (data) {
+              alert(data.responseText);
+          }
+      });
+
+
   $('#state_id').on('change',function(){
     var s_id = $(this).val();
     
     $.ajax({
-          url: '{{route('sparevendor.get_city')}}',
+          url: '{{route('tyrevendor.get_city')}}',
           type: 'POST',
           headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
           data: {'id':s_id},

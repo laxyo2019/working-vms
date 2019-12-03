@@ -34,7 +34,7 @@
                     </div>
                  </div>
                  <div class="form-group">
-                    <label class="col-md-4 control-label"><span  style="color: #FF0000;font-size:15px;">*</span>Model Name</label>
+                    <label class="col-md-4 control-label"><span  style="color: #FF0000;font-size:15px;">*</span>Type Name</label>
                     <div class="col-md-5 inputGroupContainer">
                        <div class="input-group">
                           <input id="addressLine1" name="model_name" class="form-control"  value="{{old('model_name')}}" type="text">
@@ -49,7 +49,7 @@
                   </div>
 
                   <div class="form-group">
-                    <label class="col-md-4 control-label">Model Description</label>
+                    <label class="col-md-4 control-label">Type Description</label>
                     <div class="col-md-5 inputGroupContainer">
                        <div class="input-group">
                           <input id="addressLine1" name="model_desc" class="form-control"  value="{{old('model_desc')}}" type="text">

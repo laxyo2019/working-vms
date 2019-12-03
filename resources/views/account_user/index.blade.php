@@ -20,7 +20,7 @@
 @endsection
 @section('content') 
 
- <main class="app-content">
+<main class="app-content">
 	  <div class="app-title">
 	    <div>
 
@@ -37,7 +37,7 @@
             {{session('success')}}
         </div>
       @endif
-	   <div class="row">
+	<div class="row" id="account_user">
 		<div class="col-md-12 m-auto">
 			<div class="card">
 				
@@ -135,7 +135,13 @@
             	location.reload();        		
     		}
     	})  
-     })           
+     })
+
+     $('#user').on('click',function(){
+        $('#account_user').show();
+        $('#dashbord_account').hide();
+     }) 
+
 })
 </script>
 

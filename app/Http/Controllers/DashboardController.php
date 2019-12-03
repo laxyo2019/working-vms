@@ -33,30 +33,40 @@ class DashboardController extends Controller
        $hasfleet    = FleetUser::where('user_id',$id)->get();
        $count_fleet = count($hasfleet);
        $fleet_code = session('fleet_code');
- 
-       $insurance  = InsuranceDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
-       $inscount=count($insurance);
-       
-       $PUCDetails  = PUCDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
-       $puccount=count($PUCDetails);
 
-       $fitnessetails  = FitnessDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
-       $fitnesscount=count($fitnessetails);
+        if($fleet_code){    
+            $insurance  = InsuranceDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $inscount=count($insurance);
+           
+           $PUCDetails  = PUCDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $puccount=count($PUCDetails);
 
-       $roadtax  = RoadtaxDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
-       $roadcount=count($roadtax);
+           $fitnessetails  = FitnessDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $fitnesscount=count($fitnessetails);
 
-       $permit  = StatePermit::with('vehicle')->where('fleet_code',$fleet_code)->get();
-       $permitcount=count($permit);
+           $roadtax  = RoadtaxDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $roadcount=count($roadtax);
 
-       $rcdetails  = RcDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
-      $rccount = count($rcdetails);
+           $permit  = StatePermit::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $permitcount=count($permit);
 
-        $data = array();
-        $data['fitnes']        =array();
-        $data['puc']           = array();
-        $data['roadtax']       = array();
-        $data['state_permitaA'] = array();
+           $rcdetails  = RcDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $rccount = count($rcdetails);
+       }
+       else{
+            $insurance = array();          
+            $inscount = 0;
+            $PUCDetails = array();          
+            $puccount = 0;
+            $fitnessetails = array();          
+            $fitnesscount = 0;
+            $roadtax = array();          
+            $roadcount = 0;
+            $permit = array();          
+            $permitcount = 0;
+            $rcdetails = array();          
+            $rccount = 0;
+        }
         
         if($count_fleet != 0){
 
@@ -78,7 +88,6 @@ class DashboardController extends Controller
                 return view('dashboard',compact('data','insurance','PUCDetails','fitnessetails','roadtax','permit','rcdetails','inscount','puccount','fitnesscount','roadcount','permitcount','rccount'));
             }
             else{
-
                 $data['fleet_id'] = FleetUser::where('user_id',$id)->get();
                 $data['fleet']    = 'yes';
                 return view('dashboard',compact('data','insurance','PUCDetails','fitnessetails','roadtax','permit','rcdetails','inscount','puccount','fitnesscount','roadcount','permitcount','rccount'));

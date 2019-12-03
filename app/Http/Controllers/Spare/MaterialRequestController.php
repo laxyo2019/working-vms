@@ -163,8 +163,7 @@ class MaterialRequestController extends Controller
     }
 
     public function save_in_session(Request $request){
-        $id      = array_unique($request->id);
-        
+        $id      = array_unique($request->id);        
         $page    = $request->page;
         $data1   = array();
         $data    = array(); 

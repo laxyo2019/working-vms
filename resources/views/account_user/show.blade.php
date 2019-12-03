@@ -20,8 +20,8 @@
 @endsection
 @section('content') 
 
- <main class="app-content">
-	  <div class="app-title">
+<main class="app-content">
+	 <div class="app-title">
 	    <div>
 	      <h1><i class="fa fa-user pr-2"></i>User</h1>
 	    </div>
@@ -29,105 +29,103 @@
 	      <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
 	      <li class="breadcrumb-item"><a href="{{url('accountuser')}}">User</a></li>
 	    </ul>
-	  </div>
+	 </div>
 	  @if(session('success'))
          <div class="alert alert-danger">
             {{session('success')}}
         </div>
       @endif
-	   <div class="row">
-		<div class="col-md-12 m-auto">
-			<div class="card">
-				
-				<div class="card-body " >
-					<div class="row">			
-						<div class="col-sm-12 col-md-12 col-xl-12  table-responsive " id="mytable3">
-							<a style="margin-bottom: 10px;" onclick="showModal()"  id="add" type="button" class="btn btn-info">Add Fleet</a>
+	    <div class="row">
+			<div class="col-md-12 m-auto">
+				<div class="card">
+					
+					<div class="card-body " >
+						<div class="row">			
+							<div class="col-sm-12 col-md-12 col-xl-12  table-responsive " id="mytable3">
+								<a style="margin-bottom: 10px;" onclick="showModal()"  id="add" type="button" class="btn btn-info">Add Fleet</a>
 
-							<a style="margin-bottom: 10px;" href="{{url('accountuser')}}"  class="btn btn-info pull-right">Back</a>
+								<a style="margin-bottom: 10px;" href="{{url('accountuser')}}"  class="btn btn-info pull-right">Back</a>
 
-							<div id="table_refresh">
-								<table class="table table-stripped table-bordered" id="account_table" style="width: 100%">
-									<thead>
-										<tr>
-											<th>SNo.</th>
-											<th>Fleet Code</th>
-											<th>Fleet Name</th>	
-										</tr>
-									</thead>
-									<tbody>
-										@php  $count =0;	@endphp 
-										@foreach($fleet as $fleets)
-										<?php $fleet_data = App\Fleet::find($fleets->fleet_id) ;?>
+								<div id="table_refresh">
+									<table class="table table-stripped table-bordered" id="account_table" style="width: 100%">
+										<thead>
 											<tr>
-												<td style="width: 16.66%">{{ ++$count}}</td>
-												<td style="width: 16.66%">{{$fleet_data->fleet_code}}</td>
-												<td style="width: 16.66%">{{$fleet_data->fleet_name}}</td>
+												<th>SNo.</th>
+												<th>Fleet Code</th>
+												<th>Fleet Name</th>	
 											</tr>
-										@endforeach
-									</tbody>
-								</table>
-							</div>	
+										</thead>
+										<tbody>
+											@php  $count =0;	@endphp 
+											@foreach($fleet as $fleets)
+											<?php $fleet_data = App\Fleet::find($fleets->fleet_id) ;?>
+												<tr>
+													<td style="width: 16.66%">{{ ++$count}}</td>
+													<td style="width: 16.66%">{{$fleet_data->fleet_code}}</td>
+													<td style="width: 16.66%">{{$fleet_data->fleet_name}}</td>
+												</tr>
+											@endforeach
+										</tbody>
+									</table>
+								</div>	
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 	<input type="hidden" id="user_id" value="{{$user_id}}">
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="modal-body">
-        <table class="table table-stripped table-bordered" id="account_table" style="width: 100%">
-				<thead>
-					<tr>
-						<th>SNo.</th>
-						<th>Fleet Code</th>
-						<th>Fleet Name</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					@php  $count =0;	@endphp 
-					@foreach($model_fleet as $user_fleet)
-					<?php if(in_array($user_fleet->id, $user_fleet_id)){ ?>
-							<tr>
-							<td style="width: 16.66%">{{ ++$count}}</td>
-							<td>{{$user_fleet->fleet_code}}</td>
-							<td>{{$user_fleet->fleet_name}}</td>							
-							<td style="width: 16.66%;text-align: center;">
-								<input type="checkbox" checked="" disabled="">		
-							</td>
-						</tr>				
-						<?php }else{ ?>					
-						<tr>
-							<td style="width: 16.66%">{{ ++$count}}</td>
-							<td>{{$user_fleet->fleet_code}}</td>
-							<td>{{$user_fleet->fleet_name}}</td>							
-							<td style="width: 16.66%;text-align: center;">
-								<input type="checkbox" id='add_user' data-id='{{ $user_fleet->id }}'>		
-							</td>
-						</tr>
-						<?php }	?>
-					@endforeach
-				</tbody>
-			</table>
-      </div>
-
-      <div class="modal-footer">      	
-        <button type="button" id='submit_btn' class="btn btn-success">Submit</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-  
-</div>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  	<div class="modal-dialog">
+			    <div class="modal-content">
+				    <div class="modal-header">
+				       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				    </div>
+			      	<div class="modal-body">
+			        	<table class="table table-stripped table-bordered" id="account_table" style="width: 100%">
+							<thead>
+								<tr>
+									<th>SNo.</th>
+									<th>Fleet Code</th>
+									<th>Fleet Name</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								@php  $count =0;	@endphp 
+								@foreach($model_fleet as $user_fleet)
+								<?php if(in_array($user_fleet->id, $user_fleet_id)){ ?>
+										<tr>
+										<td style="width: 16.66%">{{ ++$count}}</td>
+										<td>{{$user_fleet->fleet_code}}</td>
+										<td>{{$user_fleet->fleet_name}}</td>							
+										<td style="width: 16.66%;text-align: center;">
+											<input type="checkbox" checked="" disabled="">		
+										</td>
+									</tr>				
+									<?php }else{ ?>					
+									<tr>
+										<td style="width: 16.66%">{{ ++$count}}</td>
+										<td>{{$user_fleet->fleet_code}}</td>
+										<td>{{$user_fleet->fleet_name}}</td>							
+										<td style="width: 16.66%;text-align: center;">
+											<input type="checkbox" id='add_user' data-id='{{ $user_fleet->id }}'>		
+										</td>
+									</tr>
+									<?php }	?>
+								@endforeach
+							</tbody>
+						</table>
+			      	</div>
+				    <div class="modal-footer">      	
+				       <button type="button" id='submit_btn' class="btn btn-success">Submit</button>
+				       <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				    </div>
+			    </div>
+		  	</div>
+		</div>
 </main>	
-
+	
 <script>
 	$(document).ready(function(){		
 		$('#account_table').DataTable();		

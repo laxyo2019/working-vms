@@ -63,6 +63,7 @@ Route::group(['middleware' => ['role:account']], function () {
 	Route::post('user_add_on_fleet','AccountUserController@add_on_user'); 
 	Route::post('checkAccount','AccountUserController@checkAccount');
 	Route::post('AuthLogout','AccountUserController@AuthLogout');
+	Route::get('/account_users', 'AccountUserController@account_user')->name('account_users');
 
 
 	//End FleetController
@@ -411,6 +412,13 @@ Route::group(['middleware' => ['role:account']], function () {
 
 		//End TyreVendorController
 
+		// start Tyre MaterialRequestController
+		Route::resource('/tyre_material_request','Tyre\MaterialRequestController');
+		Route::post('/material_request_details','Tyre\MaterialRequestController@type_details')->name('material_request_details');
+		Route::post('/material_request_com','Tyre\MaterialRequestController@type_comp')->name('material_request_com');
+			
+		//end  Tyre MaterialRequestController
+
 		//Statr TyreTypeController  
 		Route::resource('/tyretype','Tyre\TyreTypeController');
 		Route::get('/tyretypeDelete/{id}','Tyre\TyreTypeController@destroy')->name('tyretype.delete');
@@ -420,7 +428,7 @@ Route::group(['middleware' => ['role:account']], function () {
 		
 		//End TyreTypeController
 
-		//Statr MaterialRequestController  
+		//Start MaterialRequestController  
 		Route::resource('/material_request','Spare\MaterialRequestController');
 		Route::get('/material_delete/{id}','Spare\MaterialRequestController@destroy')->name('material.delete');
 		Route::get('/material_export','Spare\MaterialRequestController@export')->name('material.export');

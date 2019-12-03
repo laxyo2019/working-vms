@@ -68,7 +68,7 @@ class SpareDetails extends Migration
             $table->text('addr',50)->nullable();
             $table->string('contact_person_name',50)->nullable();
             $table->string('contact_person_phone',15)->nullable();
-            $table->unsignedInteger('gst')->nullable();
+            $table->string('gst',100)->nullable();
             $table->unsignedInteger('city_id');
             $table->unsignedInteger('state_id');            
             $table->unsignedInteger('created_by');

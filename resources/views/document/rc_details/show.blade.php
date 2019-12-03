@@ -13,7 +13,7 @@
               <a style="margin-bottom: 5px;" href="{{route('rcdetails.create')}}" class="btn btn-inverse pull-right" ><i style="margin-right: 5px; " class="fas fa-plus"></i>ADD NEW</a>
           </div>
           <div class="col-sm-4 col-md-4">
-           <form id="target" class="pull-right" action="{{-- {{ route('pucdetails.import') }} --}}" method="POST" enctype="multipart/form-data">
+           <form id="target" class="pull-right" action="{{ route('rcdetails.import')}}" method="POST" enctype="multipart/form-data">
                 {{ csrf_field() }}
                <div class="file btn btn-inverse"><i class="fa fa-file-download"></i>
                 Import

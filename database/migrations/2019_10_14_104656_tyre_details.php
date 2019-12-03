@@ -52,7 +52,7 @@ class TyreDetails extends Migration
             $table->text('addr', 500)->nullable();
             $table->string('contact_person_name', 100);
             $table->string('contact_person_phone', 10)->nullable();
-            $table->unsignedInteger('gst')->nullable();
+            $table->string('gst',100)->nullable();
             $table->unsignedInteger('city_id');
             $table->unsignedInteger('state_id');
             $table->enum('vendor_type', ['remolding company','repairing vendor',
