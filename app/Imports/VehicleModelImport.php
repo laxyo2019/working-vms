@@ -20,10 +20,13 @@ class VehicleModelImport implements ToCollection,WithHeadingRow
         foreach ($rows as $row) {
             $data = array();
             $status = TRUE;
-            if($row['company_name'] != '' && $row['model_name'] != '') {
-                $company = vch_comp::where('fleet_code',$fleet_code)->where('comp_name',$row['company_name'])->first();
+            
+
+            if($row['vehicle_company'] != '' && $row['vehicle_model'] != '') {
+                $company = vch_comp::where('fleet_code',$fleet_code)->where('comp_name',$row['vehicle_company'])->first();
                 if($status == TRUE){
                     if(!empty($company)){
+
                          $data['comp_id'] =  $company->id;
                          $status        = TRUE;                                       
                     }
@@ -32,12 +35,18 @@ class VehicleModelImport implements ToCollection,WithHeadingRow
                     }
                 }
                 if($status == TRUE){
+
+                    $model = vch_model::where('fleet_code',$fleet_code)->where('model_name',$row['vehicle_model'])->first();
+                   
+                    if($model == null){
+
                     vch_model::create(['fleet_code'     => $fleet_code,
                                        'vcompany_code'  => $data['comp_id'],
-                                       'model_name'     => $row['model_name'],
-                                       'model_desc'     => $row['description'],
+                                       'model_name'     => $row['vehicle_model'],
+                                       //'model_desc'     => $row['description'],
                                        'created_by'     => Auth::user()->id
                                      ]);  
+                        }
                 }
                 
             }

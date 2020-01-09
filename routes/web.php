@@ -298,15 +298,25 @@ Route::group(['middleware' => ['role:account']], function () {
 		
 		//end AgentContrller
 
-		//strat AgentContrller  
+		//strat InsuranceCompanyController  
 		
 		Route::resource('/company','InsuranceCompanyController');
 		Route::get('/companyDelete/{id}','InsuranceCompanyController@destroy')->name('company.delete');
 		Route::get('/companyexport','InsuranceCompanyController@export')->name('company.export');
-		Route::post('/companyimport','InsuranceCompanyController@import')->name('company.import');
+		Route::post('/companyimport','InsuranceCompanyController@import')->name('company_import');
 		Route::get('/company_download','InsuranceCompanyController@download')->name('company.download');
 		
-		//end AgentContrller
+		//end InsuranceCompanyController
+
+		//strat InsuranceTypeController  
+		
+		Route::resource('/insurance_type','InsuranceTypeController');
+		Route::get('/insurance_type_delete/{id}','InsuranceTypeController@destroy')->name('insurance_type_delete');
+		//Route::get('/insurance_type_export','InsuranceTypeController@export')->name('insurance_type.export');
+		Route::post('/insurance_type_export','InsuranceTypeController@import')->name('insurance_type.import');
+		//Route::get('/company_download','InsuranceTypeController@download')->name('insurance_type.download');
+		
+		//end InsuranceTypeController
 
 
 		//Start PetrolPumpContrller
@@ -416,8 +426,38 @@ Route::group(['middleware' => ['role:account']], function () {
 		Route::resource('/tyre_material_request','Tyre\MaterialRequestController');
 		Route::post('/material_request_details','Tyre\MaterialRequestController@type_details')->name('material_request_details');
 		Route::post('/material_request_com','Tyre\MaterialRequestController@type_comp')->name('material_request_com');
+		Route::get('/material_request_delete/{id}','Tyre\MaterialRequestController@delete')->name('tyre_material_delete');
+		
 			
 		//end  Tyre MaterialRequestController
+
+		// start Tyre PurchaseOrderController
+
+		Route::resource('/tyre_purchase','Tyre\PurchaseOrderController');
+		Route::post('/purchase_save','Tyre\PurchaseOrderController@save')->name('purchase_save');
+		Route::post('/update_purchase_save','Tyre\PurchaseOrderController@update_purchase_save')->name('update_purchase_save');
+		Route::post('/get_type','Tyre\PurchaseOrderController@get_type')->name('get_type');
+		Route::post('/get_mtr_no','Tyre\PurchaseOrderController@get_mtr_no')->name('purchase_mtr_no');
+		Route::post('/purchase_get_mtr_list','Tyre\PurchaseOrderController@get_mtr_list')->name('pur_mtr_list');
+		Route::post('/order_save','Tyre\PurchaseOrderController@save_session')->name('tyre_purchase_order_save');
+		Route::post('/order_remove','Tyre\PurchaseOrderController@remove_session')->name('tyre_purchase_order_remove');
+		// end Tyre PurchaseOrderControlle
+
+		// Strat GRNController
+		Route::resource('/tyre_grn','Tyre\GrnController');
+		//End GRNController
+
+		// Strat TyreRemolding Controller
+		Route::resource('/tyre_remolding','Tyre\RemoldingController');
+		//End TyreRemoldingController
+
+		// Strat TyreRemoldingReturnController
+		Route::resource('/tyre_remolding_return','Tyre\TyreRemoldingReturnController');
+		//End TyreRemoldingReturnController
+
+		// Start Tyre StockController
+		Route::resource('/tyre_stock','Tyre\StockController');
+		// end Tyre StockController
 
 		//Statr TyreTypeController  
 		Route::resource('/tyretype','Tyre\TyreTypeController');
@@ -454,4 +494,45 @@ Route::group(['middleware' => ['role:account']], function () {
 		Route::post('/purchase_order_session','Spare\PurchaseOrderController@save_in_session')->name('purchase.purchase_order_session');
 		Route::post('/purchase_order_remove','Spare\PurchaseOrderController@remove_session')->name('purchase.purchase_order_remove');
 		//End PurchaseOrderController
+
+
+
+		// Start ExpensesEntryController
+		Route::resource('/expanses_entry','Expenses\ExpensesEntryController');
+		Route::post('/entry_save','Expenses\ExpensesEntryController@save_session')->name('expense_entry_save');
+		Route::post('/entry_remove','Expenses\ExpensesEntryController@remove_entry_session')->name('expense_entry_remove');
+		// End ExpensesEntryController
+
+		// Start ExpensesPaymentEntryController
+		Route::resource('/expanses_payment_entry','Expenses\ExpensesPaymentEntryController');   
+		Route::get('/delete/{id}','Expenses\ExpensesPaymentEntryController@destroy')->name('delete');   
+		Route::post('/get_details','Expenses\ExpensesPaymentEntryController@get_details')->name('get_details');   
+		// End ExpensesPaymentEntryController
+
+		// Start AccidentEntryController
+		Route::resource('/accident_entry','Expenses\AccidentEntryController');   
+		Route::get('/remove/{id}','Expenses\AccidentEntryController@delete')->name('accident_entry_delete');   
+		// End AccidentEntryController
+
+		// Start ExpensesReportController
+		Route::resource('/expenses_report','Expenses\ExpensesReportController');   
+		Route::post('/vehicle_report','Expenses\ExpensesReportController@vehicle_report')->name('vehicle_report');
+		Route::post('/vehicle_party_report','Expenses\ExpensesReportController@vehicle_party_report')->name('vehicle_party_report');
+		Route::post('/vehicle_yearly_report','Expenses\ExpensesReportController@vehicle_yearly_report')->name('vehicle_yearly_report');
+		Route::post('/accident_report','Expenses\ExpensesReportController@accident_report')->name('accident_report');   
+		// End ExpensesReportController
+		
+
+		// Start VehicleFinanceController
+		Route::resource('/vehiclefinance','finance\VehiclefinanceController');
+		Route::post('/customer_city_edit','finance\VehiclefinanceController@city');
+		Route::get('/vehiclefinance_destroy/{id}','finance\VehiclefinanceController@destroy')->name('vehiclefinance_destroy');
+		Route::post('/vehiclefinance_import','finance\VehicleFinanceController@import')->name('vehiclefinance.import');
+		// End VehicleFinanceController
+
+		// Start VehicleReportController
+		Route::resource('/vehiclereport','finance\VehicleReportController');
+		Route::post('/vehicle_installment','finance\VehicleReportController@vehicle_installment')->name('vehicle_installment');
+		Route::post('/vehicle_finance_installment','finance\VehicleReportController@vehicle_finance_installment')->name('vehicle_finance_installment');
+		// End VehicleReportController
 });

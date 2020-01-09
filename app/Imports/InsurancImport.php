@@ -13,22 +13,24 @@ use Auth;
 class InsurancImport implements ToCollection,WithHeadingRow
 {    
     public function collection(Collection $rows)
-    { 
+    {  
         $error = array();
         $fleet_code = session('fleet_code');
 
         foreach ($rows as $row) {
-            
+
+            $data = InsuranceCompany::where('fleet_code',$fleet_code)->where('comp_name',$row['insurance_company'])->first();
             $row['fleet_code'] =  $fleet_code;
-            if(!empty($row['company_name']) && !empty($row['company_phone']) )                
+            if(!empty($row['insurance_company']))                
             {    
-                $email = $row['company_email'] ? $row['company_email'] : '';
+               if($data == null){
                InsuranceCompany::create(['fleet_code' => $row['fleet_code'],
-                                        'comp_name'   => ucfirst($row['company_name']),
-                                        'comp_phone'  => $row['company_phone'],
-                                        'comp_email'  => $email,
+                                        'comp_name'   => ucfirst($row['insurance_company']),
+                                        //'comp_phone'  => $row['company_phone'] ? $row['company_phone'] : '' ,
+                                        //'comp_email'  => $email,
                                         'created_by'  => Auth::user()->id
-                                        ]);                  
+                                        ]);
+                }                  
 
             }
         }

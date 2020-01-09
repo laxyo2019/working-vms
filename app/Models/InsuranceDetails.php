@@ -18,4 +18,7 @@ class InsuranceDetails extends Model
     public function insurance_company(){
     	return $this->belongsTo('App\Models\InsuranceCompany','ins_comp');
     }
+    public function insurance_type(){
+        return $this->belongsToMany('App\Models\InsuranceType','ins_id','id');
+    }
 }

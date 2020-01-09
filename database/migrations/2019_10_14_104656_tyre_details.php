@@ -60,6 +60,32 @@ class TyreDetails extends Migration
             $table->unsignedInteger('created_by');
             $table->timestamps();
         });
+
+        Schema::create('tyre_mtr_req', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('fleet_code', 100);
+            $table->string('mtr_no')->nullable();
+            $table->integer('total_qty',11)->nullable();
+            $table->date('mtr_date')->nullable();
+            $table->string('prep_by')->nullable();
+            $table->string('po_no')->nullable();
+            $table->text('remarks',500)->nullable();        
+            $table->unsignedInteger('created_by');
+            $table->timestamps();
+        });
+
+        Schema::create('tyre_mtr_req_items', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->integer('request_id',11)->nullable();
+            $table->string('tyre_comp_name')->nullable();
+            $table->string('tyre_type_name')->nullable();
+            $table->string('tyre_condition')->nullable();
+            $table->integer('tyre_order_qty',11)->nullable();
+            $table->string('tyre_request')->nullable();
+            $table->text('remarks',500)->nullable();        
+            // $table->unsignedInteger('created_by');
+            $table->timestamps();
+        });
     }
 
     public function down()
@@ -68,5 +94,7 @@ class TyreDetails extends Migration
        Schema::dropIfExists('tyre_model_mast');
        Schema::dropIfExists('tyre_type_mast');
        Schema::dropIfExists('tyre_vendor_mast');
+       Schema::dropIfExists('tyre_mtr_req');
+       Schema::dropIfExists('tyre_mtr_req_items');
     }
 }

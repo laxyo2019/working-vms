@@ -36,8 +36,8 @@ class StatePermitImport implements ToCollection,WithHeadingRow
                 $expire_date  = !empty($row['permit_valid_till']) ? Date::excelToDateTimeObject($row['permit_valid_till']) : null ;
                 $valid_date   = $valid_date == null ? null : $valid_date->format('Y-m-d');
                 $expire_date  = $expire_date == null ?  null : $expire_date->format('Y-m-d');
-            
-                if(!empty($vch_num)){
+                $comp = StatePermit::where('fleet_code',$fleet_code)->where('permit_no', $row['permit_no'])->first();
+                if(empty($comp)){
             
                         StatePermit::create([
                         'fleet_code'  => $row['fleet_code'],

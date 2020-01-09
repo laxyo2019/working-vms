@@ -31,8 +31,8 @@ class RCDetailsImport implements ToCollection,WithHeadingRow
                     $expire_date  = !empty($row['rc_valid_till']) ? Date::excelToDateTimeObject($row['rc_valid_till']) : null ;
                     $valid_date   = $valid_date == null ? null : $valid_date->format('Y-m-d');
                     $expire_date  = $expire_date == null ?  null : $expire_date->format('Y-m-d');
-   
-                if(!empty($vch_num)){ 
+                    $comp = PUCDetails::where('fleet_code',$fleet_code)->where('rc_no', $row['registration_card_no'])->first();
+                if(empty($comp)){ 
                                   
                         RcDetails::create([
                         'fleet_code'  => $row['fleet_code'],

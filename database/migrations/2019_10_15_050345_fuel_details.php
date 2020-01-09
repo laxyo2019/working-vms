@@ -61,7 +61,7 @@ class FuelDetails extends Migration
             $table->string('pump_phone', 100)->nullable();
             $table->string('pump_website', 100)->nullable();
             $table->string('pump_email', 100)->nullable();
-            $table->unsignedInteger('pump_gst_no')->nullable();
+            $table->string('pump_gst_no')->nullable();
             $table->string('pump_city',100)->nullable();
             $table->string('pump_state', 100);
             $table->string('contact_name', 100)->nullable();

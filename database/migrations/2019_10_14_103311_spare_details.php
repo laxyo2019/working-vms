@@ -78,10 +78,10 @@ class SpareDetails extends Migration
         Schema::create('spare_mtr_req', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('fleet_code', 100);
-            $table->unsignedInteger('mtr_no');
-            $table->date('mtr_date');
-            $table->string('prep_by',10);
-            $table->unsignedInteger('po_no');
+            $table->string('mtr_no')->nullable();
+            $table->date('mtr_date')->nullable();
+            $table->string('prep_by')->nullable();
+            $table->string('po_no')->nullable();
             $table->text('remarks',500)->nullable();        
             $table->unsignedInteger('created_by');
             $table->timestamps();

@@ -41,11 +41,12 @@
               
               <?php $count = 0; ?>
               @foreach($pucDetails as $pucdetails) 
-              @php ($vch_no = \App\vehicle_master::find($pucdetails->vch_id))            
+              @php ($vch_no = \App\vehicle_master::find($pucdetails->vch_id)) 
+                       
                 <tr>
                   <td style="width: 10%;  padding-left: 20px;">{{++$count}}</td>
                   <td style="width: 17%;padding-left: 20px">{{$pucdetails->puc_no}}</td>
-                  <td style="padding-left: 20px">{{$vch_no->vch_no }}</td>
+                  <td style="padding-left: 20px">{{$vch_no == null ? '' : $vch_no->vch_no}}</td>
                   <td style="padding-left: 20px">{{$pucdetails->puc_amt}}</td>
                   <td style="padding-left: 20px">{{$pucdetails->valid_from}}</td>
                   <td style="padding-left: 20px">{{$pucdetails->valid_till}}</td>

@@ -76,7 +76,7 @@
                            	</div>
                             <div class="row">
 	                            <div class="col-md-12 text-center add_btn"  style="margin-top: 24px;">
-                             		<input  id="btnShowPopup" value="Add Item"  style="margin-right: -8px;" type="submit" value="button" class="btn btn-primary active ">
+                             		<button  id="btnShowPopup" value=""  style="margin-right: -8px;"  value="button" class="btn btn-primary active">Add Item</button>
                              	</div>
                        	  	</div>                       		     	
                        		  <div class="row">
@@ -120,6 +120,7 @@
         										                <tbody>
           										                 <?php $count = 0;
                                                     $cc = 0;
+                                                   
                                                    ?>
           										                 <?php $ids   = session('ids') ? session('ids'):array(); ?>
                                             		@foreach($ids as $id)

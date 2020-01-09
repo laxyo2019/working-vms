@@ -16,6 +16,7 @@ class FitnessDetailsImport implements ToCollection,WithHeadingRow
     
     public function collection(Collection $rows)
     {  
+        dd($rows);
         $error = array();
         $fleet_code = session('fleet_code');
         foreach ($rows as $row) {
@@ -31,8 +32,8 @@ class FitnessDetailsImport implements ToCollection,WithHeadingRow
                     $expire_date  = !empty($row['fitness_valid_till']) ? Date::excelToDateTimeObject($row['fitness_valid_till']) : null ;
                     $valid_date   = $valid_date == null ? null : $valid_date->format('Y-m-d');
                     $expire_date  = $expire_date == null ?  null : $expire_date->format('Y-m-d');
-   
-                if(!empty($vch_num)){                    
+                    $comp = FitnessDetails::where('fleet_code',$fleet_code)->where('fitness_no', $row['fitness_no'])->first();
+                if(empty($comp)){                    
                         FitnessDetails::create([
                         'fleet_code'  => $row['fleet_code'],
                         'vch_id'      => $vch_num->id ,

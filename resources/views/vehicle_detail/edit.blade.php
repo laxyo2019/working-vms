@@ -57,8 +57,9 @@
                       @enderror
                        <div class="inputGroupContainer">
                            <div class="input-group">
-                            @php ($vch = App\vch_model::find($edata->vch_model))               <select id="vch_model" name="vch_model" class="selectpicker form-control">
-                                 <option disabled="true">Select..</option>
+                              @php ($vch = App\vch_model::find($edata->vch_model))             
+                            <select id="vch_model" name="vch_model" class="selectpicker form-control" >
+                                 <option value="{{$model_vch->id}}">{{$model_vch->model_name}}</option>
                               </select>
                             </div>
                         </div> 

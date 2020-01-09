@@ -116,7 +116,7 @@ class DriverdetailsController extends Controller
 
             $path = $request->file('image')->storeAs('public/'.$fleet_code.'/vehicle_driver/', $fileNameToStore);
             $vdata['image'] = $fileNameToStore;    
-        }
+        } 
        if(!empty($id)){
           $old_data = Driver::where('id',$id)->first();
             if($request->image == null) {
@@ -127,7 +127,7 @@ class DriverdetailsController extends Controller
     }
 
     public function get_city(Request $request){
-        $id   = $request->id; 
+        $id   = $request->id;
         $city = DB::table('master_cities')->where('state_id',$id)->get();
         ?>
         <option value="0">Select..</option>

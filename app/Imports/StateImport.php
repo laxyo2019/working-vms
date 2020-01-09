@@ -21,7 +21,7 @@ class StateImport implements ToCollection,WithHeadingRow
         foreach ($rows as $row) {
             
             $row['fleet_code'] =  $fleet_code;
-            if(!empty($row['state_name']) && !empty($row['state_code']) )                
+            if(!empty($row['state_name']))                
             {   State::create(['fleet_code'  => $row['fleet_code'],
                                 'state_code' => strtoupper($row['state_code']),
                                 'state_name' => ucfirst($row['state_name']),

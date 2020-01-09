@@ -35,14 +35,14 @@ class TyreVendorController extends Controller
         $data = $request->validate(["name" => 'required|regex:/^[\pL\s\-]+$/u',
                                     "contact_person_name" => 'nullable|regex:/^[\pL\s\-]+$/u',
                                     "contact_person_phone" => 'nullable|min:10|max:10',
-                                    "gst" => 'required|numeric',
+                                    "gst" => 'required',
                                     "mobile" => 'nullable|min:10|max:10',
                                     "email" => 'nullable',
                                     "website" => 'nullable',
                                     "state_id" => "required|not_in:0",
                                     "city_id" => "required|not_in:0",
                                     "addr" => 'nullable',
-                                    'phone'=> 'nullable|min:12|max:12',
+                                    'phone'=> 'nullable|max:12',
                                     'vendor_type'=>'required'
                                     ]);
         $data['fleet_code'] = session('fleet_code');
@@ -69,14 +69,14 @@ class TyreVendorController extends Controller
        $data = $request->validate(["name" => 'required|regex:/^[\pL\s\-]+$/u',
                                     "contact_person_name" => 'nullable|regex:/^[\pL\s\-]+$/u',
                                     "contact_person_phone" => 'nullable|min:10|max:10',
-                                    "gst" => 'required|numeric',
+                                    "gst" => 'required',
                                     "mobile" => 'nullable|min:10|max:10',
                                     "email" => 'nullable',
                                     "website" => 'nullable',
                                     "state_id" => "required|not_in:0",
                                     "city_id" => "required|not_in:0",
                                     "addr" => 'nullable',
-                                    'phone'=> 'nullable|min:12|max:12',
+                                    'phone'=> 'nullable|max:12',
                                     'vendor_type'=>'required'
                                     ]);
         $data['fleet_code'] = session('fleet_code');

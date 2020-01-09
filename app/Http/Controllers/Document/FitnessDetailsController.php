@@ -15,7 +15,7 @@ use App\Models\Agent;
 use Auth;
 
 class FitnessDetailsController extends Controller
-{
+{  
     
     public function index()
     {

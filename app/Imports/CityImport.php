@@ -23,7 +23,7 @@ class CityImport implements ToCollection,WithHeadingRow
         foreach ($rows as $row) {
             
             $row['fleet_code'] =  $fleet_code;
-            if(!empty($row['city_name']) && !empty($row['city_code']) && !empty($row['state_name']))              
+            if(!empty($row['city_name']) && !empty($row['state_name']))              
             {   
                 $state = State::where('fleet_code',$fleet_code)->where('state_name','like',$row['state_name'])->first();
                 if(!empty($state)){

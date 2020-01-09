@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\vehicle_master;
+use App\Models\InsuranceType;
 use App\vch_comp;
+use App\vch_model;
 use Session;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
@@ -71,8 +73,11 @@ class VehicledetailsController extends Controller
         
         $vehicledetails=vehicle_master::with('company','model','puc.agent','rc.agent','fitness.agent','insurance.agent','insurance.insurance_company','roadtax.agent','permit.agent')->find($id);
         // return $vehicledetails->rc->vch_type_id;
-        // dd($vehicledetails);
-        return view('vehicle_detail.detail',compact('vehicledetails'));
+        //dd($vehicledetails->rc->agent);
+        $res = $vehicledetails->insurance->ins_comp;
+        $ins_type = InsuranceType::where('fleet_code',$fleet_code)->where('ins_id',$res)->first();
+        
+        return view('vehicle_detail.detail',compact('vehicledetails','ins_type'));
     }
 
     public function edit($id)
@@ -81,9 +86,10 @@ class VehicledetailsController extends Controller
        $model   = DB::table('vch_model')->get();
        $company = vch_comp::where('fleet_code',$fleet_code)->get();
        $edata   = DB::table('vch_mast')->where('id',$id)->first();
+       $model_vch= vch_model::find($edata->vch_model);
        $city    = DB::table('master_cities')->where('fleet_code',$fleet_code)->get();
              
-       return view('vehicle_detail.edit',compact('company','model','edata','city'));
+       return view('vehicle_detail.edit',compact('company','model','edata','city','model_vch'));
     }
  
     public function update(Request $request, $id)

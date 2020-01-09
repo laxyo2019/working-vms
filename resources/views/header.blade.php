@@ -53,8 +53,24 @@
 
     <!-- #region datatables files -->
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css" />
+
     {{-- <script src="~/scripts/jquery-1.10.2.js"></script> --}}
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+     
+{{-- https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js
+https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js
+https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js
+https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js
+https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js
+https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js  --}}
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
     <!-- Styles -->
@@ -77,6 +93,7 @@
                                             <li><a href="{{route ('city.index')}}">City Setup</a></li>
                                             <li><a href="{{route ('agent.index')}}">Agent</a></li>
                                             <li><a href="{{route ('company.index')}}">Insurance Company</a></li>
+                                            <li><a href="{{route ('insurance_type.index')}}">Insurance Type</a></li>
                                             <li><a href="#">Expense Type Setup</a></li>
                                         </ul>
                                     </li>
@@ -144,11 +161,11 @@
                                     <li class='dropdown-submenu'><a href="#">Transactions</a>
                                         <ul class="dropdown-menu">
                                             <li><a href="{{route('tyre_material_request.index')}}">Material Request</a></li>
-                                            <li><a href="fTpo.aspx">Purchase Order</a></li>
-                                            <li ><a href="ftyrepurchaseentry.aspx" >Goods Receipt Note(GRN)</a></li>
-                                            <li><a href="tyreremoldissue.aspx">Tyre Remolding Issue</a></li>
-                                            <li><a href="tyreremoldreturn.aspx">Tyre Remold Return</a></li>
-                                            <li><a href="ftyrestockentry.aspx">Tyre Stock</a></li>
+                                            <li><a href="{{route('tyre_purchase.index')}}">Purchase Order</a></li>
+                                            <li ><a href="{{route('tyre_grn.index')}}" >Goods Receipt Note(GRN)</a></li>
+                                            <li><a href="{{route('tyre_remolding.index')}}">Tyre Remolding Issue</a></li>
+                                            <li><a href="{{route('tyre_remolding_return.index')}}">Tyre Remold Return</a></li>
+                                            <li><a href="{{route('tyre_stock.index')}}">Tyre Stock</a></li>
                                             <li><a href="ftyreissuetovehicle.aspx">Tyre Issue To Vehicle</a></li>
                                             <li><a href="ftyreexpenseentry.aspx">Tyre Expense</a></li>
                                             <li><a href="ftyrepaymententry.aspx">Tyre Vendor Payment</a></li>
@@ -168,10 +185,10 @@
                             <li id="L7"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Expenses</span>
                                 <span class=""></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="fgeneralexpenseentry.aspx">Expense Entry</a></li>
-                                    <li><a href="fpaymententry.aspx">Expense Payment Entry</a></li>
-                                    <li><a href="faccident.aspx">Accident Entry</a></li>
-                                    <li><a href="ExpensesReport.aspx"><span>Reports</span></a> </li>
+                                    <li><a href="{{route('expanses_entry.index')}}">Expense Entry</a></li>
+                                    <li><a href="{{route('expanses_payment_entry.index')}}">Expense Payment Entry</a></li>
+                                    <li><a href="{{route('accident_entry.index')}}">Accident Entry</a></li>
+                                    <li><a href="{{route('expenses_report.index')}}"><span>Reports</span></a> </li>
                                 </ul>
                             </li>
                             <li id="L8" class="{{Request::segment(1) == 'filter' ? 'active' : ''}} {{Request::segment(1) == 'oilchange' ? 'active' : ''}} {{Request::segment(1) == 'fueltank' ? 'active' : ''}} {{Request::segment(1) == 'batterycharge' ? 'active' : ''}} {{Request::segment(1) == 'painting' ? 'active' : ''}} oilchange"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Repair/Maintenance</span>
@@ -194,8 +211,8 @@
                             <li id="L9"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Finance</span>
                                 <span class=""></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="FinanceChart.aspx">Finance Entry</a></li>
-                                    <li><a href="FinanceReports.aspx"><span>Reports</span></a> </li>
+                                    <li><a href="{{route('vehiclefinance.index')}}">Finance Entry</a></li>
+                                    <li><a href="{{route('vehiclereport.index')}}"><span>Reports</span></a> </li>
                                 </ul>
                             </li>
                             <li id="L10"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Trip</span>

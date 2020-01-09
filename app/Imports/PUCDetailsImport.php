@@ -35,7 +35,8 @@ class PUCDetailsImport implements ToCollection,WithHeadingRow
                 $expire_date  = $expire_date == null ?  null : $expire_date->format('Y-m-d') ;
 
                 //$pay_date   = $pay_date->format('Y-m-d');
-                if(!empty($vch_num)){
+                $comp = PUCDetails::where('fleet_code',$fleet_code)->where('puc_no', $row['puc_no'])->first();
+                if(empty($comp)){
                     PUCDetails::create([
                         'fleet_code'  => $row['fleet_code'],
                         'vch_id'      => $vch_num->id,

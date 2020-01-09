@@ -26,7 +26,6 @@ class CityController extends Controller
         return view('city.show',compact ('city'));
     }
 
-
     public function create()
     {
         $fleet_code = session('fleet_code');       

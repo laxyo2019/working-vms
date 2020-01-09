@@ -67,7 +67,7 @@
                                                                                                 </tr>
                                                                                                 @foreach($insurance as $ins)
                                                                                                 <tr>
-                                                                                                    <td>{{$ins->vehicle->vch_no}}</td>
+                                                                                                    <td>{{$ins->vehicle->vch_no ? $ins->vehicle->vch_no :''}}</td>
                                                                                                     <td>{{$ins->valid_till}}</td>
                                                                                                 </tr>
                                                                                                 @endforeach
@@ -83,7 +83,7 @@
                                                                                                 </tr>
                                                                                                 @foreach($PUCDetails as $puc)
                                                                                                 <tr>
-                                                                                                    <td>{{$puc->vehicle->vch_no}}</td>
+                                                                                                    <td>{{$puc->vehicle->vch_no ? $puc->vehicle->vch_no: ''}}</td>
                                                                                                     <td>{{$puc->valid_till}}</td>
                                                                                                 </tr>
                                                                                                 @endforeach
@@ -99,7 +99,7 @@
                                                                                                 </tr>
                                                                                                 @foreach($fitnessetails as $fitness)
                                                                                                 <tr>
-                                                                                                    <td>{{$fitness->vehicle->vch_no}}</td>
+                                                                                                    <td>{{$fitness->vehicle->vch_no ? $fitness->vehicle->vch_no : ''}}</td>
                                                                                                     <td>{{$fitness->valid_till}}</td>
                                                                                                 </tr>
                                                                                                 @endforeach
@@ -115,7 +115,7 @@
                                                                                                 </tr>
                                                                                                 @foreach($roadtax as $road)
                                                                                                 <tr>
-                                                                                                    <td>{{$road->vehicle->vch_no}}</td>
+                                                                                                    <td>{{$road->vehicle->vch_no ? $road->vehicle->vch_no : ''}}</td>
                                                                                                     <td>{{$road->valid_till == null ? $road->expire_time : $road->valid_till}}</td>
                                                                                                 </tr>
                                                                                                 @endforeach
@@ -131,7 +131,7 @@
                                                                                                 </tr>
                                                                                                 @foreach($permit as $permits)
                                                                                                 <tr>
-                                                                                                    <td>{{$permits->vehicle->vch_no}}</td>
+                                                                                                    <td>{{$permits->vehicle->vch_no ? $permits->vehicle->vch_no : ''}}</td>
                                                                                                     <td>{{$permits->valid_till}}</td>
                                                                                                 </tr>
                                                                                                 @endforeach
@@ -147,7 +147,7 @@
                                                                                                 </tr>
                                                                                                 @foreach($rcdetails as $rcdetail)
                                                                                                 <tr>
-                                                                                                    <td>{{$rcdetail->vehicle->vch_no}}</td>
+                                                                                                    <td>{{$rcdetail->vehicle->vch_no ? $rcdetail->vehicle->vch_no : ''}}</td>
                                                                                                     <td>{{$rcdetail->valid_till}}</td>
                                                                                                 </tr>
                                                                                                 @endforeach

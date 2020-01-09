@@ -99,9 +99,9 @@
                                             <?php $data1  = session('data') ? session('data')[$id] :array();?>
 
           										              @foreach($data1 as $data) 
-          										              @php ($type = App\Models\SpareType::find($data['type_id']))
+          										              @php ($type = App\Models\SpareType::find($data['type_id'])) 
           												          @php ($unit = App\Models\SpareUnit::find($data['unit_id']))
-          												          @php ($comp = App\Models\SpareCompany::find($data['comp_id']))
+          												          @php ($comp = App\Models\SpareCompany::find($data['comp_id'])) 
           										                 
           										              <tr>
             										              <td style=" width:5% padding-left: 20px;">

@@ -110,7 +110,7 @@ class MaterialRequestController extends Controller
         $ids     = !empty($request->id)?$request->id:array();
         $qty     = $request->qty;
         $remark  = $request->remark; 
-        $count = count($ids);
+        $count   = count($ids);
         $x = 0;
         $data = array();
         $info = '';
@@ -200,6 +200,7 @@ class MaterialRequestController extends Controller
         }
         else{
             foreach ($id as $Id) {
+                
                 Session::push('ids.'.$Id,$Id);
                 $data = SpareMaster::find($Id);
                 $data1['id']      = $data->id;

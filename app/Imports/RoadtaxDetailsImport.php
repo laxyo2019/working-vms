@@ -15,7 +15,7 @@ class RoadtaxDetailsImport implements ToCollection,WithHeadingRow
 {
 
     public function collection(Collection $rows)
-    {    
+    {   dd($rows); 
         $error = array();
         $fleet_code = session('fleet_code');
 
@@ -34,8 +34,9 @@ class RoadtaxDetailsImport implements ToCollection,WithHeadingRow
                 $valid_date   = $valid_date == null ? null : $valid_date->format('Y-m-d');
                 $expire_date  = $expire_date == null ?  null : $expire_date->format('Y-m-d');
                 $receipt_date = $receipt_date == null ?  null : $receipt_date->format('Y-m-d');
+                $comp = RoadtaxDetails::where('fleet_code',$fleet_code)->where('roadtax_no', $row['goods_service_tax_no'])->first();
            
-                if(!empty($vch_num)){
+                if(empty($comp)){
                     
                         RoadtaxDetails::create([
                         'fleet_code'  => $row['fleet_code'],
