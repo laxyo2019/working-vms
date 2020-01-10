@@ -12,6 +12,7 @@ class DriverDetails extends Migration
             $table->bigIncrements('id');
             $table->string('fleet_code', 100);
             $table->string('name', 100);
+            $table->string('vch_id')->nullable();
             $table->string('image', 100)->nullable();
             $table->string('address', 100)->nullable();
             $table->unsignedInteger('city_id')->nullable();

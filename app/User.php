@@ -42,4 +42,7 @@ class User extends Authenticatable
     public function fleet_name(){
         return $this->hasMany('App\Fleet','fleet_owner','id');
     }
+    public function driver(){
+        return $this->hasMany('App\Driver','created_by','id');
+    }
 }

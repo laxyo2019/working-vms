@@ -13,6 +13,7 @@ use App\Exports\DriverExport;
 use App\Imports\DriverImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
+use App\vehicle_master;
 use Auth;
 use App\Driver;
 use App\State;
@@ -24,21 +25,24 @@ class DriverdetailsController extends Controller
     public function index()
     {
         $fleet_code = session('fleet_code');
-        $driver = Driver::where('fleet_code',$fleet_code)->get();
-
+        $driver = Driver::where('fleet_code',$fleet_code)->with('vehicles')->get();
+        // dd($driver);
+        $users_d = '';
         return view('driver_details.show',compact('driver'));  
     }
 
     public function create()
     {
         $fleet_code = session('fleet_code');
+        $vehicles  = vehicle_master::where('fleet_code',$fleet_code)->get();     
         $state  = State::where('fleet_code',$fleet_code)->get();     
-        return view('driver_details.create',compact('state'));
+        return view('driver_details.create',compact('state','vehicles'));
     }
 
    
     public function store(Request $request)
-    {      
+    {   
+    // dd($request->all());   
         $vdata = $this->all_form_data($request);
         $vdata['fleet_code'] = session('fleet_code');
         $ddata = $this->store_image($request,$vdata);
@@ -58,8 +62,9 @@ class DriverdetailsController extends Controller
     {
         $fleet_code = session('fleet_code');
         $state  = DB::table('master_states')->where('fleet_code',$fleet_code)->get();
+        $vehicles  = vehicle_master::where('fleet_code',$fleet_code)->get();
         $edata = Driver::where('id',$id)->first();
-        return view('driver_details.edit',compact('edata','state'));
+        return view('driver_details.edit',compact('edata','state','vehicles'));
     }
 
   
@@ -87,8 +92,10 @@ class DriverdetailsController extends Controller
 
         $vdata = $request->validate(['name'    =>'required',
                                   'address'    => 'nullable',
+                                  'salary'     => 'nullable',
+                                  'vch_id'     => 'required|not_in:0',
                                   'phone'      => 'required|min:10',
-                                  'license_no' => 'required|min:14',
+                                  'license_no' => 'required',
                                   'license_exp'=> 'required',                             
                                   'joined_dt'  => 'nullable',
                                   'blood_group'=> 'nullable',
@@ -150,6 +157,11 @@ class DriverdetailsController extends Controller
     public function download() {
         $file_path = public_path('demo_files/Demo_DriverFormat.xlsx');
         return response()->download($file_path);
+    }
+    public function AllDriver() {
+        $users_d = get_fleet_users(Auth::user()->id)->select('id')->with('driver.vehicles')->get();
+        $driver = '';
+        return view('driver_details.show',compact('users_d'));
     }
 
 }

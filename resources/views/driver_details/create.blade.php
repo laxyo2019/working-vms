@@ -20,7 +20,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-xl-12" id="mytable1">
                                                             
-                            <div class="col-md-12 col-xl-12 mt-2">
+                            <div class="col-md-6 col-xl-6 mt-2">
                                 <span style="color: #FF0000;font-size:15px;">*</span><label for="Vehicle No.">Driver Name</label>
                                 @error('name')
 		                            <span class="invalid-feedback d-block pull-right" role="alert">
@@ -30,11 +30,33 @@
                                 <input id="vehicle_no" class="form-control" name="name" value="{{old('name')}}" > 
                                  
                             </div>
-                            
-                            <div class="col-md-12 col-xl-12 mt-2">
-                                <label for="No Of Tyres">Address</label>
-                                <textarea id="email" type="text" name="address" class="form-control  " value="">{{old('address')}}</textarea>
 
+                            <div class="col-md-6 col-xl-6 mt-2">
+                                <span style="color: #FF0000;font-size:15px;">*</span><label for="vch_id">Vehicle No.</label>
+                                <select id="vch_id" name="vch_id" class="selectpicker form-control">
+                                  <option value="0">Select Vehicles..</option>
+                                  @foreach($vehicles as $vehicle)
+                                    <option value="{{$vehicle->id}}">{{$vehicle->vch_no}}</option>
+                                  @endforeach   
+                                    </select>
+                                @error('vch_id')
+                                <span class="invalid-feedback d-block pull-right" role="alert">
+                                   <strong>{{ $message }}</strong>
+                                </span>
+                             @enderror
+                            </div>
+                            <div class="col-md-6 col-xl-6 mt-2">
+                                <label for="No Of Tyres">Address</label>
+                                <input type="text" id="address" type="text" name="address" class="form-control" value="{{old('address')}}">
+                            </div>
+                            <div class="col-md-6 col-xl-6 mt-2">
+                                 <span style="color: #FF0000;font-size:15px;">*</span><label for="salary">Salary</label>
+                                <input id="salary" name="salary" class="form-control  " value="{{old('salary')}}">
+                                @error('salary')
+                                <span class="invalid-feedback d-block" role="alert">
+                                   <strong>{{ $message }}</strong>
+                                </span>
+                             @enderror
                             </div>
                             <div class="col-md-6 col-xl-6 mt-2">
                                <label for="vehicle_model ">State</label>

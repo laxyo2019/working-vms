@@ -57,16 +57,18 @@ Route::group(['middleware' => ['role:account']], function () {
 	Route::get('fleetdestroy/{id}','FleetController@destroy')->name('model.destroy');
 	Route::post('add_on_fleet','FleetController@add_on_fleet');
 	Route::get('deletefleetuser/{id}','FleetController@user_delete')->name('fleet_user.delete');
-
+	//End FleetController
+	// Start AccountUserController
 	Route::resource('/accountuser','AccountUserController');
 	Route::get('/destroy_accountuser/{id}', 'AccountUserController@destroy')->name('destroy.account');
 	Route::post('user_add_on_fleet','AccountUserController@add_on_user'); 
 	Route::post('checkAccount','AccountUserController@checkAccount');
 	Route::post('AuthLogout','AccountUserController@AuthLogout');
 	Route::get('/account_users', 'AccountUserController@account_user')->name('account_users');
+	// End AccountUserController
+	//For AllDetails
+		Route::get('/Alldriver','DriverdetailsController@AllDriver');
 
-
-	//End FleetController
 });
 // End Users Conroller 
 
@@ -140,6 +142,7 @@ Route::group(['middleware' => ['role:account']], function () {
 		Route::get('/export','DriverdetailsController@export')->name('driver.export');
 		Route::post('/import','DriverdetailsController@import')->name('driver.import');
 		Route::get('/driverformat','DriverdetailsController@download')->name('driver.download');
+
 
 		//End DriverdetailsController
 

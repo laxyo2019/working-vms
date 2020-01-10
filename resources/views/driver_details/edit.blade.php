@@ -20,7 +20,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-xl-12" id="mytable1">
                                                             
-                            <div class="col-md-12 col-xl-12 mt-2">
+                            <div class="col-md-6 col-xl-6 mt-2">
                                 <span style="color: #FF0000;font-size:15px;">*</span><label for="Vehicle No.">Driver Name</label>
                                 <input id="vehicle_no" class="form-control" name="name" value="{{old('name') ?? $edata->name}}" > 
                                  @error('name')
@@ -29,11 +29,32 @@
 		                            </span>
 		                         @enderror
                             </div>
-                            
-                            <div class="col-md-12 col-xl-12 mt-2">
+                            <div class="col-md-6 col-xl-6 mt-2">
+                                <span style="color: #FF0000;font-size:15px;">*</span><label for="vch_no">Vehicle No.</label>
+                                <select id="vch_id" name="vch_id" class="selectpicker form-control">
+                                  <option value="0">Select Vehicles..</option>
+                                  @foreach($vehicles as $vehicle)
+                                    <option value="{{$vehicle->id}}" {{ $edata->vch_id == $vehicle->id ? 'selected':''}}>{{$vehicle->vch_no}}</option>
+                                  @endforeach   
+                                    </select>
+                                @error('vch_no')
+                                <span class="invalid-feedback d-block pull-right" role="alert">
+                                   <strong>{{ $message }}</strong>
+                                </span>
+                             @enderror
+                            </div>
+                            <div class="col-md-6 col-xl-6 mt-2">
                                 <label for="No Of Tyres">Address</label>
-                                <textarea id="email" type="text" name="address" class="form-control  " value="">{{$edata->address ?? old('address')}}</textarea>
-
+                                <input type="text" id="address" type="text" name="address" class="form-control" value="{{$edata->address ? $edata->address : 'NO DATA'}}">
+                            </div>
+                            <div class="col-md-6 col-xl-6 mt-2">
+                                 <span style="color: #FF0000;font-size:15px;">*</span><label for="salary">Salary</label>
+                                <input id="salary" name="salary" class="form-control  " value="{{$edata->salary ? $edata->salary : 'NO DATA'}}">
+                                @error('salary')
+                                <span class="invalid-feedback d-block" role="alert">
+                                   <strong>{{ $message }}</strong>
+                                </span>
+                             @enderror
                             </div>
                             <div class="col-md-6 col-xl-6 mt-2">
                                <label for="vehicle_model ">State</label>
@@ -41,7 +62,7 @@
                                         <option value="0">Select..</option>
                                         @foreach($state as $states)
                                         	<option value="{{$states->id}}" 
-                                        		{{ $edata->id == $states->id ? 'selected':''}}>{{$states->state_name}}</option>
+                                        		{{ $edata->state_id == $states->id ? 'selected':''}}>{{$states->state_name}}</option>
                                         @endforeach		
                                     </select>                                    
                              </div>
@@ -96,8 +117,8 @@
                             </div>
                             <div class="col-md-6 col-xl-6 " style="margin-top: -53px;">
                                 <label for="IMEI Number">Is Working</label><br>
-                               Yes <input type="radio" id="email1"  name="is_active" value="1">
-                                No <input type="radio" id="email1" name="is_active" value="0">
+                               Yes <input type="radio" id="email1"  name="is_active" {{$edata->is_active == 1 ? 'checked' : ''}} value="1">
+                                No <input type="radio" id="email1" {{$edata->is_active == 0 ? 'checked' : ''}} name="is_active" value="0">
                             </div>
 
                             <div class="col-md-6 col-xl-6 mt-2">

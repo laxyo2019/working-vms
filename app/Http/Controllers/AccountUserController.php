@@ -8,6 +8,7 @@ use DB;
 use Auth;
 use App\Fleet;
 use App\FleetUser;
+use App\Driver;
 use App\Mail\UserRequest;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMailable;
@@ -26,16 +27,25 @@ class AccountUserController extends Controller
         $owner = Auth::user()->id;
         $user = User::where('acc_type','=','C')->count();
         $u_fleet = User::where('id',$owner)->with('fleet_name.vehicles')->first();
+        $details_d = get_fleet_users($owner)->get();
+        $no = count($details_d);
         $i =0;
+
+        foreach($details_d as $data ){
+        $d_Id[] = $data->id;
+        }
+        if(!empty($d_Id)){
+          $driver_count = Driver::whereIn('created_by',$d_Id)->count();
+        }
         foreach($u_fleet->fleet_name as $fleet ){
             $i = $i + count($fleet->vehicles);
         }
         $fleet = Fleet::where('fleet_owner','=',$owner)->count();
-        return view('account_user.dashboard',compact('user','fleet','i'));
+        return view('account_user.dashboard',compact('user','fleet','i','driver_count','no'));
     }
     public function account_user()
     {
-        $user = User::where('parent_id',Auth::user()->id)->get();
+        $user = get_fleet_users(Auth::user()->id)->get();
         return view('account_user.index',compact('user'));
     }
 
