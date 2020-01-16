@@ -146,6 +146,13 @@ Route::group(['middleware' => ['role:account']], function () {
 
 		//End DriverdetailsController
 
+		//Start VehicleStatusController
+
+		Route::resource('/vch_status','VehicleStatusController');
+		Route::post('/status','VehicleStatusController@store');
+
+		//End VehicleStatusController
+
 		//strat filtercontroller
 		
 		Route::resource('/filter','filter\FilterController');
@@ -538,4 +545,25 @@ Route::group(['middleware' => ['role:account']], function () {
 		Route::post('/vehicle_installment','finance\VehicleReportController@vehicle_installment')->name('vehicle_installment');
 		Route::post('/vehicle_finance_installment','finance\VehicleReportController@vehicle_finance_installment')->name('vehicle_finance_installment');
 		// End VehicleReportController
+
+		// Start PartyTypeController
+		Route::resource('/expense_type','Expenses\ExpensesTypeController');
+		Route::post('/add_expense','Expenses\ExpensesTypeController@add_expense_in_expense');
+		Route::post('/add_expense_in_party','Expenses\ExpensesTypeController@add_expense_in_party');
+		Route::get('/expense_type_delete/{id}','Expenses\ExpensesTypeController@destroy');
+		// End PartyTypeController
+		// Start PartyController
+		Route::resource('/party','Expenses\PartyController');
+		Route::get('/party_delete/{id}','Expenses\PartyController@destroy');
+		// End PartyController
+		// Start PartyController
+		Route::resource('/expanses','Expenses\ExpensesController');
+		Route::post('/get_vch_avg','Expenses\ExpensesController@get_vch_avg')->name('get_vch_avg');
+		
+		// End PartyController
+
+		// Start VehicleTripController
+		Route::resource('/Trip','Trip\VehicleTripController');
+		
+		// End VehicleTripController
 });

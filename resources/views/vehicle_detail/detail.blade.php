@@ -82,6 +82,10 @@
 	      	  				<td>{{$vehicledetails->vch_no ? $vehicledetails->vch_no : 'NO RECORD'}}</td>
 	      	  			</tr>
 	      	  			<tr>
+	      	  				<th>Vehicle Avg:</th>
+	      	  				<td>{{$vehicledetails->reg_mileage ? $vehicledetails->reg_mileage : 'NO RECORD'}}</td>
+	      	  			</tr>
+	      	  			<tr>
 	      	  				<th>Make-Model:</th>
 	      	  				<td>{{$vehicledetails->reg_make ? $vehicledetails->reg_make : 'NO RECORD'}}</td>
 	      	  			</tr>

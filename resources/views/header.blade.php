@@ -106,6 +106,7 @@ https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js  --}}
                                             <li><a href="{{route('driver.index')}}">Driver Details</a></li>
                                         </ul>
                                     </li>
+                                    <li><a href="{{route('vch_status.index')}}">Vehicle Status</a></li>
                                 </ul>
                             </li>
                             <li  class='<?php if( (Request::segment(1) == 'fitness') || (Request::segment(1) == 'pucdetails') ||  (Request::segment(1) == 'roadtax') || (Request::segment(1) == 'greentax') || (Request::segment(1) == 'insurance') || (Request::segment(1) == 'statepermit') ){ echo 'active'; }?>' id="L3"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Documents</span>
@@ -185,6 +186,9 @@ https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js  --}}
                             <li id="L7"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Expenses</span>
                                 <span class=""></span></a>
                                 <ul class="dropdown-menu">
+                                    <li><a href="{{route('expense_type.index')}}">Add Expenses Type</a></li>
+                                    <li><a href="{{route('party.index')}}">Add Party</a></li>
+                                    <li><a href="{{route('expanses.index')}}">Add Expense</a></li>
                                     <li><a href="{{route('expanses_entry.index')}}">Expense Entry</a></li>
                                     <li><a href="{{route('expanses_payment_entry.index')}}">Expense Payment Entry</a></li>
                                     <li><a href="{{route('accident_entry.index')}}">Accident Entry</a></li>
@@ -218,7 +222,7 @@ https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js  --}}
                             <li id="L10"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Trip</span>
                                 <span class=""></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="frmTripStatment.aspx">Trip Sheet</a></li>
+                                    <li><a href="{{route('Trip.index')}}">Trip Sheet</a></li>
                                 </ul>
                             </li>
                         </ul>

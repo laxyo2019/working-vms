@@ -9,7 +9,9 @@ use Auth;
 use App\Fleet;
 use App\FleetUser;
 use App\Driver;
+use App\VehicleStatus;
 use App\Mail\UserRequest;
+use App\Charts\PulseChart;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMailable;
 use App\Models\Account;
@@ -26,22 +28,41 @@ class AccountUserController extends Controller
     {
         $owner = Auth::user()->id;
         $user = User::where('acc_type','=','C')->count();
+        $date = date('Y') - 1;
+        $today_users = User::where(DB::raw("(DATE_FORMAT(updated_at,'%Y'))"),date('2019'))
+                    ->get();
+        // dd($today_users);
+        $chart = new PulseChart;
+        $chart->labels(['One', 'Two', 'Three','four','five']);
+        $chart->dataset('My Records', 'line', collect([1, 2, 3, 4]));
+        // dd($driver);
         $u_fleet = User::where('id',$owner)->with('fleet_name.vehicles')->first();
         $details_d = get_fleet_users($owner)->get();
         $no = count($details_d);
         $i =0;
-
+ 
         foreach($details_d as $data ){
         $d_Id[] = $data->id;
         }
         if(!empty($d_Id)){
           $driver_count = Driver::whereIn('created_by',$d_Id)->count();
+          $vehicleStatus = VehicleStatus::whereIn('created_by',$d_Id)->with('vehicle')->get();
+
+          $running_vch = collect($vehicleStatus)->where('status','Running');
+          $running     = count($running_vch);
+          $standby_vch = collect($vehicleStatus)->where('status','StandBy');
+          $standby     = count($standby_vch);
+          $repair_vch  = collect($vehicleStatus)->where('status','Repair/Maintenance');
+          $repair      = count($repair_vch);
+          $unloaded_vch= collect($vehicleStatus)->where('status','ReadyForLoad');
+          $unloaded    = count($unloaded_vch);
         }
+        // dd($running_vch);
         foreach($u_fleet->fleet_name as $fleet ){
             $i = $i + count($fleet->vehicles);
         }
         $fleet = Fleet::where('fleet_owner','=',$owner)->count();
-        return view('account_user.dashboard',compact('user','fleet','i','driver_count','no'));
+        return view('account_user.dashboard',compact('user','fleet','i','driver_count','no','running','standby','repair','unloaded','running_vch','standby_vch','repair_vch','unloaded_vch'));
     }
     public function account_user()
     {

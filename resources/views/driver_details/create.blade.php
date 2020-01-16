@@ -130,7 +130,7 @@
 
                             </div>
                             <div class="col-md-6 col-xl-6 " style="margin-top: -53px;">
-                                <label for="IMEI Number">Is Working</label><br>
+                                <label for="is_active">Is Working</label><br>
                                Yes <input type="radio" id="email1"  name="is_active" value="1">
                                 No <input type="radio" id="email1" name="is_active" value="0">
                             </div>

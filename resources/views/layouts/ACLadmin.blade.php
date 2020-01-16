@@ -29,6 +29,8 @@
     <!-- Scripts -->
     
      <script src="{{ asset('js/app.js') }}"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
+
      <script src="{{asset('js/main_admin.js')}}"></script>
      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
       <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>

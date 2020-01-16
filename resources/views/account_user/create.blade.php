@@ -128,7 +128,7 @@
 <script >
 	$(document).on('click','#submit',function(event){
         event.preventDefault();
-        $.ajax({
+        $.ajax({ 
             url: "{{ route('accountuser.store') }}",
             type: 'POST',
             data: $('form').serialize(),
