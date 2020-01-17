@@ -564,6 +564,7 @@ Route::group(['middleware' => ['role:account']], function () {
 
 		// Start VehicleTripController
 		Route::resource('/Trip','Trip\VehicleTripController');
+		Route::post('/vch_status_get','Trip\VehicleTripController@vch_status_get');
 		
 		// End VehicleTripController
 });

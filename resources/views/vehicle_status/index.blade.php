@@ -70,14 +70,9 @@
     </div>
 <script type="text/javascript">
   $(document).ready( function () {
-    $('#myTable').DataTable();
-    $('#file1').change(function() {
-       $('#target1').submit();
-      });
-    $('#file2').change(function() {
-       $('#target2').submit();
-      });
-
+    $('#myTable').DataTable({
+      "lengthMenu": [[25, 50,75, -1], [25, 50,75, "All"]]
+    });
     $('.submit').click(function(){
        var vch_id = $(this).attr('data-id');
        var btnID = $(this).attr('id');

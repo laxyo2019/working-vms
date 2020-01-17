@@ -29,9 +29,11 @@
               <thead>
                 <tr >
                   <th style="width: 62px;">SR. NO</th>
-                  <th style="width: 320px;">STATE NAME</th>
-                  <th style="width: 410px;">STATE SHORT NAME</th>
-                  <th style="width: 61px;">Options</th>
+                  <th style="width: 200px;">VEHICLE NO.</th>
+                  <th style="width: 320px;">STARTING DATE</th>
+                  <th style="width: 320px;">ENDING DATE</th>
+                  <th style="width: 200px;">TRIP AMOUNT</th>
+                  <th style="width: 200px;">ACTION</th>
                 </tr>
               </thead>
               <tbody>
