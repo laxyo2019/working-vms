@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Hash;
 use App\User;
 use DB;
 use Auth;
+use Charts;
+use App\Product;
 use App\Fleet;
 use App\FleetUser;
 use App\Driver;
@@ -28,19 +30,21 @@ class AccountUserController extends Controller
     {
         $owner = Auth::user()->id;
         $user = User::where('acc_type','=','C')->count();
-        $date = date('Y') - 1;
-        $today_users = User::where(DB::raw("(DATE_FORMAT(updated_at,'%Y'))"),date('2019'))
-                    ->get();
-        // dd($today_users);
-        $chart = new PulseChart;
-        $chart->labels(['One', 'Two', 'Three','four','five']);
-        $chart->dataset('My Records', 'line', collect([1, 2, 3, 4]));
-        // dd($driver);
         $u_fleet = User::where('id',$owner)->with('fleet_name.vehicles')->first();
         $details_d = get_fleet_users($owner)->get();
+
+        // For Chats Add
+        $products = Product::where(DB::raw("(DATE_FORMAT(created_at,'%Y'))"), date('Y'))->get();
+        $chart = Charts::database($products, 'bar', 'highcharts')
+                     ->title('Product Details')
+                     ->elementLabel('Total Products')
+                     ->dimensions(1100, 500)
+                     ->colors(['red', 'green', 'blue', 'yellow', 'orange', 'cyan', 'magenta'])
+                     ->groupByMonth(date('Y'), true);
+
+        // End Chart
         $no = count($details_d);
         $i =0;
- 
         foreach($details_d as $data ){
         $d_Id[] = $data->id;
         }
@@ -62,7 +66,7 @@ class AccountUserController extends Controller
             $i = $i + count($fleet->vehicles);
         }
         $fleet = Fleet::where('fleet_owner','=',$owner)->count();
-        return view('account_user.dashboard',compact('user','fleet','i','driver_count','no','running','standby','repair','unloaded','running_vch','standby_vch','repair_vch','unloaded_vch'));
+        return view('account_user.dashboard',compact('user','fleet','i','driver_count','no','running','standby','repair','unloaded','running_vch','standby_vch','repair_vch','unloaded_vch','chart'));
     }
     public function account_user()
     {

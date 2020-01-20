@@ -16,7 +16,6 @@ use App\Http\Controllers\Controller;
 use App\vehicle_master;
 use Auth;
 use App\Driver;
-use App\State;
 
 
 class DriverdetailsController extends Controller
@@ -35,7 +34,7 @@ class DriverdetailsController extends Controller
     {
         $fleet_code = session('fleet_code');
         $vehicles  = vehicle_master::where('fleet_code',$fleet_code)->get();     
-        $state  = State::where('fleet_code',$fleet_code)->get();     
+        $state  = get_state()->get();     
         return view('driver_details.create',compact('state','vehicles'));
     }
 

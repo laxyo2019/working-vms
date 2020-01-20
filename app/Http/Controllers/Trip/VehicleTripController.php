@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Trip;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Session;
+use Auth;
 use App\Driver;
-use App\State;
 use App\VehicleStatus;
+use App\Models\Trip\Vehicle_Trip;
 
 
 class VehicleTripController extends Controller
@@ -18,7 +20,8 @@ class VehicleTripController extends Controller
      */
     public function index()
     {
-        return view('Trip.vehicle_trip_entry.index');
+        $data = get_vehicle_trips()->with('vehicle')->get();
+        return view('Trip.vehicle_trip_entry.index',compact('data'));
     }
 
     /**
@@ -29,8 +32,8 @@ class VehicleTripController extends Controller
     public function create()
     {
         $vehicles = VehicleStatus::where('fleet_code',session('fleet_code'))->where('status','StandBy')->orWhere('status','ReadyForLoad')->with('vehicle')->get();
-        $state  = State::where('fleet_code',session('fleet_code'))->get();
         $drivers = Driver::where('fleet_code',session('fleet_code'))->get();
+        $state = get_state()->get();
         return view('Trip.vehicle_trip_entry.create',compact('vehicles','drivers','state'));
         //
     }
@@ -43,7 +46,13 @@ class VehicleTripController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        $data = $this->all_form_data($request);
+        $data['fleet_code'] = session('fleet_code');
+        $data['created_by'] = Auth::user()->id;
+        Vehicle_Trip::create($data);
+        VehicleStatus::where('vch_id',$request->vch_id)->update(['status' => $request->status]);
+        return redirect('/Trip');
     }
 
     /**
@@ -65,7 +74,12 @@ class VehicleTripController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = Vehicle_Trip::find($id);
+        $data_vch_id = $data->vch_id;
+        $vehicles = VehicleStatus::where('fleet_code',session('fleet_code'))->where('status','StandBy')->orWhere('status','ReadyForLoad')->orwhere('vch_id',$data_vch_id)->with('vehicle')->get();
+        $drivers = Driver::where('fleet_code',session('fleet_code'))->get();
+        $state = get_state()->get();
+        return view('Trip.vehicle_trip_entry.edit',compact('vehicles','drivers','state','data'));
     }
 
     /**
@@ -77,7 +91,10 @@ class VehicleTripController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $this->all_form_data($request);
+        Vehicle_Trip::find($id)->update($data);
+        VehicleStatus::where('vch_id',$request->vch_id)->update(['status' => $request->status]);
+        return redirect('/Trip');
     }
 
     /**
@@ -88,11 +105,34 @@ class VehicleTripController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Vehicle_Trip::find($id)->delete();
+        return redirect('/Trip');
+        
     }
     public function vch_status_get(Request $request)
     {
         $vehicles = VehicleStatus::where('vch_id',$request->id)->select('status')->first();
         return $vehicles;
+    }
+    public function all_form_data($request){
+
+        $vdata = $request->validate([
+                          'vch_id'          => 'required|not_in:0',
+                          'driver_name'     => 'nullable',
+                          'trip_from_state' => 'required|not_in:0',
+                          'trip_from_city'  => 'required|not_in:0',
+                          'trip_to_state'   => 'required|not_in:0',
+                          'trip_to_city'    => 'required|not_in:0',
+                          'starting_date'   => 'required',                             
+                          'ending_date'     => 'required',
+                          'trip_amt'        => 'required',
+                          'years'           => 'nullable',
+                          'months'          => 'nullable',
+                          'days'            => 'nullable',
+                          'status'          => 'required',
+                          'remarks'         => 'nullable',
+                                  // 'image'      => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10000'
+                                ]);
+        return $vdata;
     }
 }

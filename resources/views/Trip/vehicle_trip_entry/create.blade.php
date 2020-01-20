@@ -11,10 +11,10 @@
 
 	            </div>
 	            <div class="col-sm-6 col-md-6">
-	                <a class="btn btn-inverse pull-right" href="{{route('accident_entry.index')}}">Back</a>
+	                <a class="btn btn-inverse pull-right" href="{{route('Trip.index')}}">Back</a>
 	            </div>
 	            <div id="add-city-form">
-		            <form enctype="multipart/form-data" class="well form-horizontal" method="post" action="{{route('accident_entry.store')}}">
+		            <form enctype="multipart/form-data" class="well form-horizontal" method="post" action="{{route('Trip.store')}}">
 		              {{csrf_field()}}
 		                <div class="card-body " >
 		                    <div class="row">
@@ -22,7 +22,7 @@
 		                        	<div class="row">
 						                <div class="col-md-4 col-xl-4 mt-2">
 						                  <span style="color: #FF0000;font-size:15px;">*</span>  <label class="">Vehicle NO</label>		                    
-					                       <select id='vehicle_no' name="vehicle_no" class="selectpicker form-control">
+					                       <select id='vch_id' name="vch_id" class="selectpicker form-control">
 					                            <option value="0">Select..</option>
 					                            @foreach($vehicles as $vehicle)
 					                            	<option value="{{$vehicle->vehicle->id}}" style="font-family: cursive;" > 
@@ -35,7 +35,7 @@
 					                            @endforeach
 					                        </select>
 					                        {{-- {{$vehicle->vehicle ? ($vehicle->vehicle->vch_no. $vehicle->status) : 'No Vehicle Available'}} --}}
-					                        @error('vehicle_no')
+					                        @error('vch_id')
 					                              <span class="invalid-feedback d-block pull-right" role="alert">
 					                                  <strong>{{ 'Please select vehicle number' }}</strong>
 					                              </span>
@@ -60,8 +60,8 @@
 						                  <span style="color: #FF0000;font-size:15px;">*</span>  <label class="trip_from_state">Trip From(State)</label>		                    
 					                       <select id='trip_from_state' name="trip_from_state" class="selectpicker form-control">
 					                            <option value="0" selected=" true " >Select..</option>
-					                            @foreach($state as $state)
-					                            	<option value="{{$state->id}}">{{$state->state_name}}</option>
+					                            @foreach($state as $state1)
+					                            	<option value="{{$state1->id}}">{{$state1->state_name}}</option>
 					                            @endforeach
 					                         </select>  
 					                        @error('trip_from_state')
@@ -82,9 +82,12 @@
 					                          @enderror
 						                </div>
 						                <div class="col-md-4 col-xl-4 mt-2">
-						                  <span style="color: #FF0000;font-size:15px;">*</span>  <label class="trip_from_state">Trip To(State)</label>		                    
+						                  <span style="color: #FF0000;font-size:15px;">*</span>  <label class="trip_to_state">Trip To(State)</label>		                    
 					                       <select id='trip_to_state' name="trip_to_state" class="selectpicker form-control">
-					                            <option value="0" selected=" true " >Select..</option>
+					                            <option value="0">Select..</option>
+					                          @foreach($state as $state2)
+					                              <option value="{{$state2->id}}">{{$state2->state_name}}</option>
+					                            @endforeach
 					                         </select>  
 					                        @error('trip_to_state')
 					                              <span class="invalid-feedback d-block pull-right" role="alert">
@@ -105,7 +108,7 @@
 						                </div>
 						                <div class="col-md-4 col-xl-4 mt-2">
 			                                <span style="color: #FF0000;font-size:15px;">*</span><label for="Vehicle No."> Starting Date </label>
-			                                <input id="starting_date" class="form-control datepicker" readonly="true" name="starting_date" value="{{old('starting_date') ? old('starting_date') : ''}}" >
+			                                <input id="starting_date" class="form-control datepicker"  name="starting_date" value="{{old('starting_date') ? old('starting_date') : ''}}"  type="text">
 			                                @error('starting_date')
 				                              <span class="invalid-feedback d-block pull-right" role="alert">
 				                                  <strong>{{ $message}}</strong>
@@ -114,7 +117,7 @@
 			                            </div>
 			                            <div class="col-md-4 col-xl-4 mt-2">
 			                                <span style="color: #FF0000;font-size:15px;">*</span><label for="ending_date">Ending Date</label>
-			                                <input id="ending_date" class="form-control datepicker" readonly="true" name="ending_date" value="{{old('ending_date') ? old('ending_date') : ''}}" >
+			                                <input id="ending_date" class="form-control datepicker"  name="ending_date" value="{{old('ending_date') ? old('ending_date') : ''}}" type="text">
 			                                @error('ending_date')
 				                              <span class="invalid-feedback d-block pull-right" role="alert">
 				                                  <strong>{{ $message}}</strong>
@@ -124,7 +127,7 @@
 						                
 			                            <div class="col-md-4 col-xl-4 mt-2">
 			                               <label for="Vehicle No.">Trip Amount</label>
-			                                <input id="trip_amt" class="form-control" readonly="true" name="trip_amt" value="{{old('trip_amt') ? old('trip_amt') : ''}}" > 
+			                                <input id="trip_amt" class="form-control"  name="trip_amt" value="{{old('trip_amt') ? old('trip_amt') : ''}}" > 
 			                                @error('trip_amt')
 				                              <span class="invalid-feedback d-block pull-right" role="alert">
 				                                  <strong>{{ $message }}</strong>
@@ -132,8 +135,8 @@
 					                         @enderror		                                 
 				                        </div>
 				                        <div class="col-md-8 col-xl-8 mt-2">
-				                          <div class="col-md-2 col-xl-2 mt-2">
-			                               <label for="trip_period">Trip Period</label>
+				                          <div class="col-md-2 col-xl-2 mt-4">
+			                               <label for="trip_period">Trip Period :</label>
 			                              </div>
 			                              <div class="col-md-2 col-xl-2 mt-2">
 			                                <input id="years" class="form-control" readonly="true" name="years" value="{{old('years') ? old('years') : ''}}" ><span><b><i>YEARS</i></b></span>		
@@ -150,16 +153,16 @@
 			                               <label for="Vehicle No.">Current Status : </label>
 			                              </div>
 			                               <div class="col-md-2 col-xl-2">
-			                                <input type="radio"  value="Running"  name="status"><span><b>&nbsp&nbsp Running &nbsp</b></span>
+			                                <input type="radio"  value="Running"  name="status" style="margin-left: 20px;"><span><b>&nbsp&nbsp Running &nbsp</b></span>
+			                               </div>
+			                               <div class="col-md-2 col-xl-2">
+			                                <input type="radio"  value="StandBy"  name="status" style="margin-left: 50px;"><span><b>&nbsp&nbsp StandBy &nbsp</b></span>
 			                               </div>
 			                               <div class="col-md-3 col-xl-3">
-			                                <input type="radio"  value="StandBy"  name="status"><span><b>&nbsp&nbsp StandBy &nbsp</b></span>
+			                                <input type="radio"  value="ReadyForLoad"  name="status" style="margin-left: 70px;"><span><b>&nbsp&nbsp ReadyForLoad &nbsp</b></span>
 			                               </div>
 			                               <div class="col-md-3 col-xl-3">
-			                                <input type="radio"  value="ReadyForLoad"  name="status"><span><b>&nbsp&nbsp ReadyForLoad &nbsp</b></span>
-			                               </div>
-			                               <div class="col-md-3 col-xl-3">
-			                                <input type="radio"  value="Repair/Maintenance"  name="status"><span><b>&nbsp&nbsp Repair/Maintenance &nbsp</b></span>
+			                                <input type="radio"  value="Repair/Maintenance"  name="status" style="margin-left: 50px;"><span><b>&nbsp&nbsp Repair/Maintenance &nbsp</b></span>
 			                                </div>
 			                                @error('status')
 				                              <span class="invalid-feedback d-block pull-right" role="alert">
@@ -218,14 +221,47 @@
 <script type="text/javascript">
 	$(document).ready(function(){
     	 $(function() {
-        	$( ".datepicker" ).datepicker({format:'yyyy-mm-dd'});
-     	});
-
-
-
-
-
-
+    	 	$('#starting_date').datetimepicker({
+			    format: "YYYY-MM-DD H:m:s",
+			    icons: {
+                    time: "fa fa-clock-o text-primary",
+                    date: "fa fa-calendar text-primary",
+                    up: "fa fa-arrow-up text-primary",
+                    down: "fa fa-arrow-down text-primary"
+                }
+			});
+        	$('#ending_date').datetimepicker({
+			    format: "YYYY-MM-DD H:m:s",
+			    icons: {
+                    time: "fa fa-clock-o text-primary",
+                    date: "fa fa-calendar text-primary",
+                    up: "fa fa-arrow-up text-primary",
+                    down: "fa fa-arrow-down text-primary"
+                }
+			}).on('dp.change', function (e) { 
+				var starting_date    = $('#starting_date').val();
+		    	var ending_date    = $('#ending_date').val();
+		    	if(starting_date === "")
+		    	{
+		    		alert('Please Select Claim Date First');
+		    	}
+		   	var date1 = new Date(starting_date);
+			var date2 = new Date(ending_date);
+			var diff = new Date(date2.getTime() - date1.getTime());
+			var year = diff.getUTCFullYear() - 1970 ;
+			var month= diff.getUTCMonth();
+			var days = diff.getUTCDate() -1;
+			if(year !==''){
+			    $('#years').val(year);	
+			   } ;
+			if(month !==''){
+			    $('#months').val(month);	
+			   } ;
+			if(days !==''){
+			    $('#days').val(days);	
+			   } ; 
+		});
+	});
 });
     $('#trip_from_state').on('change',function(){
         var state_id = $('#trip_from_state').val();
@@ -251,7 +287,7 @@
                 }
             })
        })
-    $('#vehicle_no').on('change',function(){
+    $('#vch_id').on('change',function(){
     	var vch_id =$(this).val();
     	$.ajax({
                 url: "/vch_status_get",
@@ -263,52 +299,6 @@
                 	$("input[name=status][value=" + data.status + "]").prop('checked', true);
                 }
             })
-    	// console.log(vch_id);
     })
- //   $(document).on('keyup','#total_damage , #total_claim_amount',function(){
-	//   var total_damage    = $('#total_damage').val();
-	//   var total_claim_amount    = $('#total_claim_amount').val();
-	//   var total = total_damage - total_claim_amount;
-	//   if(total !==''){
-	//     $('#net_damage').val(total);
-	    	
-	//     } ;
-	 
-	// })
- //   $(document).on('keyup','#total_damage , #total_claim_amount',function(){
-	//   var total_damage    = $('#total_damage').val();
-	//   var total_claim_amount    = $('#total_claim_amount').val();
-	//   var total = total_damage - total_claim_amount;
-	//   if(total !==''){
-	//     $('#net_damage').val(total);
-	    	
-	//     } ;
-	 
-	// })
-
-    $('#ending_date').on('change',function(){
-    	var starting_date    = $('#starting_date').val();
-    	var ending_date    = $('#ending_date').val();
-    	if(starting_date === "")
-    	{
-    		alert('Please Select Claim Date First');
-    	}
-   	var date1 = new Date(starting_date);
-	var date2 = new Date(ending_date);
-	var diff = new Date(date2.getTime() - date1.getTime());
-	var year = diff.getUTCFullYear() - 1970 ;
-	var month= diff.getUTCMonth();
-	var days = diff.getUTCDate() - 1;
-	if(year !==''){
-	    $('#years').val(year);	
-	   } ;
-	if(month !==''){
-	    $('#months').val(month);	
-	   } ;
-	if(days !==''){
-	    $('#days').val(days);	
-	   } ;
-	 
-	})
 </script>
 @endsection

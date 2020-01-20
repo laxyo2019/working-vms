@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\master_state;
 use App\City;
 use Session;
 use App\Exports\CityExport;
@@ -29,7 +28,7 @@ class CityController extends Controller
     public function create()
     {
         $fleet_code = session('fleet_code');       
-        $state = master_state::where('fleet_code',$fleet_code)->get();
+        $state = get_state()->get();
         return view('city.create',compact('state'));
     }
 

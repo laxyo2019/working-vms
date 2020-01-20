@@ -7,7 +7,7 @@
       <div class="box box-color orange box-condensed box-bordered">
         <div class="box-title">
           	<div class="col-sm-6 col-md-6">
-              <h3> VEHICLE DETAILS </h3>
+              <h3> VEHICLES STATUS DETAILS </h3>
           	</div>
           	<div class="col-sm-6 col-md-6 pull-right" style="padding-left:420px;">
                  <a style="margin-bottom: 5px;" href="{{route('vch_status.create')}}" class="btn btn-inverse" ><i style="margin-right: 5px; " class="fas fa-plus"></i>ADD NEW</a>
@@ -71,7 +71,9 @@
 <script type="text/javascript">
   $(document).ready( function () {
     $('#myTable').DataTable({
-      "lengthMenu": [[25, 50,75, -1], [25, 50,75, "All"]]
+      "lengthMenu": [[10,25, 50,75, -1], [10,25, 50,75, "All"]],
+      paging: false,
+      scrollY: 363
     });
     $('.submit').click(function(){
        var vch_id = $(this).attr('data-id');

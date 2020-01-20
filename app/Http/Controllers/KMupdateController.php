@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\KMupdate;
 use Session;
-use App\vehicle_master;
 use App\Exports\KMupdateExport;
 use App\Imports\KMupdateimport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -26,7 +25,7 @@ class KMupdateController extends Controller
     public function create()
     {
         $fleet_code = session('fleet_code');
-        $vehicle = vehicle_master::where('fleet_code',$fleet_code)->get();
+        $vehicle = get_vehicle()->get();
         return view('kmupdate.create',compact('vehicle'));
     }
 
@@ -54,7 +53,7 @@ class KMupdateController extends Controller
     public function edit($id)
     {
         $fleet_code = session('fleet_code');
-        $vehicle    = vehicle_master::where('fleet_code',$fleet_code)->get();
+        $vehicle    = get_vehicle()->get();
         $data       = KMupdate::find($id);
         return view('kmupdate.edit',compact('vehicle','data')); 
     }

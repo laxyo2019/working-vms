@@ -81,6 +81,10 @@
 			                         @enderror  
 		                        </div>   
 			                	
+					            <div class="col-md-4 col-xl-4 mt-2">
+	                                <label>Date</label>  
+			                       <input id="expanses_date"  class="form-control datepicker" readonly="true" name="expanses_date" value="{{old('expanses_date')}}">
+		                        </div>
 			                    <div class="col-md-4 col-xl-4 mt-2">
 	                                <label for="fuel_rate">Fuel Rate</label>
 	                                
@@ -92,6 +96,9 @@
 			                         @enderror   
 		                        </div>
 		                     
+	                        </div>
+
+ 							<div class="row">     
 			                	<div class="col-md-4 col-xl-4 mt-2">
 	                                <label for="fuel_amt">Fuel Amount</label>
 	                                
@@ -102,9 +109,6 @@
 			                            </span>
 			                         @enderror
 	                            </div>	
-	                        </div>
-
- 							<div class="row">     
 			                    <div class="col-md-4 col-xl-4 mt-2">
 	                                <label for="vch_avg">Vehicle Average</label>                            
 	                                <input id="vch_avg" type="email" class="form-control" name="vch_avg" value="{{old('vch_avg')}}" readonly="true"> 
@@ -134,18 +138,6 @@
 			                            </span>
 			                        @enderror
 					            </div>
-          						<div class="col-md-4 col-xl-4 mt-2">
-	                                <label>Expenses Qty.</label>  
-			                       <input id="expanses_qty" type="number" class="form-control" name="expanses_qty" value="{{old('expanses_qty')}}">
-		                        </div>
-		                        <div class="col-md-4 col-xl-4 mt-2">
-	                                <label>Expenses Amount</label>  
-			                       <input id="expanses_amt" type="number" class="form-control" name="expanses_amt" value="{{old('expanses_amt')}}" >
-		                        </div>
-		                        <div class="col-md-4 col-xl-4 mt-2">
-	                                <label>Expenses Remark</label>  
-			                       <input id="expanses_remark" class="form-control" name="expanses_remark" value="{{old('expanses_remark')}}">
-		                        </div>	
 					            <div class="col-md-4 col-xl-4 mt-2">
 	                               <span style="color: #FF0000;font-size:15px;">*</span><label for="payment_status">Payment Status</label>	 
 
@@ -177,9 +169,22 @@
 			                                  <strong>{{ 'Please Select payment mode' }}</strong>
 			                              </span>
 			                          @enderror
-			                      
 				                </div>
 					        </div>
+					        <div class="row">
+          						<div class="col-md-4 col-xl-4 mt-2">
+	                                <label>Expenses Qty.</label>  
+			                       <input id="expanses_qty" type="number" class="form-control" name="expanses_qty" value="{{old('expanses_qty')}}">
+		                        </div>
+		                        <div class="col-md-4 col-xl-4 mt-2">
+	                                <label>Expenses Amount</label>  
+			                       <input id="expanses_amt" type="number" class="form-control" name="expanses_amt" value="{{old('expanses_amt')}}" >
+		                        </div>
+		                        <div class="col-md-4 col-xl-4 mt-2">
+	                                <label>Expenses Remark</label>  
+			                       <input id="expanses_remark" class="form-control" name="expanses_remark" value="{{old('expanses_remark')}}">
+		                        </div>
+		                    </div>	
 				            <div style="display: none" class="row cheque">
 			                	<div class="col-md-3 col-xl-3 mt-2">
                               	  <span style="color: #FF0000;font-size:15px;">*</span><label for="Engine No">Cheque No.</label>
@@ -421,6 +426,9 @@
 </div>
 <script type="text/javascript">
 	$(document).ready(function(){
+		$(function() {
+        	$( ".datepicker" ).datepicker({format:'yyyy-mm-dd'});
+     	});
 		$('#vch_id').on('change',function(){
         var vch_id = $('#vch_id').val();
         $.ajax({
