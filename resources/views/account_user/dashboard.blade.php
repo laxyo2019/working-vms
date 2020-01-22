@@ -72,17 +72,24 @@
 	    </div>
 	</div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
       {!! $chart->html() !!}
+    </div>
+  {{-- </div>
+  <div class="row mt-2"> --}}
+    <div class="col-md-6">
+      {!! $chart1->html() !!}
     </div>
   </div>
   {!! Charts::scripts() !!}
   {!! $chart->script() !!}
+  {!! $chart1->script() !!}
 </main>
 
 
 <!-- Modal For All Vehicle -->
-<div id="myModal" class="modal fade" role="dialog">
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
 
     <!-- Modal  content-->
@@ -143,10 +150,10 @@
 
 <!-- Model For Running Vehicle List-->
 <div class="modal fade" id="running_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="running_model" style="font-size: 25px;"><center><b><i>Running Vehicle List</i></b></center></h5>
+        <h5 class="modal-title" style="font-size: 25px;"><center><b><i>Running Vehicle List</i></b></center></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -301,8 +308,8 @@ $(document).ready( function () {
     $('#repair_table').DataTable();
 });
  document.getElementById("running").onclick = function () {
-    	$('#myModal').modal('hide');
-    	$('#running_model').modal('show');
+      $('#myModal').modal('hide');
+      $('#running_model').modal('show');
     }
 
  document.getElementById("standby").onclick = function () {

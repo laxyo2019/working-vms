@@ -19,10 +19,10 @@
 			                  <th style="width: 410px;">OTHER AMOUNT</th>
 			                  <th style="width: 410px;">TOTAL AMOUNT</th>
 			                  <th style="width: 410px;">PAID AMOUNT</th>
-			                  <th style="width: 410px;">TOTAL INSTALLMENT AMOUNT</th>
-			                  <th style="width: 410px;">PAID INSTALLMENT</th>
-			                  <th style="width: 410px;">DUE INSTALLMENT</th>
-			                  <th style="width: 410px;">INSTALLMENT AMOUNT</th>
+			                  <th style="width: 410px;">TOTAL INSTALMENT AMOUNT</th>
+			                  <th style="width: 410px;">PAID INSTALMENT</th>
+			                  <th style="width: 410px;">DUE INSTALMENT</th>
+			                  <th style="width: 410px;">INSTALMENT AMOUNT</th>
 			                  <th style="width: 410px;">BALANCE AMOUNT</th>
 			                </tr>
 			              </thead>

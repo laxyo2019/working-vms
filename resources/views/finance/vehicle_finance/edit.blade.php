@@ -301,7 +301,7 @@
                     </div>
                     <div class="row">
                       <div class="box-title" style="width: 100%;">
-                         <h3> <i class="fa fa-bars"></i>INSTALLMENT DETAILS</h3>
+                         <h3> <i class="fa fa-bars"></i>INSTALMENT DETAILS</h3>
                             <div class="col-md-12 m-auto">
                                 <div class="card">
                                     <div class="card-body " >
@@ -314,17 +314,17 @@
                                                 </div>
                                                 
                                                 <div class="col-md-3 col-xl-3 mt-2">
-                                                    <label for="installment_no">Total No Of Installment</label>
+                                                    <label for="installment_no">Total No Of Instalment</label>
                                                     <input id="installment_no" type="text" name="installment_no" class="form-control" readonly="true" value="{{ old('installment_no') ?  old('installment_no') : $finances->installment_no }}">
                                                 </div>
 
                                                 <div class="col-md-3 col-xl-3 mt-2">
-                                                    <label for="per_installment_amount">Per Installment Amount</label>
+                                                    <label for="per_installment_amount">Per Instalment Amount</label>
                                                     <input id="per_installment_amount" type="text" name="per_installment_amount" class="form-control" readonly="true" value="{{ old('per_installment_amount') ?  old('per_installment_amount') : $finances->per_installment_amount }}">
                                                 </div>
 
                                                 <div class="col-md-3 col-xl-3 mt-2">
-                                                    <label for="first_installment_date">first_installment_date</label>
+                                                    <label for="first_installment_date">First InstalmentD ate</label>
                                                     <input id="first_installment_date" type="text" name="first_installment_date" class="form-control" readonly="true" value="{{ old('first_installment_date') ?  old('first_installment_date') : $finances->first_installment_date }}">
                                                 </div>
                                                 <div class="col-md-12 col-xl-12 mt-4" >
@@ -341,10 +341,10 @@
                                               <table class="table" {{-- style="display: none;" id="data1" --}}>
                                                 <thead >
                                                   <tr>
-                                                    <th>Installment No</th>
-                                                    <th>Installment Date</th>
-                                                    <th>Installment Amount</th>
-                                                    <th>Installment Remaning Amount</th>
+                                                    <th>Instalment No</th>
+                                                    <th>Instalment Date</th>
+                                                    <th>Instalment Amount</th>
+                                                    <th>Instalment Remaning Amount</th>
                                                   </tr>
                                                 </thead >
                                                 <tbody id="result">

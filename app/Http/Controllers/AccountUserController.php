@@ -14,6 +14,7 @@ use App\Driver;
 use App\VehicleStatus;
 use App\Mail\UserRequest;
 use App\Charts\PulseChart;
+use App\Models\Trip\Vehicle_Trip;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMailable;
 use App\Models\Account;
@@ -33,14 +34,35 @@ class AccountUserController extends Controller
         $u_fleet = User::where('id',$owner)->with('fleet_name.vehicles')->first();
         $details_d = get_fleet_users($owner)->get();
 
+        // Featching data from database Month Wise
+        $res = Product::select(DB::raw("(SUM(prize)) as sum"),DB::raw("MONTHNAME(created_at) as monthname"))
+              ->whereYear('created_at', date('Y'))
+              ->groupBy('monthname')
+              ->get();
+              $mo = array();
+             foreach($res as $result)
+             {
+              $mo[] = $result->sum;
+             }
+        
         // For Chats Add
-        $products = Product::where(DB::raw("(DATE_FORMAT(created_at,'%Y'))"), date('Y'))->get();
+        $products = Product::where( DB::raw("(DATE_FORMAT(created_at,'%Y'))"), date('Y'))->get();
+        $Trips = Vehicle_Trip::where( DB::raw("(DATE_FORMAT(created_at,'%Y'))"), date('Y'))->get();
         $chart = Charts::database($products, 'bar', 'highcharts')
                      ->title('Product Details')
+                     ->responsive(true)
                      ->elementLabel('Total Products')
-                     ->dimensions(1100, 500)
+                     ->dimensions(1000, 500)
                      ->colors(['red', 'green', 'blue', 'yellow', 'orange', 'cyan', 'magenta'])
                      ->groupByMonth(date('Y'), true);
+             
+       $chart1 = Charts::database($Trips,'bar', 'highcharts')
+                ->title('Vehicle Trips')
+                ->elementLabel('Total Trips')
+                ->dimensions(1000,500)
+                ->responsive(true)
+                ->height(300)
+                ->groupByMonth(date('Y'), true);
 
         // End Chart
         $no = count($details_d);
@@ -66,7 +88,7 @@ class AccountUserController extends Controller
             $i = $i + count($fleet->vehicles);
         }
         $fleet = Fleet::where('fleet_owner','=',$owner)->count();
-        return view('account_user.dashboard',compact('user','fleet','i','driver_count','no','running','standby','repair','unloaded','running_vch','standby_vch','repair_vch','unloaded_vch','chart'));
+        return view('account_user.dashboard',compact('user','fleet','i','driver_count','no','running','standby','repair','unloaded','running_vch','standby_vch','repair_vch','unloaded_vch','chart','chart1'));
     }
     public function account_user()
     {

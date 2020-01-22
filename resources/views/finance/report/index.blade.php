@@ -28,16 +28,16 @@
                                   <div class="card-body " >
                                     <div class="row">
                                       <div class="col-sm-12 col-md-12 col-xl-12" id="optradio1">
-                                          <label><input type="radio" name="optradio1" id="optradio1"><span style="margin-left: 5px;">All Vehicle Installment Details</span></label> 
+                                          <label><input type="radio" name="optradio1" id="optradio1"><span style="margin-left: 5px;">All Vehicle Instalment Details</span></label> 
                                       </div>
                                       <div class="col-sm-12 col-md-12 col-xl-12" id="optradio2">
-                                          <label><input type="radio" name="optradio1" id="optradio2"><span style="margin-left: 5px;">Vehicle Finance Installment Status</span></label> 
+                                          <label><input type="radio" name="optradio1" id="optradio2"><span style="margin-left: 5px;">Vehicle Finance Instalment Status</span></label> 
                                       </div>
                                       <div class="col-sm-12 col-md-12 col-xl-12" id="optradio3">
                                           <label><input type="radio" name="optradio1" id="optradio3" disabled><span style="margin-left: 5px;">Overall Vehicle Finance Summary</span></label> 
                                       </div>
                                       <div class="col-sm-12 col-md-12 col-xl-12" id="optradio4">
-                                          <label><input type="radio" name="optradio1" id="optradio4" disabled><span style="margin-left: 5px;">Monthwise Vehicle Installment Due</span></label> 
+                                          <label><input type="radio" name="optradio1" id="optradio4" disabled><span style="margin-left: 5px;">Monthwise Vehicle Instalment Due</span></label> 
                                       </div>
                                     </div>
                                   </div>

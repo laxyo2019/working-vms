@@ -16,7 +16,7 @@
 			                  <th style="width: 410px;">ADDRESS</th>
 			                  <th style="width: 410px;">CITY</th>
 			                  <th style="width: 410px;">VEHICLE NO</th>
-			                  <th style="width: 410px;">TOTAL INSTALLMENT</th>
+			                  <th style="width: 410px;">TOTAL INSTALMENT</th>
 			                  <th style="width: 410px;">CONTRACT NO</th>
 			                  <th style="width: 410px;">CONTRACT DATE</th>
 			                  <th style="width: 410px;">CONTRACT EX. DATE</th>
