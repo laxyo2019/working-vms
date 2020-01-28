@@ -106,10 +106,14 @@
     <div class="col-md-6">
       {!! $chart1->html() !!}
     </div>
+    <div class="col-md-6 mt-4">
+      {!! $chart2->html() !!}
+    </div>
   </div>
   {!! Charts::scripts() !!}
   {!! $chart->script() !!}
   {!! $chart1->script() !!}
+  {!! $chart2->script() !!}
 </main>
 
 

@@ -73,6 +73,18 @@ class AccountUserController extends Controller
                             ->dimensions(1000,500)
 
                             ->responsive(true);
+
+// Donut Chart Start
+      $chart2 =  Charts::create('donut', 'morris')
+
+                            ->title('Expenses/Incomes :'." ".date('Y'))
+                            ->labels(['Expences','Incomes'])
+                            ->values([250000,450000])
+                            ->elementLabel('Total Expenses And Incomes')
+                            ->dimensions(1000,500)
+                            ->colors(['#ff0000','#00ff00'])
+                            ->responsive(true);
+// Donut Chart End
       
 
 // For Trip Chart
@@ -112,7 +124,7 @@ class AccountUserController extends Controller
     
         $fleet = Fleet::where('fleet_owner','=',$owner)->count();
 
-        return view('account_user.dashboard',compact('user','fleet','i','driver_count','no','running','standby','repair','unloaded','running_vch','standby_vch','repair_vch','unloaded_vch','chart','chart1'));
+        return view('account_user.dashboard',compact('user','fleet','i','driver_count','no','running','standby','repair','unloaded','running_vch','standby_vch','repair_vch','unloaded_vch','chart','chart1','chart2'));
     }
     public function account_user()
     {
