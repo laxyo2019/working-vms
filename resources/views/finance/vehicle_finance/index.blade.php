@@ -11,43 +11,14 @@
           </div>
           <div class="col-sm-6 col-md-6">
             <div class="row">
-              <div class="col-sm-3 col-md-3">
-                 <a style="margin-bottom: 5px;" href="{{route('vehiclefinance.create')}}" class="btn btn-inverse" ><i style="margin-right: 5px; " class="fas fa-plus"></i>ADD NEW</a>
-               </div>
-              <div class="col-sm-9 col-md-9 pull-right" style="padding-left: 46px;">
-               <div class="file btn btn-inverse dropdown-toggle" data-toggle="dropdown"><i class="fa fa-file-download"></i>
-                Import
-              </div>
-              <div class="dropdown-menu" style="width:50%;">
-             {{--  first dropdown import  --}}
-                 <div class="dropdown-item" > 
-                    <form id="target1"  action="{{ route('vehicledetails.import') }}" method="POST" enctype="multipart/form-data">
-                      {{ csrf_field() }}
-                     <div class="file btn btn-inverse"><i class="fas fa-file-download"></i>
-                      Import New Data
-                      <input id="file1" type="file" name="file"/>
-                    </div>
-                  </form>
+                  <div class="col-sm-8 col-md-8">
+                  </div>
+                <div class="col-sm-2 col-md-2 pull-right" style="padding-left: 46px;">
+                    <a style="margin-bottom: 5px;" href="{{route('vehiclefinance.create')}}" class="btn btn-inverse" ><i style="margin-right: 5px; " class="fas fa-plus"></i>ADD NEW</a>           
                 </div>
-
-                  {{--  second dropdown import  --}}
-                <div class="dropdown-item">
-                  <form id="target2"  action="{{ route('vehiclefinance.import') }}" method="POST" enctype="multipart/form-data">
-                      {{ csrf_field() }}
-                     <div class="file btn btn-inverse"><i class="fas fa-file-download"></i>
-                      Update Existing Data
-                      <input id="file2" type="file" name="file"/>
-                    </div>
-                  </form>
-                </div>
-
-              </div>
-                <a class="btn btn-inverse" href=""><i style="margin-right: 5px; " class="fas fa-file-import"></i>Export Bulk Data</a>
-                <a class="btn btn-inverse" href=""><i style="margin-right: 5px; " class="fas fa-file-import"></i>Format</a>            
+            </div>
           </div>
-        </div>
-      </div>
-            <table id="myTable">
+            <table id="myTable" class="table-responsive">
               <thead>
                 <tr >
                   <th style="width: 62px;">SR. NO</th>

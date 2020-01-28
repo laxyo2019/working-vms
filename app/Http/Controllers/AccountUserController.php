@@ -34,28 +34,49 @@ class AccountUserController extends Controller
         $u_fleet = User::where('id',$owner)->with('fleet_name.vehicles')->first();
         $details_d = get_fleet_users($owner)->get();
 
-        // Featching data from database Month Wise
-        $res = Product::select(DB::raw("(SUM(prize)) as sum"),DB::raw("MONTHNAME(created_at) as monthname"))
-              ->whereYear('created_at', date('Y'))
-              ->groupBy('monthname')
-              ->get();
-              $mo = array();
-             foreach($res as $result)
-             {
-              $mo[] = $result->sum;
-             }
-        
-        // For Chats Add
-        $products = Product::where( DB::raw("(DATE_FORMAT(created_at,'%Y'))"), date('Y'))->get();
-        $Trips = Vehicle_Trip::where( DB::raw("(DATE_FORMAT(created_at,'%Y'))"), date('Y'))->get();
-        $chart = Charts::database($products, 'bar', 'highcharts')
-                     ->title('Product Details')
-                     ->responsive(true)
-                     ->elementLabel('Total Products')
-                     ->dimensions(1000, 500)
-                     ->colors(['red', 'green', 'blue', 'yellow', 'orange', 'cyan', 'magenta'])
-                     ->groupByMonth(date('Y'), true);
-             
+        // For Product Chats
+        $products = Product::select(DB::raw("(SUM(prize)) as sum"),DB::raw("MONTHNAME(created_at) as monthname"))
+                            ->whereYear('created_at',date('Y'))
+                            ->groupBy('monthname')
+                            ->orderBy('created_at', 'ASC')
+                            ->get();
+          $months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+          
+          $final_array = array();
+          $product_months = array();
+          foreach ($products as $value) {
+            $product_months [] = $value->monthname;
+            $final_array[] = $value->sum;
+          }   
+          $month_diff = array_diff($months,$product_months);
+          $diff_product = array();
+          foreach ($month_diff as $key => $value) {
+              $diff_product[] = [
+                'sum' => '0',
+                'monthname' => $value,
+              ] ; 
+          } 
+        if(empty($product_months)){
+            $product_months = $months;
+        }
+
+     
+        // return $product_months;
+       $chart =  Charts::create('bar', 'highcharts')
+
+                            ->title('PRODUCT')
+                            ->elementLabel('Total Product In '." ".date('Y'))
+                            ->labels($product_months)
+
+                            ->values($final_array)
+
+                            ->dimensions(1000,500)
+
+                            ->responsive(true);
+      
+
+// For Trip Chart
+      $Trips = Vehicle_Trip::where( DB::raw("(DATE_FORMAT(created_at,'%Y'))"), date('Y'))->get();
        $chart1 = Charts::database($Trips,'bar', 'highcharts')
                 ->title('Vehicle Trips')
                 ->elementLabel('Total Trips')
@@ -83,11 +104,14 @@ class AccountUserController extends Controller
           $unloaded_vch= collect($vehicleStatus)->where('status','ReadyForLoad');
           $unloaded    = count($unloaded_vch);
         }
-        // dd($running_vch);
+      
         foreach($u_fleet->fleet_name as $fleet ){
             $i = $i + count($fleet->vehicles);
         }
+
+    
         $fleet = Fleet::where('fleet_owner','=',$owner)->count();
+
         return view('account_user.dashboard',compact('user','fleet','i','driver_count','no','running','standby','repair','unloaded','running_vch','standby_vch','repair_vch','unloaded_vch','chart','chart1'));
     }
     public function account_user()
@@ -208,6 +232,147 @@ class AccountUserController extends Controller
 
         $verify =SendCode::sendCode($mobile_no);
         return $verify;
+    }
+
+    public function get_chart(Request $request){
+      $owner = Auth::user()->id;
+        $user = User::where('acc_type','=','C')->count();
+        $u_fleet = User::where('id',$owner)->with('fleet_name.vehicles')->first();
+        $details_d = get_fleet_users($owner)->get();
+
+        // For Chats Add
+         if(!empty($request->product_year)){
+          $products = Product::select(DB::raw("(SUM(prize)) as sum"),DB::raw("MONTHNAME(created_at) as monthname"))
+                            ->whereYear('created_at',date($request->product_year))
+                            ->groupBy('monthname')
+                            ->orderBy('created_at', 'ASC')
+                            ->get();
+          $months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+          
+          $final_array = array();
+          $product_months = array();
+          foreach ($products as $value) {
+            $product_months [] = $value->monthname;
+            $final_array[] = $value->sum;
+          }   
+          $month_diff = array_diff($months,$product_months);
+          $diff_product = array();
+          foreach ($month_diff as $key => $value) {
+              $diff_product[] = [
+                'sum' => '0',
+                'monthname' => $value,
+              ] ; 
+          } 
+        if(empty($product_months)){
+            $product_months = $months;
+        }
+
+     
+        // return $product_months;
+       $chart =  Charts::create('bar', 'highcharts')
+
+                            ->title('PRODUCT')
+                            ->elementLabel(date($request->product_year))
+                            ->labels($product_months)
+
+                            ->values($final_array)
+
+                            ->dimensions(1000,500)
+
+                            ->responsive(true);
+      
+
+         }else{
+          $products = Product::select(DB::raw("(SUM(prize)) as sum"),DB::raw("MONTHNAME(created_at) as monthname"))
+                            ->whereYear('created_at',date('Y'))
+                            ->groupBy('monthname')
+                            ->orderBy('created_at', 'ASC')
+                            ->get();
+          $months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+          
+          $final_array = array();
+          $product_months = array();
+          foreach ($products as $value) {
+            $product_months [] = $value->monthname;
+            $final_array[] = $value->sum;
+          }   
+          $month_diff = array_diff($months,$product_months);
+          $diff_product = array();
+          foreach ($month_diff as $key => $value) {
+              $diff_product[] = [
+                'sum' => '0',
+                'monthname' => $value,
+              ] ; 
+          } 
+        if(empty($product_months)){
+            $product_months = $months;
+        }
+
+     
+        // return $product_months;
+       $chart =  Charts::create('bar', 'highcharts')
+
+                            ->title('PRODUCT')
+                            ->elementLabel(date('Y'))
+                            ->labels($product_months)
+
+                            ->values($final_array)
+
+                            ->dimensions(1000,500)
+
+                            ->responsive(true);
+      
+             
+        }
+        if(!empty($request->trip_year)){
+        $Trips = Vehicle_Trip::where( DB::raw("(DATE_FORMAT(created_at,'%Y'))"), date($request->trip_year))->get();
+        $chart1 = Charts::database($Trips,'bar', 'highcharts')
+                ->title('Vehicle Trips')
+                ->elementLabel('Total Trips')
+                ->dimensions(1000,500)
+                ->responsive(true)
+                ->height(300)
+                ->groupByMonth(date($request->trip_year), true);
+
+        }else{
+        $Trips = Vehicle_Trip::where( DB::raw("(DATE_FORMAT(valid_till,'%m'))"), date())->get();
+        $chart1 = Charts::database($Trips,'bar', 'highcharts')
+                ->title('Vehicle Trips')
+                ->elementLabel('Total Trips')
+                ->dimensions(1000,500)
+                ->responsive(true)
+                ->height(300)
+                ->groupByMonth(date('Y'), true);
+
+        }
+        
+       
+        // End Chart
+        $no = count($details_d);
+        $i =0;
+        foreach($details_d as $data ){
+        $d_Id[] = $data->id;
+        }
+        if(!empty($d_Id)){
+          $driver_count = Driver::whereIn('created_by',$d_Id)->count();
+          $vehicleStatus = VehicleStatus::whereIn('created_by',$d_Id)->with('vehicle')->get();
+
+          $running_vch = collect($vehicleStatus)->where('status','Running');
+          $running     = count($running_vch);
+          $standby_vch = collect($vehicleStatus)->where('status','StandBy');
+          $standby     = count($standby_vch);
+          $repair_vch  = collect($vehicleStatus)->where('status','Repair/Maintenance');
+          $repair      = count($repair_vch);
+          $unloaded_vch= collect($vehicleStatus)->where('status','ReadyForLoad');
+          $unloaded    = count($unloaded_vch);
+        }
+        // dd($running_vch);
+        foreach($u_fleet->fleet_name as $fleet ){
+            $i = $i + count($fleet->vehicles);
+        }
+        $fleet = Fleet::where('fleet_owner','=',$owner)->count();
+        return view('account_user.dashboard',compact('user','fleet','i','driver_count','no','running','standby','repair','unloaded','running_vch','standby_vch','repair_vch','unloaded_vch','chart','chart1'));
+
     }
 }
 

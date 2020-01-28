@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use App\vehicle_master;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use App\vch_comp;
+use Auth;
 use App\vch_model;
 
 class VehicleDetailsImport implements ToCollection,WithHeadingRow
@@ -83,7 +84,8 @@ class VehicleDetailsImport implements ToCollection,WithHeadingRow
                                                     'reg_invoice_no'       =>$row['invoice_no'],
                                                     'reg_invoice_date'     =>!empty($invoice_date) ? $invoice_date:null,
                                                     'eng_fuel_type'        =>$row['type_of_fuel'],
-                                                    'cubic_capacity'       =>$row['cubic_capacity']
+                                                    'cubic_capacity'       =>$row['cubic_capacity'],
+                                                    'created_by'        => Auth::user()->id
                                                              ]); 
                                     }                 
 

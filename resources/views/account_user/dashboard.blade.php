@@ -71,12 +71,38 @@
 	      </div>
 	    </div>
 	</div>
+<div class="row">
+  <div class="col-md-6">
+  <form action="{{url('/get_chart')}}" method="POST">
+      @csrf
+    <div class="row">
+      <div class="col-md-10">
+        <input id="product_year" class="form-control datepicker"  name="product_year" value="" type="text" placeholder="Search For Product.." style="width: 460px;">
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-default fa fa-search" style="width: 62px;"></button>
+      </div>
+    </div>
+  </form>
+  </div>
+  <div class="col-md-6">
+  <form action="{{url('/get_chart')}}" method="POST">
+      @csrf
+    <div class="row">
+      <div class="col-md-10">
+        <input id="trip_year" class="form-control datepicker"  name="trip_year" value="" type="text" placeholder="Search For Trip.." style="width: 460px;">
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-default fa fa-search" style="width: 62px;"></button>
+      </div>
+    </div>
+  </form>
+  </div>
+</div>
   <div class="row">
     <div class="col-md-6">
       {!! $chart->html() !!}
     </div>
-  {{-- </div>
-  <div class="row mt-2"> --}}
     <div class="col-md-6">
       {!! $chart1->html() !!}
     </div>
@@ -301,6 +327,14 @@
 </div>
 
 <script type="text/javascript">
+  $(document).ready(function(){
+       $('.datepicker').datepicker({
+            format: "yyyy",
+            weekStart: 1,
+            viewMode: "years",
+            minViewMode: "years"
+        });
+  });
 $(document).ready( function () {
     $('#running_table').DataTable();
     $('#standby_table').DataTable();
@@ -326,5 +360,30 @@ document.getElementById("ready").onclick = function () {
 	$('#myModal').modal('hide');
 	$('#ready_model').modal('show');
 }
+//  document.getElementById("product_year").change = function () {
+//       var product_year = $('#product_year').val()
+//       $.ajax({
+//                 url: "/get_chart",
+//                 type: 'POST',
+//                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+//                 data: {'product_year':product_year},
+//                 success: function (data) {
+//                   console.log(data)
+
+//                 }
+//             })
+//     }
+// document.getElementById("trip_year").change = function () {
+//   var trip_year = $('#trip_year').val()
+//   $.ajax({
+//                 url: "/get_chart",
+//                 type: 'POST',
+//                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+//                 data: {'trip_year':trip_year},
+//                 success: function (data) {
+//                   console.log(data)
+//                 }
+//             })
+// }
 </script>
 @endsection

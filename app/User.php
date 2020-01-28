@@ -45,4 +45,7 @@ class User extends Authenticatable
     public function driver(){
         return $this->hasMany('App\Driver','created_by','id');
     }
+    public function vechicles(){
+        return $this->hasMany('App\vehicle_master','created_by');
+    }
 }

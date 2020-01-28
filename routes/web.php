@@ -67,7 +67,14 @@ Route::group(['middleware' => ['role:account']], function () {
 	Route::get('/account_users', 'AccountUserController@account_user')->name('account_users');
 	// End AccountUserController
 	//For AllDetails
-		Route::get('/Alldriver','DriverdetailsController@AllDriver');
+	Route::get('/Alldriver','DriverdetailsController@AllDriver');
+	//For Charts(Dynamic)
+	Route::post('/get_chart','AccountUserController@get_chart');
+	//For All ExpensesDetails
+	Route::resource('/expenses_details','ExpensesDetailsController');
+	Route::post('/expenses_details.show','ExpensesDetailsController@expenses_details');
+
+
 
 });
 // End Users Conroller 
