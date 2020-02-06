@@ -230,4 +230,5 @@ return [
         'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
 
     ],
+
 ];
