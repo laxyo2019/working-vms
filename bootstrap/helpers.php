@@ -2,6 +2,7 @@
 
 use App\User;
 use App\State;
+use App\City;
 use App\vehicle_master;
 use App\VehicleStatus;
 use App\Models\PUCDetails;
@@ -34,6 +35,14 @@ if (!function_exists('get_state')) {
   function get_state()
   {
    return State::where('fleet_code',session('fleet_code'));
+
+  }
+}
+
+if (!function_exists('get_city')) {
+  function get_city()
+  {
+   return City::where('fleet_code',session('fleet_code'));
 
   }
 }

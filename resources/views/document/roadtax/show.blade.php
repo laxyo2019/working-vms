@@ -38,7 +38,7 @@
                   <th style="width: 61px;">ACTION</th>
                 </tr>
               </thead>
-              
+              <tbody>
               <?php $count = 0; ?>
               @foreach($roadtax as $Roadtax) 
               @php ($vch_no = \App\vehicle_master::find($Roadtax->vch_id))            

@@ -19,7 +19,7 @@ class VehicleTripController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    { 
         $data = get_vehicle_trips()->with('vehicle')->get();
         return view('Trip.vehicle_trip_entry.index',compact('data'));
     }
@@ -50,8 +50,9 @@ class VehicleTripController extends Controller
         $data = $this->all_form_data($request);
         $data['fleet_code'] = session('fleet_code');
         $data['created_by'] = Auth::user()->id;
+        $data['status']     = "Running";
         Vehicle_Trip::create($data);
-        VehicleStatus::where('vch_id',$request->vch_id)->update(['status' => $request->status]);
+        VehicleStatus::where('vch_id',$request->vch_id)->update(["status" => "Running"]);
         return redirect('/Trip');
     }
 
@@ -79,7 +80,9 @@ class VehicleTripController extends Controller
         $vehicles = VehicleStatus::where('fleet_code',session('fleet_code'))->where('status','StandBy')->orWhere('status','ReadyForLoad')->orwhere('vch_id',$data_vch_id)->with('vehicle')->get();
         $drivers = Driver::where('fleet_code',session('fleet_code'))->get();
         $state = get_state()->get();
-        return view('Trip.vehicle_trip_entry.edit',compact('vehicles','drivers','state','data'));
+        $city = get_city()->get();
+        // return $city;
+        return view('Trip.vehicle_trip_entry.edit',compact('vehicles','drivers','state','city','data'));
     }
 
     /**
@@ -129,10 +132,15 @@ class VehicleTripController extends Controller
                           'years'           => 'nullable',
                           'months'          => 'nullable',
                           'days'            => 'nullable',
-                          'status'          => 'required',
+                          'status'          => 'nullable',
                           'remarks'         => 'nullable',
                                   // 'image'      => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10000'
                                 ]);
         return $vdata;
+    }
+    public function get_state(){
+        $states = get_state()->get();
+        return $states;
+
     }
 }

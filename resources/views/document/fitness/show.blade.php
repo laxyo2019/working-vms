@@ -38,7 +38,7 @@
                   <th style="width: 61px;">ACTION</th>
                 </tr>
               </thead>
-              
+              <tbody>
               <?php $count = 0; ?>
               @foreach($fitness as $Fitness) 
               @php ($vch_no = \App\vehicle_master::find($Fitness->vch_id))            

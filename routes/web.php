@@ -65,6 +65,13 @@ Route::group(['middleware' => ['role:account']], function () {
 	Route::post('checkAccount','AccountUserController@checkAccount');
 	Route::post('AuthLogout','AccountUserController@AuthLogout');
 	Route::get('/account_users', 'AccountUserController@account_user')->name('account_users');
+	Route::get('account_puc_details','AccountUserController@account_puc_details')->name('account_puc_details');
+	Route::get('account_rc_details','AccountUserController@account_rc_details')->name('account_rc_details');
+	Route::get('account_fitness_details','AccountUserController@account_fitness_details')->name('account_fitness_details');
+	Route::get('account_insurance_details','AccountUserController@account_insurance_details')->name('account_insurance_details');
+	Route::get('account_permit_details','AccountUserController@account_permit_details')->name('account_permit_details');
+	Route::get('account_roadtax_details','AccountUserController@account_roadtax_details')->name('account_roadtax_details');
+	Route::get('account_finance_details','AccountUserController@account_finance_details')->name('account_finance_details');
 	// End AccountUserController
 	//For AllDetails
 	Route::get('/Alldriver','DriverdetailsController@AllDriver');
@@ -573,6 +580,7 @@ Route::group(['middleware' => ['role:account']], function () {
 		Route::resource('/Trip','Trip\VehicleTripController');
 		Route::get('/Trip.destroy/{id}','Trip\VehicleTripController@destroy');
 		Route::post('/vch_status_get','Trip\VehicleTripController@vch_status_get');
+		Route::post('/get_state','Trip\VehicleTripController@get_state');
 		
 		// End VehicleTripController
 });

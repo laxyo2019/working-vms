@@ -38,7 +38,7 @@
                   <th style="width: 61px;">ACTION</th>
                 </tr>
               </thead>
-              
+              <tbody>
               <?php $count = 0; ?>
               @foreach($insurance as $Insurance) 
               @php ($vch_no = \App\vehicle_master::find($Insurance->vch_id))  
@@ -47,7 +47,7 @@
                   <td style="width: 10%;  padding-left: 20px;">{{++$count}}</td>
                   <td style="width: 17%;padding-left: 20px">{{$Insurance->ins_policy_no  }}</td>
                   <td style="padding-left: 20px">{{$vch_no->vch_no }}</td>
-                  <td style="padding-left: 20px">{{$Insurance->ins_amt}}</td>
+                  <td style="padding-left: 20px">{{$Insurance->ins_total_amt}}</td>
                   <td style="padding-left: 20px">{{$Insurance->valid_from}}</td>
                   <td style="padding-left: 20px">{{$Insurance->valid_till}}</td>
                   <td style="width:10%; text-align:center;">

@@ -17,10 +17,6 @@
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-
-    <link rel="dns-prefetch" href="{{url('//fonts.gstatic.com')}}">
-    <link href="{{url('https://fonts.googleapis.com/css?family=Nunito')}}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css" rel="stylesheet" />
       
     <!-- Styles -->
@@ -33,11 +29,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/main.css')}}">
- 
-
-      
-    {{-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> --}}
-
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <!-- #region datatables files -->
@@ -49,27 +40,12 @@
     <script src="{{asset('js/main_admin.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.0/moment.min.js"></script>
     <script src="{{asset('js/bootstrap-datetimepicker.min.js')}}"></script>
-        
-   {{--  <script src="{{ asset('vendor/unisharp/laravel-ckeditor/ckeditor.js') }}"></script>
-    <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script> --}}
-
-   
     <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-dropdown/2.0.3/jquery.dropdown.min.js"></script>
     <!-- Fonts -->
   
-    {{-- <script src="~/scripts/jquery-1.10.2.js"></script> --}}
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-     
-{{-- https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js
-https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js
-https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js
-https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js
-https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js
-https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js  --}}
     <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
@@ -81,7 +57,9 @@ https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js  --}}
 
     <!-- Styles -->
 </head>
+
 <body class="app sidebar-mini rtl">
+
  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
         <tr>
             <td align="center" valign="top">
@@ -121,11 +99,9 @@ https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js  --}}
                                     <li><a href="{{route('pucdetails.index')}}">PUC Details</a> </li>
                                     <li><a href="{{route('fitness.index')}}">Fitness Details</a> </li>
                                     <li><a href="{{route('roadtax.index')}}">Road Tax Details</a> </li>
-                                  {{--   <li><a href="{{/oute('greentax.index')}}">Green Tax Details</a> </li> --}}
                                     <li><a href="{{route('insurance.index')}}">Insurance Details</a> </li>
                                     <li><a href="{{route('statepermit.index')}}">Permit</a> </li>
                                     <li><a href="{{route('rcdetails.index')}}">RC Details</a> </li>
-                                    {{-- <li><a href="{{route('temppermit.index')}}">Temporary Permit</a> </li> --}}
                                 </ul>
                             </li>
                             <li class="<?php if ((Request::segment(1) == 'sparetype') || (Request::segment(1) == 'spareunit') || (Request::segment(1) == 'sparecompany') || (Request::segment(1) == 'sparemaster')|| (Request::segment(1) == 'sparevendor') ){ echo 'active'; }?>" id="L4"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Spare-Inventory</span>
@@ -181,14 +157,14 @@ https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js  --}}
                                     <li><a href="TyreReport.aspx"><span>Reports</span></a> </li>
                                 </ul>
                             </li>
-                            <li class="<?php if( (Request::segment(1) == 'petrolpump') || (Request::segment(1) == 'fuelentry') || (Request::segment(1) == 'fuelbill')){ echo 'active' ;} ?> " id="L6"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Fuel</span>
+                         <!--   <li class="<?php if( (Request::segment(1) == 'petrolpump') || (Request::segment(1) == 'fuelentry') || (Request::segment(1) == 'fuelbill')){ echo 'active' ;} ?> " id="L6"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Fuel</span>
                                 <span class=""></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="{{route('petrolpump.index')}}">Petrol Pump Details</a> </li>
                                     <li><a href="{{route('fuelentry.index')}}">Fuel Filled Entry</a> </li>
                                     <li><a href="{{route('fuelbill.index')}}">Fuel Bill Payment</a> </li>
                                 </ul>
-                            </li>
+                            </li> -->
                             <li id="L7"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Expenses</span>
                                 <span class=""></span></a>
                                 <ul class="dropdown-menu">
@@ -201,7 +177,7 @@ https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js  --}}
                                     <li><a href="{{route('expenses_report.index')}}"><span>Reports</span></a> </li>
                                 </ul>
                             </li>
-                            <li id="L8" class="{{Request::segment(1) == 'filter' ? 'active' : ''}} {{Request::segment(1) == 'oilchange' ? 'active' : ''}} {{Request::segment(1) == 'fueltank' ? 'active' : ''}} {{Request::segment(1) == 'batterycharge' ? 'active' : ''}} {{Request::segment(1) == 'painting' ? 'active' : ''}} oilchange"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Repair/Maintenance</span>
+                          {{--   <li id="L8" class="{{Request::segment(1) == 'filter' ? 'active' : ''}} {{Request::segment(1) == 'oilchange' ? 'active' : ''}} {{Request::segment(1) == 'fueltank' ? 'active' : ''}} {{Request::segment(1) == 'batterycharge' ? 'active' : ''}} {{Request::segment(1) == 'painting' ? 'active' : ''}} oilchange"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Repair/Maintenance</span>
                                 <span class=""></span></a>
                                 <ul class="dropdown-menu ">
                                     <li class=""><a href="{{route('filter.index')}}">Filter Replacement</a></li>
@@ -217,7 +193,7 @@ https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js  --}}
                                         </ul>
                                     </li>                                 
                                 </ul>
-                            </li>
+                            </li> --}}
                             <li id="L9"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Finance</span>
                                 <span class=""></span></a>
                                 <ul class="dropdown-menu">
@@ -258,3 +234,4 @@ https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js  --}}
             </td>
         </tr>
  </table>
+</body>

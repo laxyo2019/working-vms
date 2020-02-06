@@ -20,13 +20,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'VMS') }}</title>
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-
 
     {{-- Links --}}
       <link rel="dns-prefetch" href="{{url('//fonts.gstatic.com')}}">
@@ -145,8 +142,15 @@
           <li><a class="app-menu__item active" href="{{route('account_users')}}"><i class="app-menu__icon fa fa-user"></i><span class="app-menu__label">Users</span></a></li>
           <li><a class="app-menu__item active" href="{{route('fleet.index')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Fleets</span></a></li>
           <li><a class="app-menu__item active" href="{{route('expenses_details.index')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Expenses Details</span></a></li>
-          <li><a class="app-menu__item active" href=""><i class="fa fa-car pr-3" aria-hidden="true"></i><span class="app-menu__label">Trips</span></a></li>
-          {{-- <li><a class="app-menu__item active" href="{{route('fleet.index')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Fleet</span></a></li> --}}
+          <li><a class="app-menu__item active" href=""><i class="fa fa-car pr-3" aria-hidden="true"></i><span class="app-menu__label">Trips</span></a></li><li><a class="app-menu__item active" href=""><i class="fa fa-car pr-3" aria-hidden="true"></i><span class="app-menu__label">Document</span></a>
+          </li>
+          <li><a class="app-menu__item active" href="{{route('account_puc_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">PUC Details</span></a></li>
+          <li><a class="app-menu__item active" href="{{route('account_rc_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">RC Details</span></a></li>
+          <li><a class="app-menu__item active" href="{{route('account_fitness_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Fitness Details</span></a></li>
+          <li><a class="app-menu__item active" href="{{route('account_insurance_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Insurance Details</span></a></li>
+          <li><a class="app-menu__item active" href="{{route('account_permit_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Permit Details</span></a></li>
+          <li><a class="app-menu__item active" href="{{route('account_roadtax_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">RoadTax Details</span></a></li>
+          <li><a class="app-menu__item active" href="{{route('account_finance_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Vehicle Finance Details</span></a></li>
       <?php 
       
         }

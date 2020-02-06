@@ -21,4 +21,7 @@ class InsuranceDetails extends Model
     public function insurance_type(){
         return $this->belongsToMany('App\Models\InsuranceType','ins_id','id');
     }
+    public function owner(){
+        return $this->belongsTo('App\User','created_by');
+    }
 }

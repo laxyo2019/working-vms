@@ -292,7 +292,7 @@
   </div>
 </div>
 
-<!-- Model For Ready For Load Vehicle List -->
+<!-- Model For Repair/maintanence Vehicle List -->
 <div class="modal fade" id="repair_model" tabindex="-1" role="dialog" aria-labelledby="repair_model" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -364,30 +364,5 @@ document.getElementById("ready").onclick = function () {
 	$('#myModal').modal('hide');
 	$('#ready_model').modal('show');
 }
-//  document.getElementById("product_year").change = function () {
-//       var product_year = $('#product_year').val()
-//       $.ajax({
-//                 url: "/get_chart",
-//                 type: 'POST',
-//                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-//                 data: {'product_year':product_year},
-//                 success: function (data) {
-//                   console.log(data)
-
-//                 }
-//             })
-//     }
-// document.getElementById("trip_year").change = function () {
-//   var trip_year = $('#trip_year').val()
-//   $.ajax({
-//                 url: "/get_chart",
-//                 type: 'POST',
-//                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-//                 data: {'trip_year':trip_year},
-//                 success: function (data) {
-//                   console.log(data)
-//                 }
-//             })
-// }
 </script>
 @endsection

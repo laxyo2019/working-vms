@@ -14,6 +14,9 @@ class Vehicle_finance extends Model
     }
     public function city(){
     	return $this->belongsTo('App\City','customer_city_id','id');
+    } 
+    public function owner(){
+        return $this->belongsTo('App\User','created_by');
     }
 }
 

@@ -8,7 +8,7 @@
         <div class="box-title">
           <div class="col-sm-6 col-md-6">
               <h3> VEHICLE FINANCE DETAILS </h3>
-          </div>
+          </div> 
           <div class="col-sm-6 col-md-6">
             <div class="row">
                   <div class="col-sm-8 col-md-8">

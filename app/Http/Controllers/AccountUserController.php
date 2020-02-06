@@ -11,6 +11,13 @@ use App\Product;
 use App\Fleet;
 use App\FleetUser;
 use App\Driver;
+use App\Models\PUCDetails;
+use App\Models\RcDetails;
+use App\Models\FitnessDetails;
+use App\Models\StatePermit;
+use App\Models\RoadtaxDetails;
+use App\Models\InsuranceDetails;
+use App\Models\Finance\Vehicle_finance;
 use App\VehicleStatus;
 use App\Mail\UserRequest;
 use App\Charts\PulseChart;
@@ -32,7 +39,9 @@ class AccountUserController extends Controller
         $owner = Auth::user()->id;
         $user = User::where('acc_type','=','C')->count();
         $u_fleet = User::where('id',$owner)->with('fleet_name.vehicles')->first();
-        $details_d = get_fleet_users($owner)->get();
+        $d_Id =$this->get_owners_id();
+        $i=0;
+        
 
         // For Product Chats
         $products = Product::select(DB::raw("(SUM(prize)) as sum"),DB::raw("MONTHNAME(created_at) as monthname"))
@@ -86,9 +95,10 @@ class AccountUserController extends Controller
                             ->responsive(true);
 // Donut Chart End
       
+       
 
 // For Trip Chart
-      $Trips = Vehicle_Trip::where( DB::raw("(DATE_FORMAT(created_at,'%Y'))"), date('Y'))->get();
+      $Trips = Vehicle_Trip::whereIn('created_by',$d_Id)->orwhere( DB::raw("(DATE_FORMAT(created_at,'%Y'))"), date('Y'))->get();
        $chart1 = Charts::database($Trips,'bar', 'highcharts')
                 ->title('Vehicle Trips')
                 ->elementLabel('Total Trips')
@@ -98,13 +108,9 @@ class AccountUserController extends Controller
                 ->groupByMonth(date('Y'), true);
 
         // End Chart
-        $no = count($details_d);
-        $i =0;
-        foreach($details_d as $data ){
-        $d_Id[] = $data->id;
-        }
         if(!empty($d_Id)){
           $driver_count = Driver::whereIn('created_by',$d_Id)->count();
+          $trip_count = Vehicle_Trip::whereIn('created_by',$d_Id)->orwhere( DB::raw("(DATE_FORMAT(created_at,'%Y'))"), date('Y'))->count();
           $vehicleStatus = VehicleStatus::whereIn('created_by',$d_Id)->with('vehicle')->get();
 
           $running_vch = collect($vehicleStatus)->where('status','Running');
@@ -385,6 +391,50 @@ class AccountUserController extends Controller
         $fleet = Fleet::where('fleet_owner','=',$owner)->count();
         return view('account_user.dashboard',compact('user','fleet','i','driver_count','no','running','standby','repair','unloaded','running_vch','standby_vch','repair_vch','unloaded_vch','chart','chart1'));
 
+    }
+    public function account_puc_details(){
+      $d_Id =$this->get_owners_id();
+      $pucDetails = PUCDetails::whereIn('created_by',$d_Id)->with('owner')->get();
+        return view('account_user.vehicle_doc.puc',compact('pucDetails'));
+    }
+    public function account_rc_details(){
+       $d_Id =$this->get_owners_id();
+       $rcDetails = RcDetails::whereIn('created_by',$d_Id)->with('owner')->get();
+        return view('account_user.vehicle_doc.rc',compact('rcDetails'));
+    }
+    public function account_fitness_details(){
+      $d_Id =$this->get_owners_id();
+      $fitness = FitnessDetails::whereIn('created_by',$d_Id)->with('owner')->get();
+        return view('account_user.vehicle_doc.fitness',compact('fitness'));
+    }
+    public function account_insurance_details(){
+      $d_Id =$this->get_owners_id();
+      $insurance = InsuranceDetails::whereIn('created_by',$d_Id)->with('owner')->get();
+        return view('account_user.vehicle_doc.insurance',compact('insurance'));
+    }
+    public function account_permit_details(){
+      $d_Id =$this->get_owners_id();
+      $state = StatePermit::whereIn('created_by',$d_Id)->with('owner')->get();
+        return view('account_user.vehicle_doc.permit',compact('state'));
+    }
+    public function account_roadtax_details(){
+      $d_Id =$this->get_owners_id();
+      $roadtax = RoadtaxDetails::whereIn('created_by',$d_Id)->with('owner')->get();
+        return view('account_user.vehicle_doc.roadtax',compact('roadtax'));
+    }
+    public function account_finance_details(){
+      $d_Id =$this->get_owners_id();
+      $vehicles = Vehicle_finance::whereIn('created_by',$d_Id)->with('owner','vch_no')->get();
+        return view('account_user.vehicle_doc.vehicle_finance',compact('vehicles'));
+    }
+    public function get_owners_id(){
+      $owner = Auth::user()->id;
+      $details_d = get_fleet_users($owner)->get();
+        $i =0;
+        foreach($details_d as $data ){
+        $d_Id[] = $data->id;
+        } 
+        return $d_Id;
     }
 }
 

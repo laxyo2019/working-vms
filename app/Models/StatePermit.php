@@ -18,4 +18,7 @@ class StatePermit extends Model
     public function state(){
     	return $this->belongsTo('App\State','state_id');
     }
+    public function owner(){
+        return $this->belongsTo('App\User','created_by');
+    }
 }

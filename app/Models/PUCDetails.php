@@ -15,4 +15,7 @@ class PUCDetails extends Model
     public function agent(){
     	return $this->belongsTo('App\Models\Agent','agent_id');
     }
+    public function owner(){
+    	return $this->belongsTo('App\User','created_by');
+    }
 }
