@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\UpdateVehicleDetailsImport;
+use Illuminate\Support\Facades\Storage;
+use App\Imports\VehicleDetailsImport;
+use App\Exports\vehicleDetailsExport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Models\InsuranceType;
 use Illuminate\Http\Request;
 use App\vehicle_master;
-use App\Models\InsuranceType;
-use App\vch_comp;
 use App\vch_model;
+use App\vch_comp;
 use Session;
-use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\VehicleDetailsImport;
-use App\Imports\UpdateVehicleDetailsImport;
-use App\Exports\vehicleDetailsExport;
 use File;
-use DB;
 use Auth;
+use DB;
 
 class VehicledetailsController extends Controller
 {
@@ -23,14 +23,14 @@ class VehicledetailsController extends Controller
     public function index()
     {
         $fleet_code = session('fleet_code');
-        $chk_path = storage_path('app/public/'.$fleet_code.'/vehicle_number');
+        $chk_path   = storage_path('app/public/'.$fleet_code.'/vehicle_number');
                
         if(! File::exists($chk_path)){
             File::makeDirectory($chk_path, 0777, true, true);
         }
 
         $fleet_code = session('fleet_code');
-        $model = DB::table('vch_mast')->where('fleet_code',$fleet_code)->get();
+        $model      = DB::table('vch_mast')->where('fleet_code',$fleet_code)->get();
         return view('vehicle_detail.show',compact('model'));
     }
 
@@ -39,9 +39,9 @@ class VehicledetailsController extends Controller
     {
        $fleet_code = session('fleet_code');
 
-       $model   = DB::table('vch_model')->where('fleet_code',$fleet_code)->get();
-       $city    = DB::table('master_cities')->where('fleet_code',$fleet_code)->get();
-       $company = vch_comp::where('fleet_code',$fleet_code)->get();
+       $model      = DB::table('vch_model')->where('fleet_code',$fleet_code)->get();
+       $city       = DB::table('master_cities')->where('fleet_code',$fleet_code)->get();
+       $company    = vch_comp::where('fleet_code',$fleet_code)->get();
 
        return view('vehicle_detail.create',compact('company','model','city'));
     }
@@ -49,14 +49,13 @@ class VehicledetailsController extends Controller
     
     public function store(Request $request)
     {                          
-        $vdata = $this->all_form_data($request);
+        $vdata               = $this->all_form_data($request);
         $vdata['fleet_code'] = session('fleet_code');
-        $ddata = $this->store_image($request,$vdata);
+        $ddata               = $this->store_image($request,$vdata);
         $ddata['created_by'] = Auth::user()->id;
-
-        $length = 12;
-        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
+        $length              = 12;
+        $characters          = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength    = strlen($characters);
         $randomString = '';
         for ($i = 0; $i < $length; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
@@ -69,13 +68,10 @@ class VehicledetailsController extends Controller
     public function show($id)
     { 
       
-        $fleet_code = session('fleet_code');
-        
-        $vehicledetails=vehicle_master::with('company','model','puc.agent','rc.agent','fitness.agent','insurance.agent','insurance.insurance_company','roadtax.agent','permit.agent')->find($id);
-        // return $vehicledetails->rc->vch_type_id;
-        //dd($vehicledetails->rc->agent);
-        $res = $vehicledetails->insurance->ins_comp;
-        $ins_type = InsuranceType::where('fleet_code',$fleet_code)->where('ins_id',$res)->first();
+        $fleet_code     = session('fleet_code');
+        $vehicledetails =          vehicle_master::with('company','model','puc.agent','rc.agent','fitness.agent','insurance.agent','insurance.insurance_company','roadtax.agent','permit.agent')->find($id);
+        $res            = $vehicledetails->insurance->ins_comp;
+        $ins_type       = InsuranceType::where('fleet_code',$fleet_code)->where('ins_id',$res)->first();
         
         return view('vehicle_detail.detail',compact('vehicledetails','ins_type'));
     }
@@ -83,23 +79,23 @@ class VehicledetailsController extends Controller
     public function edit($id)
     {
        $fleet_code = session('fleet_code');
-       $model   = DB::table('vch_model')->get();
-       $company = vch_comp::where('fleet_code',$fleet_code)->get();
-       $edata   = DB::table('vch_mast')->where('id',$id)->first();
-       $model_vch= vch_model::find($edata->vch_model);
-       $city    = DB::table('master_cities')->where('fleet_code',$fleet_code)->get();
+       $model      = DB::table('vch_model')->get();
+       $company    = vch_comp::where('fleet_code',$fleet_code)->get();
+       $edata      = DB::table('vch_mast')->where('id',$id)->first();
+       $model_vch  = vch_model::find($edata->vch_model);
+       $city       = DB::table('master_cities')->where('fleet_code',$fleet_code)->get();
              
        return view('vehicle_detail.edit',compact('company','model','edata','city','model_vch'));
     }
  
     public function update(Request $request, $id)
     { 
-        $fleet_code = session('fleet_code');  
-        $old_data =  DB::table('vch_mast')->where('id',$id)->first();
-        $vdata = $this->all_form_data($request);
+        $fleet_code          = session('fleet_code');  
+        $old_data            =  DB::table('vch_mast')->where('id',$id)->first();
+        $vdata               = $this->all_form_data($request);
         $vdata['fleet_code'] = $fleet_code;
         $vdata['created_by'] = Auth::user()->id;
-        $all_data = $this->store_image($request,$vdata,$id);
+        $all_data            = $this->store_image($request,$vdata,$id);
 
         vehicle_master::where('id',$id)->update($all_data);
 
@@ -129,21 +125,17 @@ class VehicledetailsController extends Controller
     public function destroy($id)
     {
         $fleet_code = session('fleet_code');
-
-        $img_data = DB::table('vch_mast')->where('id',$id)->first();
+        $img_data   = DB::table('vch_mast')->where('id',$id)->first();
         DB::table('vch_mast')->where('id',$id)->delete();
-
         Storage::deleteDirectory('public/'.$fleet_code.'/vehicle_number/'.$img_data->vch_no);
-
         return redirect('vehicledetails');
     }
 
     public function get_model(Request $request)
     { 
-        $id = $request->id;
-        $model = DB::table('vch_model')->where('vcompany_code',$id)->get();
-         
-        $edata   = DB::table('vch_mast')->where('id',$id)->first();
+        $id     = $request->id;
+        $model  = DB::table('vch_model')->where('vcompany_code',$id)->get();
+        $edata  = DB::table('vch_mast')->where('id',$id)->first();
      
         ?>
 
@@ -152,8 +144,6 @@ class VehicledetailsController extends Controller
             <option value="<?php echo $models->id; ?>"><?php echo $models->model_name; ?></option>
        <?php  } 
     }
-
-
     public function all_form_data($request)
     {
         $vdata = $request->validate([ 'vch_no'                    => 'required',
@@ -220,15 +210,15 @@ class VehicledetailsController extends Controller
 
     public function store_image($request,$vdata,$id=''){
         $fleet_code = session('fleet_code');
-        $files  = array();
+        $files      = array();
 
         if($request->hasFile('vch_pic')) {
        
-            $filename = $request->file('vch_pic')->getClientOriginalName();
-            $extension = $request->file('vch_pic')->getClientOriginalExtension();
-            $fileNameToStore = $request->vch_no.'_vch_pic.'.$extension;
+            $filename         = $request->file('vch_pic')->getClientOriginalName();
+            $extension        = $request->file('vch_pic')->getClientOriginalExtension();
+            $fileNameToStore  = $request->vch_no.'_vch_pic.'.$extension;
 
-            $chk_path = storage_path('app/public/'.$fleet_code.'/vehicle_number/'.$vdata['vch_no']);
+            $chk_path         = storage_path('app/public/'.$fleet_code.'/vehicle_number/'.$vdata['vch_no']);
                
             if(! File::exists($chk_path)){
                 File::makeDirectory($chk_path, 0777, true, true);
@@ -239,11 +229,10 @@ class VehicledetailsController extends Controller
         }
 
         if($request->hasFile('chassic_pic')){
-            $filename = $request->file('chassic_pic')->getClientOriginalName();
-            $extension = $request->file('chassic_pic')->getClientOriginalExtension();
+            $filename        = $request->file('chassic_pic')->getClientOriginalName();
+            $extension       = $request->file('chassic_pic')->getClientOriginalExtension();
             $fileNameToStore = $request->vch_no.'_chassic_pic.'.$extension;
-
-            $chk_path = storage_path('app/public/'.$fleet_code.'/vehicle_number/'.$vdata['vch_no']);
+            $chk_path        = storage_path('app/public/'.$fleet_code.'/vehicle_number/'.$vdata['vch_no']);
                
             if(! File::exists($chk_path)){
                 File::makeDirectory($chk_path, 0777, true, true);
@@ -254,11 +243,10 @@ class VehicledetailsController extends Controller
         }
 
         if($request->hasFile('rc_book_pic')){
-            $filename = $request->file('rc_book_pic')->getClientOriginalName();
-            $extension = $request->file('rc_book_pic')->getClientOriginalExtension();
+            $filename        = $request->file('rc_book_pic')->getClientOriginalName();
+            $extension       = $request->file('rc_book_pic')->getClientOriginalExtension();
             $fileNameToStore = $request->vch_no.'_rc_book_pic.'.$extension;
-
-            $chk_path = storage_path('app/public/'.$fleet_code.'/vehicle_number/'.$vdata['vch_no']);
+            $chk_path        = storage_path('app/public/'.$fleet_code.'/vehicle_number/'.$vdata['vch_no']);
                
             if(! File::exists($chk_path)){
                 File::makeDirectory($chk_path, 0777, true, true);
@@ -269,9 +257,9 @@ class VehicledetailsController extends Controller
         }
 
         if($request->hasFile('owner_pan_pic')){
-            $filename = $request->file('owner_pan_pic')->getClientOriginalName();
-            $extension = $request->file('owner_pan_pic')->getClientOriginalExtension();
-            $fileNameToStore = $request->vch_no.'_owner_pan_pic.'.$extension;
+            $filename         = $request->file('owner_pan_pic')->getClientOriginalName();
+            $extension        = $request->file('owner_pan_pic')->getClientOriginalExtension();
+            $fileNameToStore  = $request->vch_no.'_owner_pan_pic.'.$extension;
 
             $chk_path = storage_path('app/public/'.$fleet_code.'/vehicle_number/'.$vdata['vch_no']);
                
@@ -284,11 +272,11 @@ class VehicledetailsController extends Controller
         }
 
         if($request->hasFile('tds_declaration_pic')){
-            $filename = $request->file('tds_declaration_pic')->getClientOriginalName();
-            $extension = $request->file('tds_declaration_pic')->getClientOriginalExtension();
+            $filename        = $request->file('tds_declaration_pic')->getClientOriginalName();
+            $extension       = $request->file('tds_declaration_pic')->getClientOriginalExtension();
             $fileNameToStore = $request->vch_no.'_tds_declaration_pic.'.$extension;
 
-            $chk_path = storage_path('app/public/'.$fleet_code.'/vehicle_number/'.$vdata['vch_no']);
+            $chk_path        = storage_path('app/public/'.$fleet_code.'/vehicle_number/'.$vdata['vch_no']);
                
             if(! File::exists($chk_path)){
                 File::makeDirectory($chk_path, 0777, true, true);

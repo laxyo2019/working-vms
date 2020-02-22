@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
-use App\Models\Agent;
-use Session;
 use App\Exports\Agentexport;
 use App\Imports\AgentImport;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Agent;
+use Session;
 use Auth;
 
 class AgentController extends Controller
@@ -15,8 +15,8 @@ class AgentController extends Controller
     
     public function index()
     {
-      $fleet_code = session('fleet_code');
-      $agent =  Agent::where('fleet_code',$fleet_code)->get();
+      $fleet_code   = session('fleet_code');
+      $agent        =  Agent::where('fleet_code',$fleet_code)->get();
       return view('agent.show',compact('agent'));
     }
     

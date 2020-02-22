@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers\Document;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Exports\RoadtaxDetailsExport;
 use App\Imports\RoadtaxDetailsImport;
 use Maatwebsite\Excel\Facades\Excel;
-use Session;
 use App\Models\RoadtaxDetails;
+use Illuminate\Http\Request;
 use App\vehicle_master;
+use Session;
 use File;
-use App\Models\Agent;
 use Auth;
 
 class RoadtaxDetailsController extends Controller
@@ -30,8 +29,8 @@ class RoadtaxDetailsController extends Controller
     public function create()
     {
         $fleet_code = session('fleet_code');
-        $vehicle    = vehicle_master::where('fleet_code',$fleet_code)->get();
-        $agent      = Agent::where('fleet_code',$fleet_code)->get();
+        $vehicle    = get_vehicle()->get();
+        $agent      = get_agent()->get();
         return view('document.roadtax.create',compact('vehicle','agent'));
     }
 
@@ -78,9 +77,9 @@ class RoadtaxDetailsController extends Controller
     public function edit($id)
     {
         $fleet_code = session('fleet_code');
-        $vehicle    = vehicle_master::where('fleet_code',$fleet_code)->get();
+        $vehicle    = get_vehicle()->get();
+        $agent      = get_agent()->get();
         $data       = RoadtaxDetails::find($id);
-        $agent      = Agent::where('fleet_code',$fleet_code)->get();
         return view('document.roadtax.edit',compact('vehicle','data','agent'));
     }
 

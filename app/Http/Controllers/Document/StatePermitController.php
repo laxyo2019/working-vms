@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\Document;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\StatePermitExport;
 use App\Imports\StatePermitImport;
-use Maatwebsite\Excel\Facades\Excel;
-use Session;
+use Illuminate\Http\Request;
 use App\Models\StatePermit;
 use App\vehicle_master;
 use App\State;
+use Session;
 use File;
-use Illuminate\Support\Facades\Storage;
-use App\Models\Agent;
 use Auth;
 
 class StatePermitController extends Controller
@@ -30,9 +29,9 @@ class StatePermitController extends Controller
     public function create()
     {
         $fleet_code = session('fleet_code');
-        $vehicle    = vehicle_master::where('fleet_code',$fleet_code)->get();
-        $state_list = State::where('fleet_code',$fleet_code)->get(); 
-        $agent      = Agent::where('fleet_code',$fleet_code)->get();
+        $vehicle    = get_vehicle()->get();
+        $state_list = get_state()->get(); 
+        $agent      = get_agent()->get();
         return view('document.statepermit.create',compact('vehicle','state_list','agent'));
     }
 
@@ -78,10 +77,10 @@ class StatePermitController extends Controller
     public function edit($id)
     {
         $fleet_code = session('fleet_code');
-        $vehicle    = vehicle_master::where('fleet_code',$fleet_code)->get();
-        $state_list = State::where('fleet_code',$fleet_code)->get(); 
+        $vehicle    = get_vehicle()->get();
+        $state_list = get_state()->get(); 
         $data       = StatePermit::find($id);
-        $agent      = Agent::where('fleet_code',$fleet_code)->get();
+        $agent      = get_agent()->get();
         return view('document.statepermit.edit',compact('vehicle','state_list','data','agent'));
     }
 

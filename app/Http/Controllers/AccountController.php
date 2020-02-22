@@ -47,9 +47,8 @@ class AccountController extends Controller
            $name['username'] = $user->email;
            $name['name']     = $u_name;
            $name['password'] = $password;
-
+            
             Account::create($validatedData);
-
             Mail::to($user->email)->send(new SendMailable($name));
             return redirect('account');
       }
@@ -60,15 +59,12 @@ class AccountController extends Controller
     {
         //
     }
-
-   
     public function edit($id)
     {
         $data = Account::find($id);
         $user = User::all();
         return view('account_admin.edit',compact('data','user'));
     }
-    
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
@@ -81,19 +77,14 @@ class AccountController extends Controller
         Account::where('id',$id)->update($validatedData);
         return redirect('account');
     }
-
-   
     public function destroy($id)
     {      
         Account::where('id',$id)->delete();
         return redirect('account');
     }
-
     public function mail()
     {
        $name = 'Krunal';
-       
-       
        return 'Email was sent';
     }
 }

@@ -67,7 +67,21 @@
                                   <td style="padding-left: 20px">{{$vch_no->vch_no }}</td>
                                   <td style="padding-left: 20px">{{$Fitness->fitness_amt ? $Fitness->fitness_amt : 'NO RECORD'}}</td>
                                   <td style="padding-left: 20px">{{$Fitness->valid_from}}</td>
-                                  <td style="padding-left: 20px">{{$Fitness->valid_till}}</td>
+                                  <?php
+                                  if(strtotime($Fitness->valid_till) <= strtotime($carbondate) && strtotime($Fitness->valid_till) >= strtotime($curr) ){
+                                    ?>
+                                    <td style="padding-left: 20px;color: red;">{{$Fitness->valid_till}}<span class="blinking" style="color: red;"><br><b>RENEW DATE...</b> </span></td>
+                                    <?php
+                                  }elseif(strtotime($Fitness->valid_till) < strtotime($curr)){
+                                    ?>
+                                    <td style="padding-left: 20px;">{{$Fitness->valid_till}}<span class="blinking" style="color: red;"><b> EXPIRED...</b> </span></td>
+                                    <?php
+                                  }else{ 
+                                    ?>
+                                  <td style="padding-left: 20px;">{{$Fitness->valid_till}}</td>
+                                  <?php
+                                      }
+                                  ?>
                                   <td style="padding-left: 20px">{{$Fitness->owner->name}}</td>
                                   
                                 </tr>

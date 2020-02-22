@@ -61,7 +61,22 @@
                       <td style="width: 17%;padding-left: 20px">{{$Insurance->ins_policy_no  }}</td>
                       <td style="padding-left: 20px">{{$Insurance->ins_total_amt ? $Insurance->ins_total_amt : 'NO RECORD'}}</td>
                       <td style="padding-left: 20px">{{$Insurance->valid_from}}</td>
-                      <td style="padding-left: 20px">{{$Insurance->valid_till}}</td>
+                      <?php
+                                  if(strtotime($Insurance->valid_till) <= strtotime($carbondate) && strtotime($Insurance->valid_till) >= strtotime($curr) ){
+                                    ?>
+                                    <td style="padding-left: 20px;color: red;">{{$Insurance->valid_till}}<span class="blinking" style="color: red;"><br><b>RENEW DATE...</b> </span></td>
+                                    <?php
+                                  }elseif(strtotime($Insurance->valid_till) < strtotime($curr)){
+                                    ?>
+                                    <td style="padding-left: 20px;">{{$Insurance->valid_till}}<span class="blinking" style="color: red;"><b> EXPIRED...</b> </span></td>
+                                    <?php
+                                  }else{ 
+                                    ?>
+                                  <td style="padding-left: 20px;">{{$Insurance->valid_till}}</td>
+                                  <?php
+                                      }
+                                  ?>
+                      {{-- <td style="padding-left: 20px">{{$Insurance->valid_till}}</td> --}}
                       <td style="padding-left: 20px">{{$Insurance->owner->name}}</td>
                     </tr>
                     @endforeach

@@ -20,30 +20,18 @@ class ExpensesController extends Controller
         return view('expenses.all_expenses.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         
         // $vehicles   = vehicle_master::where('fleet_code',$fleet_code)->get();
-        $vehicles = get_vehicle()->get();
+        $vehicles    = get_vehicle()->get();
         $party_types = ExpensesType::all();
-        $Party = Party::all();
+        $Party       = Party::all();
         return view('expenses.all_expenses.create',compact('party_types','vehicles','Party'));
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+       
     }
 
     /**

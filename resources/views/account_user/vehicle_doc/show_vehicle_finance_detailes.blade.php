@@ -24,11 +24,11 @@
 	  <div class="app-title">
 	    <div>
 
-	      <h1><i class="fa fa-dashboard"></i>FINANCE Details</h1>
+	      <h1><i class="fa fa-dashboard"></i>INSTALMENT Details</h1>
 	    </div>
 	    <ul class="app-breadcrumb breadcrumb">
 	      <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-	      <li class="breadcrumb-item"><a href="#">FINANCE</a></li>
+	      <li class="breadcrumb-item"><a href="#">INSTALMENT</a></li>
 
 	    </ul>
 	  </div>
@@ -42,39 +42,36 @@
 			<div class="card">
 				
 				<div class="card-body " >
-					<div class="row">						
-			
+          <div class="row">
+            <div class="col-md-12">
+              <a href="{{url('/account_finance_details')}}" style="color: #fff;" class="btn btn-primary pull-right">Back</a>
+            </div>
+          </div>
+					<div class="row mt-4">			
 						<div class="col-sm-12 col-md-12 col-xl-12  table-responsive " id="mytable3">
 							<table class="table table-stripped table-bordered" id="account_table" style="width: 100%">
   								<thead>
-                  <tr >
-                    <th style="width: 62px;">SR. NO</th>
-                    <th style="width: 410px;">VEHICLE NUMBER</th>
-                    <th style="width: 410px;">TOTAL FINANCE AMOUNT</th>
-                    <th style="width: 410px;">PAID AMOUNT</th>
-                    <th style="width: 410px;">REMAINING AMOUNT</th>
-                    <th style="width: 410px;">TOTAL INSTALMENT</th>
-                    <th style="width: 410px;">PER INSTALMENT AMOUNT</th>
-                    <th style="width: 61px;text-align: center;">OWNER</th>
-                    <th style="width: 61px;text-align: center;">VIEW</th>
-                  </tr>
+                    <tr>
+                      <th>VEHICLE NUMBER</th>
+                      <td>{{$vch_no}}</td>
+                    </tr>
+                    <tr >
+                      <th style="width: 62px;">SR. NO</th>
+                      <th style="width: 62px;">INSTALMENT DATE</th>
+                      <th style="width: 410px;">INSTALMENT AMOUNT</th>
+                    </tr>
                 </thead>
                 <tbody>
                   @php $count = 0; @endphp
-                  @foreach($vehicles as $vehicle)
+                  @foreach($data as $vehicle)
+                  <?php 
+                  $instalment_date = strtotime($vehicle->fist_ins_date_lst);
+                  $new_ins_date = date('d-M-Y', $instalment_date);
+                ?>
                   <tr>
                     <td style="width: 100px;">{{++$count}}</td>
-                    <td style="width: 320px;">{{$vehicle->vch_no ? $vehicle->vch_no->vch_no : '' }}</td>
-                    <td style="width: 320px;">{{$vehicle->total_amount ? $vehicle->total_amount : '' }}</td>
-                    <td style="width: 320px;">{{$vehicle->paid ? $vehicle->paid : '' }}</td>
-                    <td style="width: 320px;">{{$vehicle->balance ? $vehicle->balance : '' }}</td>
-                    <td style="width: 320px;">{{$vehicle->installment_no ? $vehicle->installment_no : '' }}</td>
-                    <td style="width: 320px;">{{$vehicle->per_installment_amount ? $vehicle->per_installment_amount : '' }}</td>
-                    <td style="width: 320px;">{{$vehicle->owner? $vehicle->owner->name : 'NO RECORD' }}</td>
-                    <td style="width: 320px;">
-                      <center><a href="{{route('show_finance_Detailes',$vehicle->id)}}" class="fa fa-eye " style="font-size: 35px;color: green;text-decoration: none;"></a></center>
-                    </td>
-                    
+                    <td style="width: 100px;">{{$new_ins_date}}</td>
+                    <td style="width: 100px;">{{$vehicle->per_ins_amt_lst}}</td>
                   </tr>
                   @endforeach
                 </tbody>

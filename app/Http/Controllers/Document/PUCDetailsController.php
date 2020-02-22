@@ -12,7 +12,6 @@ use App\Models\PUCDetails;
 use Session;
 use File;
 use DB;
-use App\Models\Agent;
 use Auth;
 
 class PUCDetailsController extends Controller
@@ -28,8 +27,8 @@ class PUCDetailsController extends Controller
     public function create()
     {
         $fleet_code  = session('fleet_code');
-        $vehicle     = vehicle_master::where('fleet_code',$fleet_code)->get();
-        $agent       = Agent::where('fleet_code',$fleet_code)->get();
+        $vehicle     = get_vehicle()->get();
+        $agent       = get_agent()->get();
         return view('document.puc_details.create',compact('vehicle','agent'));
     }
 
@@ -72,9 +71,9 @@ class PUCDetailsController extends Controller
     public function edit($id)
     {
         $fleet_code = session('fleet_code');
-        $vehicle    = vehicle_master::where('fleet_code',$fleet_code)->get();
+        $vehicle    = get_vehicle()->get();
+        $agent      = get_agent()->get();
         $data       = PUCDetails::where('id',$id)->first();
-        $agent      = Agent::where('fleet_code',$fleet_code)->get();
        
         return view('document.puc_details.edit',compact('vehicle','data','agent'));
     }

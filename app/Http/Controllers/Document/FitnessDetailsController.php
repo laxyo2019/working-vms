@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers\Document;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Exports\FitnessDetailsExport;
 use App\Imports\FitnessDetailsImport;
 use Maatwebsite\Excel\Facades\Excel;
-use Session;
 use App\Models\FitnessDetails;
+use Illuminate\Http\Request;
 use App\vehicle_master;
+use Session;
 use File;
-use App\Models\Agent;
 use Auth;
 
 class FitnessDetailsController extends Controller
@@ -23,16 +22,13 @@ class FitnessDetailsController extends Controller
         $fitness = FitnessDetails::where('fleet_code',$fleet_code)->get();
         return view('document.fitness.show',compact('fitness'));
     }
-
-   
     public function create()
     {
         $fleet_code = session('fleet_code');
-        $vehicle    = vehicle_master::where('fleet_code',$fleet_code)->get();
-        $agent      = Agent::where('fleet_code',$fleet_code)->get();
+        $vehicle    = get_vehicle()->get();
+        $agent      = get_agent()->get();
         return view('document.fitness.create',compact('vehicle','agent'));
     }
-
     public function store(Request $request)
     {
         $data = $request->validate([ 'vch_id'                   => 'required',
@@ -49,36 +45,29 @@ class FitnessDetailsController extends Controller
                                      "type_of_fuel"             =>'nullable',
                                      "seating_capacity"         =>'nullable',
                                      "type_of_body"             =>'nullable',
-                                     
                                      'doc_file'                  => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10000'
                                      ]);
     
-        $data = $this->pay_validate($request,$data);    
-        $vdata   = $this->store_image($request,$data);
+        $data  = $this->pay_validate($request,$data);    
+        $vdata = $this->store_image($request,$data);
         $vdata['fleet_code'] = session('fleet_code');
         $vdata['created_by'] = Auth::user()->id;
 
         FitnessDetails::create($vdata);
         return redirect('fitness');
     }
-
-   
     public function show($id)
     {
         //
     }
-
-   
     public function edit($id)
     {
         $fleet_code = session('fleet_code');
-        $vehicle    = vehicle_master::where('fleet_code',$fleet_code)->get(); 
+        $vehicle    = get_vehicle()->get(); 
         $data       = FitnessDetails::find($id);
-        $agent      = Agent::where('fleet_code',$fleet_code)->get();
+        $agent      = get_agent()->get();
         return view('document.fitness.edit',compact('vehicle','data','agent'));
     }
-
-    
     public function update(Request $request, $id)
     {
         $data = $request->validate([ 'vch_id'                   => 'required',

@@ -2,29 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use DB; 
-use App\vch_comp;
-use Session;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\VehicleModelExport;
 use App\Imports\VehicleModelImport;
-use Maatwebsite\Excel\Facades\Excel;
-use Auth;
+use Illuminate\Http\Request;
 use App\vch_model;
+use App\vch_comp;
+use Session;
+use Auth;
+use DB; 
 
 class VehiclemodelController extends Controller
 {
     public function index()
     {
          $fleet_code = session('fleet_code');
-        $model = vch_model::where('fleet_code',$fleet_code)->get();
+        $model       = vch_model::where('fleet_code',$fleet_code)->get();
         return view('vehicle_model.show',compact('model'));
     }
 
     public function create()
     {
          $fleet_code = session('fleet_code');
-        $company  = vch_comp::where('fleet_code',$fleet_code)->get();
+        $company     = vch_comp::where('fleet_code',$fleet_code)->get();
         
         return view('vehicle_model.create',compact('company'));
     }
@@ -60,8 +60,9 @@ class VehiclemodelController extends Controller
 
     public function update(Request $request, $id)
     {
-         $request->validate(['vehicle_company' => 'required|not_in:0',
-                             'model_name'     => 'required'
+         $request->validate([
+              'vehicle_company' => 'required|not_in:0',
+              'model_name'      => 'required'
                             ]);
     
         $vdata['vcompany_code'] = $request->vehicle_company;

@@ -61,7 +61,22 @@
                       <td style="width: 17%;padding-left: 20px">{{$State->permit_no }}</td>
                       <td style="padding-left: 20px">{{$State->permit_amt ? $State->permit_amt :'NO RECORD'}}</td>
                       <td style="padding-left: 20px">{{$State->valid_from}}</td>
-                      <td style="padding-left: 20px">{{$State->valid_till}}</td>
+                      <?php
+                      if(strtotime($State->valid_till) <= strtotime($carbondate) && strtotime($State->valid_till) >= strtotime($curr) ){
+                        ?>
+                        <td style="padding-left: 20px;color: red;">{{$State->valid_till}}<span class="blinking" style="color: red;"><br><b>RENEW DATE...</b> </span></td>
+                        <?php
+                      }elseif(strtotime($State->valid_till) < strtotime($curr)){
+                        ?>
+                        <td style="padding-left: 20px;">{{$State->valid_till}}<span class="blinking" style="color: red;"><b> EXPIRED...</b> </span></td>
+                        <?php
+                      }else{ 
+                        ?>
+                  <td style="padding-left: 20px;">{{$State->valid_till}}</td>
+                  <?php
+                      }
+                  ?>
+                      {{-- <td style="padding-left: 20px">{{$State->valid_till}}</td> --}}
                       <td style="padding-left: 20px">{{$State->owner->name}}</td>
                     </tr>
                     @endforeach

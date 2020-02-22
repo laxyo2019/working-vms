@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\KMupdateExport;
+use App\Imports\KMupdateimport;
 use Illuminate\Http\Request;
 use App\Models\KMupdate;
 use Session;
-use App\Exports\KMupdateExport;
-use App\Imports\KMupdateimport;
-use Maatwebsite\Excel\Facades\Excel;
 use Auth;
 
 
@@ -17,7 +17,7 @@ class KMupdateController extends Controller
     public function index()
     {
         $fleet_code = session('fleet_code');
-        $kilometer = KMupdate::where('fleet_code',$fleet_code)->get();
+        $kilometer  = KMupdate::where('fleet_code',$fleet_code)->get();
         return view('kmupdate.show',compact('kilometer'));
     }
 
@@ -25,7 +25,7 @@ class KMupdateController extends Controller
     public function create()
     {
         $fleet_code = session('fleet_code');
-        $vehicle = get_vehicle()->get();
+        $vehicle    = get_vehicle()->get();
         return view('kmupdate.create',compact('vehicle'));
     }
 
@@ -33,13 +33,13 @@ class KMupdateController extends Controller
     public function store(Request $request)
     {
         $fleet_code = session('fleet_code');
-        $data = $request->validate([
+        $data       = $request->validate([
                                    "vch_id"  => "required",
                                    "reading" => "required|numeric",
                                    'date'    =>'required|date|date_format:Y-m-d|before:tomorrow'
                                 ]);
         $data['fleet_code']  = $fleet_code;
-        $data['created_by'] = Auth::user()->id;
+        $data['created_by']  = Auth::user()->id;
         KMupdate::create($data);
         return redirect('kmupdate');
         
@@ -63,8 +63,8 @@ class KMupdateController extends Controller
     {
          $fleet_code = session('fleet_code');
         $data = $request->validate([
-                                   "vch_id" => "required",
-                                   "reading" => "required|numeric",
+                                   "vch_id"     => "required",
+                                   "reading"    => "required|numeric",
                                    'date'       =>'required|date|date_format:Y-m-d|before:tomorrow'
                                 ]);
         $data['fleet_code'] = $fleet_code;

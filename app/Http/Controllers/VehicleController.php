@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use DB;
-use Auth;
-use Session;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\VehicleExport;
 use App\Imports\VehicleImport;
-use Maatwebsite\Excel\Facades\Excel;
-use App\vch_comp;
+use Illuminate\Http\Request;
 use App\vch_model;
+use App\vch_comp;
+use Session;
+use Auth;
+use DB;
 
 class VehicleController extends Controller
 {
@@ -18,7 +18,7 @@ class VehicleController extends Controller
     public function index()
     {   
         $fleet_code = session('fleet_code');
-        $vehicle = vch_comp::where('fleet_code',$fleet_code)->get();
+        $vehicle    = vch_comp::where('fleet_code',$fleet_code)->get();
         return view('vehicle.show',compact('vehicle'));
     }
 
@@ -32,9 +32,9 @@ class VehicleController extends Controller
     {
         $request->validate(['vehicle_company' => 'required']);
         
-        $fleet_code = session('fleet_code');
-        $vdata['comp_name'] = $request->vehicle_company;
-        $vdata['comp_desc'] = $request->company_description;
+        $fleet_code          = session('fleet_code');
+        $vdata['comp_name']  = $request->vehicle_company;
+        $vdata['comp_desc']  = $request->company_description;
         $vdata['fleet_code'] = $fleet_code;
         $vdata['created_by'] = Auth::user()->id;
         
@@ -59,8 +59,8 @@ class VehicleController extends Controller
     {
         $request->validate(['company_description' => 'required']);
     
-        $vdata['comp_name'] = $request->vehicle_company;
-        $vdata['comp_desc'] = $request->company_description;
+        $vdata['comp_name']  = $request->vehicle_company;
+        $vdata['comp_desc']  = $request->company_description;
         $vdata['created_by'] = Auth::user()->id;
     
         vch_comp::where('id',$id)->update($vdata);

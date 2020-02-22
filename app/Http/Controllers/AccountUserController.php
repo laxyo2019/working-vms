@@ -1,31 +1,33 @@
 <?php
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use App\User;
-use DB;
-use Auth;
-use Charts;
-use App\Product;
-use App\Fleet;
-use App\FleetUser;
-use App\Driver;
-use App\Models\PUCDetails;
-use App\Models\RcDetails;
-use App\Models\FitnessDetails;
-use App\Models\StatePermit;
-use App\Models\RoadtaxDetails;
-use App\Models\InsuranceDetails;
+use App\Models\Finance\Vehicle_finance_ins;
 use App\Models\Finance\Vehicle_finance;
-use App\VehicleStatus;
-use App\Mail\UserRequest;
-use App\Charts\PulseChart;
-use App\Models\Trip\Vehicle_Trip;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
+use App\Models\Trip\Vehicle_Trip;
+use App\Models\InsuranceDetails;
+use App\Models\FitnessDetails;
+use App\Models\RoadtaxDetails;
+use Illuminate\Http\Request;
+use App\Models\StatePermit;
+use App\Charts\PulseChart;
 use App\Mail\SendMailable;
+use App\Models\PUCDetails;
+use App\Mail\UserRequest;
+use App\Models\RcDetails;
 use App\Models\Account;
+use App\VehicleStatus;
+use App\FleetUser;
+use Carbon\Carbon;
 use App\SendCode;
+use App\Product;
+use App\Driver; 
+use App\Fleet;
+use App\User;
+use Charts;
+use Auth;
+use DB;
 
 class AccountUserController extends Controller
 {
@@ -42,8 +44,7 @@ class AccountUserController extends Controller
         $d_Id =$this->get_owners_id();
         $i=0;
         
-
-        // For Product Chats
+  // For Product Chats
         $products = Product::select(DB::raw("(SUM(prize)) as sum"),DB::raw("MONTHNAME(created_at) as monthname"))
                             ->whereYear('created_at',date('Y'))
                             ->groupBy('monthname')
@@ -51,17 +52,17 @@ class AccountUserController extends Controller
                             ->get();
           $months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
           
-          $final_array = array();
+          $final_array    = array();
           $product_months = array();
           foreach ($products as $value) {
             $product_months [] = $value->monthname;
-            $final_array[] = $value->sum;
+            $final_array[]     = $value->sum;
           }   
-          $month_diff = array_diff($months,$product_months);
-          $diff_product = array();
+          $month_diff          = array_diff($months,$product_months);
+          $diff_product        = array();
           foreach ($month_diff as $key => $value) {
               $diff_product[] = [
-                'sum' => '0',
+                'sum'       => '0',
                 'monthname' => $value,
               ] ; 
           } 
@@ -69,23 +70,16 @@ class AccountUserController extends Controller
             $product_months = $months;
         }
 
-     
-        // return $product_months;
        $chart =  Charts::create('bar', 'highcharts')
-
                             ->title('PRODUCT')
                             ->elementLabel('Total Product In '." ".date('Y'))
                             ->labels($product_months)
-
                             ->values($final_array)
-
                             ->dimensions(1000,500)
-
                             ->responsive(true);
 
 // Donut Chart Start
       $chart2 =  Charts::create('donut', 'morris')
-
                             ->title('Expenses/Incomes :'." ".date('Y'))
                             ->labels(['Expences','Incomes'])
                             ->values([250000,450000])
@@ -95,10 +89,8 @@ class AccountUserController extends Controller
                             ->responsive(true);
 // Donut Chart End
       
-       
-
 // For Trip Chart
-      $Trips = Vehicle_Trip::whereIn('created_by',$d_Id)->orwhere( DB::raw("(DATE_FORMAT(created_at,'%Y'))"), date('Y'))->get();
+      $Trips   = Vehicle_Trip::whereIn('created_by',$d_Id)->orwhere( DB::raw("(DATE_FORMAT(created_at,'%Y'))"), date('Y'))->get();
        $chart1 = Charts::database($Trips,'bar', 'highcharts')
                 ->title('Vehicle Trips')
                 ->elementLabel('Total Trips')
@@ -107,29 +99,24 @@ class AccountUserController extends Controller
                 ->height(300)
                 ->groupByMonth(date('Y'), true);
 
-        // End Chart
+// End Chart
         if(!empty($d_Id)){
-          $driver_count = Driver::whereIn('created_by',$d_Id)->count();
-          $trip_count = Vehicle_Trip::whereIn('created_by',$d_Id)->orwhere( DB::raw("(DATE_FORMAT(created_at,'%Y'))"), date('Y'))->count();
-          $vehicleStatus = VehicleStatus::whereIn('created_by',$d_Id)->with('vehicle')->get();
-
-          $running_vch = collect($vehicleStatus)->where('status','Running');
-          $running     = count($running_vch);
-          $standby_vch = collect($vehicleStatus)->where('status','StandBy');
-          $standby     = count($standby_vch);
-          $repair_vch  = collect($vehicleStatus)->where('status','Repair/Maintenance');
-          $repair      = count($repair_vch);
-          $unloaded_vch= collect($vehicleStatus)->where('status','ReadyForLoad');
-          $unloaded    = count($unloaded_vch);
+          $driver_count   = Driver::whereIn('created_by',$d_Id)->count();
+          $trip_count     = Vehicle_Trip::whereIn('created_by',$d_Id)->orwhere( DB::raw("(DATE_FORMAT(created_at,'%Y'))"), date('Y'))->count();
+          $vehicleStatus  = VehicleStatus::whereIn('created_by',$d_Id)->with('vehicle')->get();
+          $running_vch    = collect($vehicleStatus)->where('status','Running');
+          $running        = count($running_vch);
+          $standby_vch    = collect($vehicleStatus)->where('status','StandBy');
+          $standby        = count($standby_vch);
+          $repair_vch     = collect($vehicleStatus)->where('status','Repair/Maintenance');
+          $repair         = count($repair_vch);
+          $unloaded_vch   = collect($vehicleStatus)->where('status','ReadyForLoad');
+          $unloaded       = count($unloaded_vch);
         }
-      
         foreach($u_fleet->fleet_name as $fleet ){
             $i = $i + count($fleet->vehicles);
         }
-
-    
         $fleet = Fleet::where('fleet_owner','=',$owner)->count();
-
         return view('account_user.dashboard',compact('user','fleet','i','driver_count','no','running','standby','repair','unloaded','running_vch','standby_vch','repair_vch','unloaded_vch','chart','chart1','chart2'));
     }
     public function account_user()
@@ -145,16 +132,16 @@ class AccountUserController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request,[ 'name' =>'required',
-                                   'email' => 'required|email|unique:users,email',
-                                   'mobile_no'=>'required|numeric'
+        $this->validate($request,[ 'name'      => 'required',
+                                   'email'     => 'required|email|unique:users,email',
+                                   'mobile_no' => 'required|numeric'
                                  ]);
-        $name1     = strtolower($request->name);
+        $name1    = strtolower($request->name);
         $password = substr($name1,0,4).'1234';
         $data     = array(
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'password' => Hash::make($password),
+                    'name'      => $request->name,
+                    'email'     => $request->email,
+                    'password'  => Hash::make($password),
                     'mobile_no' => $request->mobile_no,
                     );
         $data['parent_id'] = Auth::user()->id;
@@ -165,8 +152,8 @@ class AccountUserController extends Controller
         $user->roles()->sync(3);
 
         $dta = array(
-            'password' => $password, 
-            'email' => $request->email,
+            'password'  => $password, 
+            'email'     => $request->email,
             'mobile_no' => $request->mobile_no,
         );
         
@@ -284,9 +271,7 @@ class AccountUserController extends Controller
         if(empty($product_months)){
             $product_months = $months;
         }
-
-     
-        // return $product_months;
+    // return $product_months;
        $chart =  Charts::create('bar', 'highcharts')
 
                             ->title('PRODUCT')
@@ -325,46 +310,35 @@ class AccountUserController extends Controller
         if(empty($product_months)){
             $product_months = $months;
         }
-
-     
-        // return $product_months;
+    // return $product_months;
        $chart =  Charts::create('bar', 'highcharts')
-
                             ->title('PRODUCT')
                             ->elementLabel(date('Y'))
                             ->labels($product_months)
-
                             ->values($final_array)
-
                             ->dimensions(1000,500)
-
-                            ->responsive(true);
-      
-             
+                            ->responsive(true);    
         }
         if(!empty($request->trip_year)){
         $Trips = Vehicle_Trip::where( DB::raw("(DATE_FORMAT(created_at,'%Y'))"), date($request->trip_year))->get();
         $chart1 = Charts::database($Trips,'bar', 'highcharts')
-                ->title('Vehicle Trips')
-                ->elementLabel('Total Trips')
-                ->dimensions(1000,500)
-                ->responsive(true)
-                ->height(300)
-                ->groupByMonth(date($request->trip_year), true);
-
+                            ->title('Vehicle Trips')
+                            ->elementLabel('Total Trips')
+                            ->dimensions(1000,500)
+                            ->responsive(true)
+                            ->height(300)
+                            ->groupByMonth(date($request->trip_year), true);
         }else{
-        $Trips = Vehicle_Trip::where( DB::raw("(DATE_FORMAT(valid_till,'%m'))"), date())->get();
+        $Trips = Vehicle_Trip::where( DB::raw("(DATE_FORMAT(created_at,'%Y'))"), date('Y'))->get();
         $chart1 = Charts::database($Trips,'bar', 'highcharts')
-                ->title('Vehicle Trips')
-                ->elementLabel('Total Trips')
-                ->dimensions(1000,500)
-                ->responsive(true)
-                ->height(300)
-                ->groupByMonth(date('Y'), true);
-
+                            ->title('Vehicle Trips')
+                            ->elementLabel('Total Trips')
+                            ->dimensions(1000,500)
+                            ->responsive(true)
+                            ->height(300)
+                            ->groupByMonth(date('Y'), true);
         }
         
-       
         // End Chart
         $no = count($details_d);
         $i =0;
@@ -395,37 +369,64 @@ class AccountUserController extends Controller
     public function account_puc_details(){
       $d_Id =$this->get_owners_id();
       $pucDetails = PUCDetails::whereIn('created_by',$d_Id)->with('owner')->get();
-        return view('account_user.vehicle_doc.puc',compact('pucDetails'));
+        $carbondate = Carbon::now()->addDays('15')->format('Y-m-d');
+        $curr  = Carbon::now()->format('Y-m-d');
+        return view('account_user.vehicle_doc.puc',compact('pucDetails','carbondate','curr'));
     }
     public function account_rc_details(){
        $d_Id =$this->get_owners_id();
        $rcDetails = RcDetails::whereIn('created_by',$d_Id)->with('owner')->get();
-        return view('account_user.vehicle_doc.rc',compact('rcDetails'));
+       $carbondate = Carbon::now()->addDays('15')->format('Y-m-d');
+        $curr  = Carbon::now()->format('Y-m-d');
+        return view('account_user.vehicle_doc.rc',compact('rcDetails','carbondate','curr'));
     }
     public function account_fitness_details(){
       $d_Id =$this->get_owners_id();
       $fitness = FitnessDetails::whereIn('created_by',$d_Id)->with('owner')->get();
-        return view('account_user.vehicle_doc.fitness',compact('fitness'));
+      $carbondate = Carbon::now()->addDays('15')->format('Y-m-d');
+        $curr  = Carbon::now()->format('Y-m-d');
+        return view('account_user.vehicle_doc.fitness',compact('fitness','carbondate','curr'));
     }
     public function account_insurance_details(){
       $d_Id =$this->get_owners_id();
       $insurance = InsuranceDetails::whereIn('created_by',$d_Id)->with('owner')->get();
-        return view('account_user.vehicle_doc.insurance',compact('insurance'));
+      $carbondate = Carbon::now()->addDays('15')->format('Y-m-d');
+        $curr  = Carbon::now()->format('Y-m-d');
+        return view('account_user.vehicle_doc.insurance',compact('insurance','carbondate','curr'));
     }
     public function account_permit_details(){
       $d_Id =$this->get_owners_id();
       $state = StatePermit::whereIn('created_by',$d_Id)->with('owner')->get();
-        return view('account_user.vehicle_doc.permit',compact('state'));
+      $carbondate = Carbon::now()->addDays('15')->format('Y-m-d');
+        $curr  = Carbon::now()->format('Y-m-d');
+        return view('account_user.vehicle_doc.permit',compact('state','carbondate','curr'));
     }
     public function account_roadtax_details(){
       $d_Id =$this->get_owners_id();
       $roadtax = RoadtaxDetails::whereIn('created_by',$d_Id)->with('owner')->get();
-        return view('account_user.vehicle_doc.roadtax',compact('roadtax'));
+      $carbondate = Carbon::now()->addDays('15')->format('Y-m-d');
+        $curr  = Carbon::now()->format('Y-m-d');
+        return view('account_user.vehicle_doc.roadtax',compact('roadtax','carbondate','curr'));
     }
     public function account_finance_details(){
       $d_Id =$this->get_owners_id();
       $vehicles = Vehicle_finance::whereIn('created_by',$d_Id)->with('owner','vch_no')->get();
-        return view('account_user.vehicle_doc.vehicle_finance',compact('vehicles'));
+      $carbondate = Carbon::now()->addDays('15')->format('Y-m-d');
+        $curr  = Carbon::now()->format('Y-m-d'); 
+        return view('account_user.vehicle_doc.vehicle_finance',compact('vehicles','carbondate','curr'));
+    }
+    public function show_finance_Detailes($id){
+      $data = Vehicle_finance_ins::where('request_id',$id)->with('vch')->orderBy('id')->get();
+      $carbondate = Carbon::now()->addDays('15')->format('Y-m-d');
+        $curr  = Carbon::now()->format('Y-m-d');
+      $vch_no = $data[0]->vch->vch_no;
+        return view('account_user.vehicle_doc.show_vehicle_finance_detailes',compact('data','vch_no','carbondate','curr'));
+    }
+    public function account_trip_details(){
+      $d_Id =$this->get_owners_id();
+      $data = Vehicle_Trip::whereIn('created_by',$d_Id)->with('owner','vehicle','from_city','to_city')->get();
+
+        return view('account_user.vehicle_doc.vehicle_trip',compact('data'));
     }
     public function get_owners_id(){
       $owner = Auth::user()->id;

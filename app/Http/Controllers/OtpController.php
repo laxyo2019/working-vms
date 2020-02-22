@@ -5,23 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\SendCode;
 use App\User;
-use Auth;
 use Session;
+use Auth;
 
 class OtpController extends Controller
 {
     public function verifiction(Request $request){
-        $mobile_no = $request->id;
-        $verify =SendCode::sendCode($mobile_no);
-        $verifiction =User::where('mobile_no',$mobile_no)->update([ 'otp' => $verify]);
-        $verifiction =User::where('mobile_no',$mobile_no)->get();
+        $mobile_no 		= $request->id; 
+        $verify    		= SendCode::sendCode($mobile_no);
+        $verifiction 	= User::where('mobile_no',$mobile_no)->update([ 'otp' => $verify]);
+        $verifiction 	= User::where('mobile_no',$mobile_no)->get();
         return ($verify);
     }
 
     public function verify_otp(Request $request){
     	
-        $mobile_no = $request->mobile_no;
-        $verifiction =User::where('mobile_no',$mobile_no)->first();
+        $mobile_no 		= $request->mobile_no;
+        $verifiction 	= User::where('mobile_no',$mobile_no)->first();
        
         if($verifiction->otp == $request->otp_no){
         	

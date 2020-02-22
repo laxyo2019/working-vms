@@ -67,7 +67,21 @@
                     <td style="width: 17%;padding-left: 20px">{{$rcDetail->rc_no}}</td>
                     <td style="padding-left: 20px">{{$rcDetail->rc_amt}}</td>
                     <td style="padding-left: 20px">{{$rcDetail->valid_from}}</td>
-                    <td style="padding-left: 20px">{{$rcDetail->valid_till}}</td>
+                    <?php
+                      if(strtotime($rcDetail->valid_till) <= strtotime($carbondate) && strtotime($rcDetail->valid_till) >= strtotime($curr) ){
+                        ?>
+                        <td style="padding-left: 20px;color: red;">{{$rcDetail->valid_till}} <span class="blinking" style="color: red;"><br><b>RENEW DATE...</b> </span></td>
+                        <?php
+                      }elseif(strtotime($rcDetail->valid_till) < strtotime($curr)){
+                        ?>
+                        <td style="padding-left: 20px;">{{$rcDetail->valid_till}}<span class="blinking" style="color: red;"><b> EXPIRED...</b> </span></td>
+                        <?php
+                      }else{ 
+                        ?>
+                  <td style="padding-left: 20px;">{{$rcDetail->valid_till}}</td>
+                  <?php
+                      }
+                  ?>
                     <td style="padding-left: 20px">{{$rcDetail->owner->name}}</td>
                   </tr>
                   @endforeach

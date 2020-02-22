@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\Document;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\vehicle_master;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\RCDetailsExport;
 use App\Imports\RCDetailsImport;
-use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Http\Request;
 use App\Models\RcDetails;
+use App\vehicle_master;
 use Session;
 use File;
-use DB;
-use App\Models\Agent;
 use Auth;
+use DB;
 
 class RcDetailsController extends Controller
 {
@@ -29,8 +28,8 @@ class RcDetailsController extends Controller
     public function create()
     { 
         $fleet_code  = session('fleet_code');
-        $vehicle     = vehicle_master::where('fleet_code',$fleet_code)->get();
-        $agent       = Agent::where('fleet_code',$fleet_code)->get();
+        $vehicle     = get_vehicle()->get();
+        $agent       = get_agent()->get();
         return view('document.rc_details.create',compact('vehicle','agent'));
     }
 
@@ -75,9 +74,9 @@ class RcDetailsController extends Controller
     public function edit($id)
     {
         $fleet_code = session('fleet_code');
-        $vehicle    = vehicle_master::where('fleet_code',$fleet_code)->get();
+        $vehicle    = get_vehicle()->get();
+        $agent      = get_agent()->get();
         $data       = RcDetails::find($id);
-        $agent      = Agent::where('fleet_code',$fleet_code)->get();
        
         return view('document.rc_details.edit',compact('vehicle','data','agent'));
     }

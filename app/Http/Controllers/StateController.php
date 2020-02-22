@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
-use DB;
-use Session;
 use App\Exports\StateExport;
 use App\Imports\StateImport;
-use Maatwebsite\Excel\Facades\Excel;
 use App\State;
 use Validator;
+use Session;
 use Auth;
+use DB;
 
 class StateController extends Controller
 {
@@ -22,7 +22,7 @@ class StateController extends Controller
     public function index()
     {
         $fleet_code = session('fleet_code');
-        $state = State::where('fleet_code',$fleet_code)->get();
+        $state      = State::where('fleet_code',$fleet_code)->get();
         return view('state.show',compact('state'));
     }
 
@@ -35,9 +35,8 @@ class StateController extends Controller
     public function store(Request $request)
     {
         $fleet_code = session('fleet_code');
-
-        $data = array();
-        $this->validate($request,['state'=>'required|regex:/^[\pL\s\-]+$/u',
+        $data       = array();
+        $this->validate($request,['state'       =>'required|regex:/^[\pL\s\-]+$/u',
                                   'state_short' => 'required|max:3' 
                                 ]);
 
@@ -65,7 +64,7 @@ class StateController extends Controller
     public function update(Request $request, $id)
     {
         $data = array();
-        $this->validate($request,['state'=>'required|regex:/^[\pL\s\-]+$/u',
+        $this->validate($request,['state'       =>'required|regex:/^[\pL\s\-]+$/u',
                                   'state_short' => 'required|max:3' 
                                 ]);
 

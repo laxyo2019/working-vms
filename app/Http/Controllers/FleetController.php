@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\User;
-use DB;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\SendMailable;
 use Illuminate\Support\Facades\Crypt;
-use Auth;
-use App\Fleet;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
+use App\Mail\SendMailable;
 use App\FleetUser;
+use App\Fleet;
+use App\User;
+use Auth;
+use DB;
 
 class FleetController extends Controller
 {

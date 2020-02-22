@@ -62,7 +62,22 @@
                       <td style="width: 17%;padding-left: 20px">{{$Roadtax->roadtax_no }}</td>
                       <td style="padding-left: 20px">{{$Roadtax->roadtax_amt ? $Roadtax->roadtax_amt : 'NO RECORD'}}</td>
                       <td style="padding-left: 20px">{{$Roadtax->valid_from}}</td>
-                      <td style="padding-left: 20px">{{$Roadtax->valid_till == null ? $Roadtax->expire_time : $Roadtax->valid_till}}</td>
+                      <?php 
+                                  if(strtotime($Roadtax->valid_till) <= strtotime($carbondate) && strtotime($Roadtax->valid_till) >= strtotime($curr) && ($Roadtax->valid_till != null)){
+                                    ?>
+                                    <td style="padding-left: 20px;color: red;">{{$Roadtax->valid_till}}<span class="blinking" style="color: red;"><br><b>RENEW DATE...</b> </span></td>
+                                    <?php
+                                  }elseif(strtotime($Roadtax->valid_till) < strtotime($curr) && ($Roadtax->valid_till != null)){
+                                    ?>
+                                    <td style="padding-left: 20px;">{{$Roadtax->valid_till}}<span class="blinking" style="color: red;"><b> EXPIRED...</b> </span></td>
+                                    <?php
+                                  }else{ 
+                                    ?>
+                                  <td style="padding-left: 20px">{{$Roadtax->valid_till == null ? $Roadtax->expire_time : $Roadtax->valid_till}}</td>
+                                  <?php
+                                      }
+                                  ?>
+                    
                       <td style="padding-left: 20px">{{$Roadtax->owner ? $Roadtax->owner->name : 'NO RECORD'}}</td>
                     </tr>
                     @endforeach

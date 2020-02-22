@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\Document;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Exports\InsuranceDetailsExport;
 use App\Imports\InsuranceDetailsImport;
-use Maatwebsite\Excel\Facades\Excel;
-use Session;
-use App\Models\InsuranceDetails;
-use App\vehicle_master;
-use File;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Agent;
+use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\InsuranceCompany;
+use App\Models\InsuranceDetails;
+use Illuminate\Http\Request;
+use App\vehicle_master;
+use Session;
+use File;
 use Auth;
 
 class InsuranceDetailsController extends Controller
@@ -30,8 +29,8 @@ class InsuranceDetailsController extends Controller
     public function create()
     {
         $fleet_code  = session('fleet_code');
-        $vehicle     = vehicle_master::where('fleet_code',$fleet_code)->get();
-        $agent       = Agent::where('fleet_code',$fleet_code)->get();
+        $vehicle     = get_vehicle()->get();
+        $agent       = get_agent()->get();
         $ins_company = InsuranceCompany::where('fleet_code',$fleet_code)->get();
         return view('document.insurance.create',compact('vehicle','agent','ins_company'));
     }
@@ -80,9 +79,9 @@ class InsuranceDetailsController extends Controller
     {
         $fleet_code = session('fleet_code');
         $data       = InsuranceDetails::find($id);
-        $vehicle    = vehicle_master::where('fleet_code',$fleet_code)->get();
-        $agent      = Agent::where('fleet_code',$fleet_code)->get();
-        $ins_company = InsuranceCompany::where('fleet_code',$fleet_code)->get();
+        $vehicle    = get_vehicle()->get();
+        $agent      = get_agent()->get();
+        $ins_company= InsuranceCompany::where('fleet_code',$fleet_code)->get();
        return view('document.insurance.edit',compact('vehicle','data','agent','ins_company'));
     }
     

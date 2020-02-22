@@ -22,7 +22,7 @@
                         	
 			                <div class="row">    
 		                        <div class="col-md-4 col-xl-4 mt-2">
-	                                <span style="color: #FF0000;font-size:15px;">*</span><label for="party_type">Expense Type</label><span style="font-size:10px;"><button type="button" class="btn btn-success fa fa-plus" data-toggle="modal" data-target="#exampleModal" style="margin-left: 195px;"></button></span>
+		                        	<label for="party_type">Expense Type</label><span style="float: right;"><button type="button" class="btn btn-success fa fa-plus" data-toggle="modal" data-target="#exampleModal" ></button></span>
 	                                <select id="party_type"  name="party_type" class="selectpicker form-control">
 			                            <option value="">Select..</option>
 			                            @foreach($party_types as $party)
@@ -151,7 +151,7 @@
 			                               <strong>{{ 'Please Select Payment Status' }}</strong>
 			                            </span>
 			                         @enderror  
-		                        </div>
+		                        </div> 
 		                        <div class="col-md-4 col-xl-4 mt-2">
 				                    <label class="">Payment mode</label>
 				                      

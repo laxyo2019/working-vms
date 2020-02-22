@@ -17,18 +17,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-@endsection 
+@endsection
 @section('content') 
 
 <main class="app-content">
 	  <div class="app-title">
 	    <div>
 
-	      <h1><i class="fa fa-dashboard"></i>PUC Details</h1>
+	      <h1><i class="fa fa-dashboard"></i>TRIP Details</h1>
 	    </div>
 	    <ul class="app-breadcrumb breadcrumb">
 	      <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-	      <li class="breadcrumb-item"><a href="#">PUC</a></li>
+	      <li class="breadcrumb-item"><a href="#">TRIP</a></li>
 
 	    </ul>
 	  </div>
@@ -48,45 +48,39 @@
 							<table class="table table-stripped table-bordered" id="account_table" style="width: 100%">
 								<thead>
                 <tr >
-                  <th style="width: 100px;">SR. NO</th>
-                  <th style="width: 320px;">VEHICLE NUMBER</th>
-                  <th style="width: 320px;">PUC NUMBER</th>
-                  <th style="width: 320px;">PUC AMOUNT</th>
-                  <th style="width: 320px;">VALID FROM</th>
-                  <th style="width: 320px;">EXPIRY DATE</th>
-                  <th style="width: 320px;">Owner</th>
+                  <th style="width: 62px;">SR. NO</th>
+                  <th style="width: 200px;">VEHICLE NO.</th>
+                  <th style="width: 200px;">STARTING POINT</th>
+                  <th style="width: 200px;">ENDING POINT</th>
+                  <th style="width: 320px;">STARTING DATE</th>
+                  <th style="width: 320px;">ENDING DATE</th>
+                  <th style="width: 200px;">TRIP AMOUNT</th>
+                  <th style="width: 200px;">DRIVER NAME</th>
+                  <th style="width: 200px;">OWNER</th>
                 </tr>
               </thead>
-              
-              <?php $count = 0; ?>
-              @foreach($pucDetails as $pucdetails) 
-              @php ($vch_no = \App\vehicle_master::find($pucdetails->vch_id)) 
-                       
+              <tbody>
+                @php $count=1; @endphp
+                @foreach($data as $data)
+                <?php 
+                  $old_date_timestamp = strtotime($data->starting_date);
+                  $starting_date = date('d-M-Y H:i:s', $old_date_timestamp);
+                  $old_date_timestamp = strtotime($data->ending_date);
+                  $ending_date = date('d-M-Y H:i:s', $old_date_timestamp);
+                ?>
                 <tr>
-                  <td style="width: 10%;  padding-left: 20px;">{{++$count}}</td>
-                  <td style="padding-left: 20px">{{$vch_no == null ? '' : $vch_no->vch_no}}</td>
-                  <td style="width: 17%;padding-left: 20px">{{$pucdetails->puc_no}}</td>
-                  <td style="padding-left: 20px">{{$pucdetails->puc_amt}}</td>
-                  <td style="padding-left: 20px">{{$pucdetails->valid_from}}</td>
-                  <?php
-                      if(strtotime($pucdetails->valid_till) <= strtotime($carbondate) && strtotime($pucdetails->valid_till) >= strtotime($curr) ){
-                        ?>
-                        <td style="padding-left: 20px;color: red;">{{$pucdetails->valid_till}}<span class="blinking" style="color: red;"><br><b>RENEW DATE...</b> </span></td>
-                        <?php
-                      }elseif(strtotime($pucdetails->valid_till) < strtotime($curr)){
-                        ?>
-                        <td style="padding-left: 20px;">{{$pucdetails->valid_till}}<span class="blinking" style="color: red;"><b> EXPIRED...</b> </span></td>
-                        <?php
-                      }else{ 
-                        ?>
-                  <td style="padding-left: 20px;">{{$pucdetails->valid_till}}</td>
-                  <?php
-                      }
-                  ?>
-                  <td style="padding-left: 20px">{{$pucdetails->owner->name}}</td>
+                  <td>{{$count++}}</td>
+                  <td>{{$data->vehicle->vch_no}}</td>
+                  <td>{{$data->from_city ? $data->from_city->city_name : 'NO RECORD'}}</td>
+                  <td>{{$data->to_city ? $data->to_city->city_name : 'NO RECORD'}}</td>
+                  <td>{{$starting_date}}</td>
+                  <td>{{$ending_date}}</td>
+                  <td>{{$data->trip_amt}}</td>
+                  <td>{{$data->driver_name}}</td>
+                  <td>{{$data->owner->name}}</td>
                 </tr>
                 @endforeach
-      
+              </tbody>
 							</table>
 						</div>
 					</div>

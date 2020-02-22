@@ -1,9 +1,11 @@
 @extends('layouts.ACLadmin')
 @section('content')
+
 <main class="app-content">
 	<div class="app-title">
-		<div>
+		<div> 
 		  <h1><i class="fa fa-dashboard"></i> Dashboard</h1>
+      <button id="get">Get</button>
 		</div>
 	<ul class="app-breadcrumb breadcrumb">
 	    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
@@ -12,9 +14,9 @@
 	</div>
 		@if(session('success'))
 	    <div class="alert alert-danger">
-	        {{session('success')}}
+	        {{session('success')}} 
 	    </div>
-		@endif
+		@endif 
 	<div class="row" id="dashbord_account">
 	    <div class="col-md-4 col-lg-4">
 	      <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
@@ -106,6 +108,8 @@
     <div class="col-md-6">
       {!! $chart1->html() !!}
     </div>
+  </div>
+  <div class="row">
     <div class="col-md-6 mt-4">
       {!! $chart2->html() !!}
     </div>
@@ -332,37 +336,86 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
+   
        $('.datepicker').datepicker({
             format: "yyyy",
             weekStart: 1,
             viewMode: "years",
             minViewMode: "years"
         });
+
+      $.ajax({
+        type:'GET',
+        url:'http://s0.apnagps.com/track/vms/api/Active',
+        success:function(res){
+          $.ajax({
+            type:'POST',
+            url:'{{route('api_data')}}',
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            data:{data:res},
+            success:function(res){
+
+              console.log(res);
+            }
+          });
+        },
+        error: function(xhr, status, error){
+            alert("Error!" + xhr.status);
+        }
+      });
   });
 $(document).ready( function () {
+  
+    // header("Access-Control-Allow-Origin: *");
+
     $('#running_table').DataTable();
     $('#standby_table').DataTable();
     $('#ready_table').DataTable();
     $('#repair_table').DataTable();
+
+    // $('#get').on('click',function(){
+    //   $.ajax({
+    //     type:'GET',
+    //     url:'http://s0.apnagps.com/track/vms/api/565464',
+    //     success:function(res){
+    //       $.ajax({
+    //         type:'POST',
+    //         url:'{{route('api_data')}}',
+    //         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    //         data:{data:res},
+    //         success:function(res){
+
+    //           console.log(res);
+    //         }
+    //       });
+    //     },
+    //     error: function(xhr, status, error){
+    //         alert("Error!" + xhr.status);
+    //     }
+    //   });
+    // });
+
+
+
 });
  document.getElementById("running").onclick = function () {
       $('#myModal').modal('hide');
       $('#running_model').modal('show');
     }
-
  document.getElementById("standby").onclick = function () {
     	$('#myModal').modal('hide');
     	$('#standby_model').modal('show');
     }
-
 document.getElementById("repair").onclick = function () {
 	$('#myModal').modal('hide');
 	$('#repair_model').modal('show');
 }
-
 document.getElementById("ready").onclick = function () {
 	$('#myModal').modal('hide');
 	$('#ready_model').modal('show');
 }
+
+
+
 </script>
 @endsection

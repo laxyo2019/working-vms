@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use DB;
-use Session;
-use App\User;
-use Auth;
-use File;
+use App\Models\InsuranceDetails;
+use App\Models\RoadtaxDetails;
+use App\Models\FitnessDetails;
+use Illuminate\Http\Request;
+use App\Models\StatePermit;
+use App\Models\PUCDetails;
+use App\Models\RcDetails;
+use App\vehicle_master;
 use App\FleetUser;
 use App\Fleet;
-use App\vehicle_master;
-use App\Models\FitnessDetails;
-use App\Models\InsuranceDetails;
-use App\Models\RcDetails;
-use App\Models\PUCDetails;
-use App\Models\StatePermit;
-use App\Models\RoadtaxDetails;
+use App\User;
+use Session;
+use Auth;
+use File;
+use DB;
 
 class DashboardController extends Controller
 {
@@ -26,46 +26,57 @@ class DashboardController extends Controller
         $this->middleware('auth');
           
     }
-
     public function index()
     {
        $id          = Auth::user()->id;
        $hasfleet    = FleetUser::where('user_id',$id)->get();
        $count_fleet = count($hasfleet);
-       $fleet_code = session('fleet_code');
+       $fleet_code  = session('fleet_code');
+       $PUCDetails  = PUCDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
 
-        if($fleet_code){    
-            $insurance  = InsuranceDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
-           $inscount=count($insurance);
+        if($fleet_code){ 
+           $vehicle         = get_vehicle()->get(); 
+           $vch_count       = collect($vehicle)->count();  
+
+           $driver          = get_driver()->get(); 
+           $driver_count    = collect($driver)->count();
+
+           $insurance       = InsuranceDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $inscount        =collect($insurance)->count();
+
            
-           $PUCDetails  = PUCDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
-           $puccount=count($PUCDetails);
+           $PUCDetails      = PUCDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $puccount        =collect($PUCDetails)->count();
 
-           $fitnessetails  = FitnessDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
-           $fitnesscount=count($fitnessetails);
+           $fitnessetails   = FitnessDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $fitnesscount    =collect($fitnessetails)->count();
 
-           $roadtax  = RoadtaxDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
-           $roadcount=count($roadtax);
+           $roadtax         = RoadtaxDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $roadcount       =collect($roadtax)->count();
 
-           $permit  = StatePermit::with('vehicle')->where('fleet_code',$fleet_code)->get();
-           $permitcount=count($permit);
+           $permit          = StatePermit::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $permitcount     =collect($permit)->count();
 
-           $rcdetails  = RcDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
-           $rccount = count($rcdetails);
+           $rcdetails       = RcDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $rccount         = collect($rcdetails)->count();
        }
        else{
-            $insurance = array();          
-            $inscount = 0;
-            $PUCDetails = array();          
-            $puccount = 0;
+            $vehicle       = array();
+            $vch_count     = 0;
+            $driver        = array();
+            $driver_count  = 0;
+            $insurance     = array();          
+            $inscount      = 0;
+            $PUCDetails    = array();          
+            $puccount      = 0;
             $fitnessetails = array();          
-            $fitnesscount = 0;
-            $roadtax = array();          
-            $roadcount = 0;
-            $permit = array();          
-            $permitcount = 0;
-            $rcdetails = array();          
-            $rccount = 0;
+            $fitnesscount  = 0;
+            $roadtax       = array();          
+            $roadcount     = 0;
+            $permit        = array();          
+            $permitcount   = 0;
+            $rcdetails     = array();          
+            $rccount       = 0;
         }
         
         if($count_fleet != 0){
@@ -85,12 +96,12 @@ class DashboardController extends Controller
                 $data['fleet']    = 'no';
                 $data['fleet_id'] = array(); 
 
-                return view('dashboard',compact('data','insurance','PUCDetails','fitnessetails','roadtax','permit','rcdetails','inscount','puccount','fitnesscount','roadcount','permitcount','rccount'));
+                return view('dashboard1',compact('data','insurance','PUCDetails','fitnessetails','roadtax','permit','rcdetails','inscount','puccount','fitnesscount','roadcount','permitcount','rccount','vehicle','vch_count','driver','driver_count'));
             }
             else{
                 $data['fleet_id'] = FleetUser::where('user_id',$id)->get();
                 $data['fleet']    = 'yes';
-                return view('dashboard',compact('data','insurance','PUCDetails','fitnessetails','roadtax','permit','rcdetails','inscount','puccount','fitnesscount','roadcount','permitcount','rccount'));
+                return view('dashboard1',compact('data','insurance','PUCDetails','fitnessetails','roadtax','permit','rcdetails','inscount','puccount','fitnesscount','roadcount','permitcount','rccount','vehicle','vch_count','driver','driver_count'));
             }
         }
         else{
@@ -98,25 +109,6 @@ class DashboardController extends Controller
         }
         
     }
-
-    
-    public function create()
-    {
-        //
-    }
-
-   
-    public function store(Request $request)
-    {
-        //
-    }
-
-    
-    public function show($id)
-    {
-        
-    }
-    
     public function edit($id)
     {
         $user = User::find($id);
@@ -143,12 +135,6 @@ class DashboardController extends Controller
             return redirect()->back()->with("error","Password changed successfully !");
         }
     }
-
-    public function destroy($id)
-    {
-        //
-    }
-
      public function fleet_ckeck(Request $request){        
         $fleer_code = $request->fleet_code;
         
