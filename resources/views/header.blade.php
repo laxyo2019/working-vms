@@ -160,8 +160,8 @@
                                         <li><a href="{{route('expense_type.index')}}">Add Expenses Type</a></li>
                                         <li><a href="{{route('party.index')}}">Add Party</a></li>
                                         <li><a href="{{route('expanses.index')}}">Add Expense</a></li>
-                                        <li><a href="{{route('expanses_entry.index')}}">Expense Entry</a></li>
-                                        <li><a href="{{route('expanses_payment_entry.index')}}">Expense Payment Entry</a></li>
+                                       {{--  <li><a href="{{route('expanses_entry.index')}}">Expense Entry</a></li>
+                                        <li><a href="{{route('expanses_payment_entry.index')}}">Expense Payment Entry</a></li> --}}
                                         <li><a href="{{route('accident_entry.index')}}">Accident Entry</a></li>
                                         <li><a href="{{route('expenses_report.index')}}"><span>Reports</span></a> </li>
                                     </ul>

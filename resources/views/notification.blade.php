@@ -1,4 +1,4 @@
-<li class="dropdown "><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications" aria-expanded="true"><i class="fa fa-bell-o fa-lg"></i>
+<li class="dropdown "><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications" aria-expanded="true"><i class="fa fa-bell fa-lg"></i>
 <?php
 if(count(Auth::user()->unreadNotifications) !=0){ ?>
   <sup class="label label-danger"><b>{{count(Auth::user()->unreadNotifications)}}</b></sup></a>

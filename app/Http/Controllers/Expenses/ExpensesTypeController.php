@@ -10,7 +10,7 @@ use App\Models\Expenses\Party;
 class ExpensesTypeController extends Controller
 {
     
-    public function index()
+    public function index() 
     {    
         $data = ExpensesType::all();
         

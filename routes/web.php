@@ -10,7 +10,7 @@
 		})->name('register');
 
 		Route::get('/test_notify','HomeController@test_notify');
-		Route::post('/api_data', 'HomeController@api_data')->name('api_data');
+		Route::get('/api_data', 'HomeController@api_data')->name('api_data');
 
 Route::group(['middleware' => ['role:superadmin']], function () {
 		// This Route start For RolesController
@@ -487,6 +487,7 @@ Route::group(['middleware' => ['role:fleets']], function () {
 
 		// Start PartyController
 		Route::resource('/party','Expenses\PartyController');
+		Route::post('/add_party','Expenses\PartyController@add_party_in_expense');
 		Route::get('/party_delete/{id}','Expenses\PartyController@destroy');
 		// End PartyController
 

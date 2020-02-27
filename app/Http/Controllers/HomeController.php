@@ -15,6 +15,7 @@ use Auth;
 use DB;
 
 use App\User;
+use App\GSDailyMove;
 use App\Notifications\TestNotification;
 class HomeController extends Controller
 {
@@ -163,9 +164,32 @@ class HomeController extends Controller
 
     }
     public function api_data(Request $request){
-      // return $request->data['amount'];
-      return $request->all();
-      // return "hello";
+
+      $datas =  json_decode(file_get_contents('http://s0.apnagps.com/track/vms/api/Active'), true);
+
+      foreach ($datas as $value ) {
+         $data = [
+          'id'        => $value['id'],
+          'duty_date' => $value['duty_date'],
+          'user_id'   => $value['user_id'],
+          'imei'      => $value['imei'],
+          'device_name' => $value['device_name'],
+          'reading'   => $value['reading'],
+          'username'  => $value['username'],
+          'status'    => $value['status'],
+        ];
+        $imei = GSDailyMove::where('imei',$value['imei'])->count();
+        if($imei){
+          GSDailyMove::where('imei',$value['imei'])->update([
+                                                            'duty_date' => $value['duty_date'],
+                                                            'reading'   => $value['reading']
+                                                            ]);
+        }else{
+        GSDailyMove::insert($data); 
+        }
+        // GSDailyMove::insert($data);
+      }
+    
     }
 
 }

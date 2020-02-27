@@ -42,7 +42,7 @@ class PartyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request) 
     {
         $data = $this->form_data($request);
        $data['party_name'] = strtoupper($data['party_name']);
@@ -121,5 +121,15 @@ class PartyController extends Controller
                       // 'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10000'
                                 ]);
         return $vdata;
+    }
+    public function add_party_in_expense(Request $request){
+        // dd($request->all());
+       // $data = $this->form_data($request);
+        $data = array();
+       $data['party_name'] = strtoupper($request->party_name);
+       $data['party_type'] = strtoupper($request->party_type);
+        Party::create($data);
+        return redirect()->route('expanses.create');
+
     }
 }

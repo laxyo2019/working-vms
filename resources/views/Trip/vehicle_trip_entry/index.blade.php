@@ -41,7 +41,7 @@
                 @foreach($data as $data)
                 <tr>
                   <td>{{$count++}}</td>
-                  <td>{{$data->vehicle->vch_no}}</td>
+                  <td>{{$data->vehicle ? $data->vehicle->vch_no : 'NO RECORD'}}</td>
                   <td>{{$data->starting_date}}</td>
                   <td>{{$data->ending_date}}</td>
                   <td>{{$data->trip_amt}}</td>

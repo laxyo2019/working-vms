@@ -117,7 +117,7 @@
 						            <div class="row">
 						                <div class="col-md-6 col-xl-6 mt-2">
 			                                <span style="color: #FF0000;font-size:15px;">*</span><label for="Vehicle No."> Starting Date </label>
-			                                <input id="starting_date" class="form-control datepicker"  name="starting_date" value="{{old('starting_date') ? old('starting_date') : ''}}"  type="text">
+			                                <input id="starting_date" class="form-control "  name="starting_date" value="{{old('starting_date') ? old('starting_date') : ''}}"  type="text">
 			                                @error('starting_date')
 				                              <span class="invalid-feedback d-block pull-right" role="alert">
 				                                  <strong>{{ $message}}</strong>
@@ -126,7 +126,7 @@
 			                            </div>
 			                            <div class="col-md-6 col-xl-6 mt-2">
 			                                <span style="color: #FF0000;font-size:15px;">*</span><label for="ending_date">Ending Date</label>
-			                                <input id="ending_date" class="form-control datepicker"  name="ending_date" value="{{old('ending_date') ? old('ending_date') : ''}}" type="text">
+			                                <input id="ending_date" class="form-control "  name="ending_date" value="{{old('ending_date') ? old('ending_date') : ''}}" type="text">
 			                                @error('ending_date')
 				                              <span class="invalid-feedback d-block pull-right" role="alert">
 				                                  <strong>{{ $message}}</strong>
@@ -190,7 +190,7 @@
 		                           		<div class="col-md-3 col-xl-3 mt-2">
 		                              	  <span style="color: #FF0000;font-size:15px;">*</span><label for="Engine No">Cheque Date</label>
 			                               
-		                               		 <input id="email1" class="form-control datepicker"  readonly="true"name="cpay_dt" name="pay_dt" value="{{old('pay_dt')}}">
+		                               		 <input id="email1" class="form-control datepicker"  readonly="true" name="cpay_dt" value="{{old('pay_dt')}}">
 		                               		  @error('cpay_dt')
 					                         <span class="invalid-feedback d-block" role="alert">
 					                               <strong>{{ "Please enter cheque date" }}</strong>
@@ -408,6 +408,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
     	 $(function() {
+        	$( ".datepicker" ).datepicker({format:'yyyy-mm-dd'});
     	 	$('#starting_date').datetimepicker({
 			    format: "YYYY-MM-DD H:m:s",
 			    icons: {
@@ -426,11 +427,11 @@
                     down: "fa fa-arrow-down text-primary"
                 }
 			}).on('dp.change', function (e) { 
-				var starting_date    = $('#starting_date').val();
+				var starting_date  = $('#starting_date').val();
 		    	var ending_date    = $('#ending_date').val();
 		    	if(starting_date === "")
 		    	{
-		    		alert('Please Select Claim Date First');
+		    		alert('Please Select Starting Date First');
 		    	}
 		   	var date1 = new Date(starting_date);
 			var date2 = new Date(ending_date);

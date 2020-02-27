@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Expenses;
 
-use Illuminate\Http\Request;
+use App\Models\Expenses\ExpensesType;
 use App\Http\Controllers\Controller;
 use App\Models\Expenses\Party;
+use App\Models\Trip\Vehicle_Trip;
+use Illuminate\Http\Request;
 use App\vehicle_master;
-use App\Models\Expenses\ExpensesType;
 
 class ExpensesController extends Controller
 { 
@@ -26,8 +27,9 @@ class ExpensesController extends Controller
         // $vehicles   = vehicle_master::where('fleet_code',$fleet_code)->get();
         $vehicles    = get_vehicle()->get();
         $party_types = ExpensesType::all();
-        $Party       = Party::all();
-        return view('expenses.all_expenses.create',compact('party_types','vehicles','Party'));
+        $trips       = Vehicle_Trip::where('fleet_code',session('fleet_code'))->get();
+        $Party       = Party::all(); 
+        return view('expenses.all_expenses.create',compact('party_types','vehicles','Party','trips'));
     }
     public function store(Request $request)
     {
