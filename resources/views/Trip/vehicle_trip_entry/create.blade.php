@@ -459,7 +459,12 @@
 	    // $('.remove_button').attr('data-id',x)
 	    x++;
 	});
-
+$(document).on("click",".remove_button",function(){ 
+	 	var id = $(this).attr('data-id');
+	        $(this).parent('div').remove();
+	        $('#'+id).remove();        
+	        // x--;
+    });
 
     $('#type').on('change',function(){
     	var type = $(this).val();
@@ -550,12 +555,7 @@ $(document).on('change','.add_state',function(){
 	
 	city_fetch(state_id,city_id)
 });
-	$(document).on("click",".remove_button",function(){ 
-	 	var id = $(this).attr('data-id');
-	        $(this).parent('div').remove();
-	        $('#'+id).remove();        
-	        // x--;
-    });
+	
     $('#trip_from_state').on('change',function(){
         var state_id = $(this).val();
 	    var city_id = 'trip_from_city';

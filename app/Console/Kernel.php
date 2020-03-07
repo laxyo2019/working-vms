@@ -27,6 +27,8 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         $schedule->call('App\Http\Controllers\HomeController@test_notify')->dailyAt('10:00');
+        $schedule->call('App\Http\Controllers\HomeController@api_data_backup')->dailyAt('23:50');
+        $schedule->call('App\Http\Controllers\HomeController@api_data_delete')->dailyAt('23:55');
         $schedule->call('App\Http\Controllers\HomeController@api_data')->dailyAt('00:00');
     }
 

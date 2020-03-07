@@ -82,6 +82,12 @@ Route::group(['middleware' => ['role:fleets']], function () {
 		Route::post('/fleet_ckeck','DashboardController@fleet_ckeck')->name('fleet_ckeck');
 		//End Dashboard Controller
 
+		//Strat VehicleTypeController
+		Route::resource('/vch_type','VehicleTypeController');
+		Route::get('/vch_type_delete/{id}','VehicleTypeController@destroy')->name('vch_type_delete');
+		Route::post('/add_vch_type','VehicleTypeController@add_vch_type')->name('add_vch_type');
+		//End VehicleTypeController
+
 		//Start State contoller
 		Route::resource('/state','StateController');
 		Route::get('statedestroy/{id}','StateController@destroy')->name('state.delete');
@@ -137,6 +143,11 @@ Route::group(['middleware' => ['role:fleets']], function () {
 		Route::resource('/vch_status','VehicleStatusController');
 		Route::post('/status','VehicleStatusController@store');
 		//End VehicleStatusController
+
+		//Start VehicleTyreSetup
+		Route::resource('/vch_tyre','VehicleTyreSetup');
+		// Route::post('/status','VehicleTyreSetup@store');
+		//End VehicleTyreSetup
 
 		//strat filtercontroller
 		Route::resource('/filter','filter\FilterController');

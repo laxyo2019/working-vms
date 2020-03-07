@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\TestNotification;
 use App\Models\InsuranceDetails;
 use App\Models\FitnessDetails;
 use App\Models\RoadtaxDetails;
 use Illuminate\Http\Request;
 use App\Models\StatePermit;
+use App\GSDailyMoveBackup;
 use App\Models\PUCDetails;
 use App\Models\RcDetails;
+use App\GSDailyMove;
 use Carbon\Carbon;
+use App\User;
 use Session;
 use Auth;
 use DB;
 
-use App\User;
-use App\GSDailyMove;
-use App\Notifications\TestNotification;
 class HomeController extends Controller
 {
     public function __construct()
@@ -191,5 +192,34 @@ class HomeController extends Controller
       }
     
     }
+    public function api_data_delete(){
+        GSDailyMove::truncate();
 
+      }
+    public function api_data_backup(){
+        $datas =  GSDailyMove::all();
+
+      foreach ($datas as $value ) {
+         $data = [
+          'id'        => $value['id'],
+          'duty_date' => $value['duty_date'],
+          'user_id'   => $value['user_id'],
+          'imei'      => $value['imei'],
+          'device_name' => $value['device_name'],
+          'reading'   => $value['reading'],
+          'username'  => $value['username'],
+          'status'    => $value['status'],
+        ];
+        $imei = GSDailyMoveBackup::where('imei',$value['imei'])->count();
+        if($imei){
+          GSDailyMoveBackup::where('imei',$value['imei'])->update([
+                                                            'duty_date' => $value['duty_date'],
+                                                            'reading'   => $value['reading']
+                                                            ]);
+        }else{
+        GSDailyMoveBackup::insert($data); 
+        }
+        // GSDailyMove::insert($data);
+      }
+    }
 }

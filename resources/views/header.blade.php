@@ -12,7 +12,7 @@
         <!-- Scripts -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css" rel="stylesheet" /> 
         <!-- Styles -->
         <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/chosen.css') }}">
@@ -49,7 +49,7 @@
         <!-- Styles -->
     </head>
     <body class="app sidebar-mini rtl">
-     <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+     <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" >
             <tr> 
                 <td align="center" valign="top">
                     <div id="navigation">
@@ -72,6 +72,7 @@
                                         </li>
                                         <li class='dropdown-submenu'><a href="#">Vehicle Setup</a>
                                             <ul class="dropdown-menu">
+                                                <li><a href="{{route('vch_type.index')}}">Vehicle Type</a></li>
                                                 <li><a href="{{route('vehicle.index')}}">Vehicle Company</a></li>
                                                 <li><a href="{{route('vehicleModel.index')}}">Vehicle Model</a></li>
                                                 <li><a href="{{route('vehicledetails.index')}}">Vehicle Details</a></li>
@@ -80,9 +81,10 @@
                                             </ul>
                                         </li>
                                         <li><a href="{{route('vch_status.index')}}">Vehicle Status</a></li>
+                                        <li><a href="{{route('vch_tyre.index')}}">Vehicle Tyre SetUp</a></li>
                                     </ul>
                                 </li>
-                                <li  class='<?php if( (Request::segment(1) == 'fitness') || (Request::segment(1) == 'pucdetails') ||  (Request::segment(1) == 'roadtax') || (Request::segment(1) == 'greentax') || (Request::segment(1) == 'insurance') || (Request::segment(1) == 'statepermit') ){ echo 'active'; }?>' id="L3"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Documents</span>
+                                <li  class='<?php if( (Request::segment(1) == 'fitness') || (Request::segment(1) == 'pucdetails') ||  (Request::segment(1) == 'roadtax') || (Request::segment(1) == 'rcdetails') || (Request::segment(1) == 'insurance') || (Request::segment(1) == 'statepermit') ){ echo 'active'; }?>' id="L3"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Documents</span>
                                     <span class=""></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="{{route('pucdetails.index')}}">PUC Details</a> </li>
@@ -93,59 +95,8 @@
                                         <li><a href="{{route('rcdetails.index')}}">RC Details</a> </li>
                                     </ul>
                                 </li>
-                                <li class="<?php if ((Request::segment(1) == 'sparetype') || (Request::segment(1) == 'spareunit') || (Request::segment(1) == 'sparecompany') || (Request::segment(1) == 'sparemaster')|| (Request::segment(1) == 'sparevendor') ){ echo 'active'; }?>" id="L4"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Spare-Inventory</span>
-                                    <span class=""></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li class='dropdown-submenu'><a href="#">Setup</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="{{route('sparetype.index')}}">Spare Type</a></li>
-                                                <li><a href="{{route('spareunit.index')}}">Spare Unit</a></li>
-                                                <li><a href="{{route('sparecompany.index')}}">Spare Company</a></li>
-                                                <li><a href="{{route('sparemaster.index')}}">Spare Master</a></li>
-                                                <li><a href="{{route('sparevendor.index')}}">Supplier/Vendor</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class='dropdown-submenu'><a href="#">Transactions</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="{{route('material_request.index')}}">Material Request</a></li>
-                                                <li><a href="{{route('purchase_order.index')}}">Purchase Order</a></li>
-                                                <li><a href="fgrn.aspx">Goods Receipt Note(GRN)</a></li>
-                                                <li><a href="fitemissue.aspx">Spare Issue</a></li>
-                                                <li><a href="fitemstockupdate.aspx">Spare Stock Update</a></li>
-                                                <li><a href="fSparepaymententry.aspx">Spare Vendor Payment</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="SpareInventoryReport.aspx"><span>Reports</span></a> </li>
-                                    </ul>
-                                </li>
-                                <li id="L5" class="<?php if ((Request::segment(1) == 'tyrecompany')
-                                                || (Request::segment(1) == 'tyremodel') || (Request::segment(1) == 'tyrevendor') || (Request::segment(1) == 'tyretype')) { echo 'active'; } ?>"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Tyre-Inventory</span>
-                                    <span class=""></span></a>
-                                    <ul  class="dropdown-menu">
-                                        <li  class='dropdown-submenu'><a href="#">Setup</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="{{route('tyrecompany.index')}}">Tyre Company</a></li>
-                                                <li><a href="{{route('tyremodel.index')}}">Tyre Type</a></li>
-                                                {{-- <li><a href="{{route('tyretype.index')}}">Tyre Type</a></li> --}}
-                                                <li><a href="{{route('tyrevendor.index')}}">Supplier/Vendor</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class='dropdown-submenu'><a href="#">Transactions</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="{{route('tyre_material_request.index')}}">Material Request</a></li>
-                                                <li><a href="{{route('tyre_purchase.index')}}">Purchase Order</a></li>
-                                                <li ><a href="{{route('tyre_grn.index')}}" >Goods Receipt Note(GRN)</a></li>
-                                                <li><a href="{{route('tyre_remolding.index')}}">Tyre Remolding Issue</a></li>
-                                                <li><a href="{{route('tyre_remolding_return.index')}}">Tyre Remold Return</a></li>
-                                                <li><a href="{{route('tyre_stock.index')}}">Tyre Stock</a></li>
-                                                <li><a href="ftyreissuetovehicle.aspx">Tyre Issue To Vehicle</a></li>
-                                                <li><a href="ftyreexpenseentry.aspx">Tyre Expense</a></li>
-                                                <li><a href="ftyrepaymententry.aspx">Tyre Vendor Payment</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="TyreReport.aspx"><span>Reports</span></a> </li>
-                                    </ul>
-                                </li>
+                              
+                                
                              <!--   <li class="<?php if( (Request::segment(1) == 'petrolpump') || (Request::segment(1) == 'fuelentry') || (Request::segment(1) == 'fuelbill')){ echo 'active' ;} ?> " id="L6"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Fuel</span>
                                     <span class=""></span></a>
                                     <ul class="dropdown-menu">

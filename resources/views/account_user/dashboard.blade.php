@@ -1,11 +1,10 @@
 @extends('layouts.ACLadmin')
 @section('content')
-
 <main class="app-content">
 	<div class="app-title">
 		<div> 
 		  <h1><i class="fa fa-dashboard"></i> Dashboard</h1>
-      <button id="get">Get</button>
+      {{-- <button id="get">Get</button> --}}
 		</div>
 	<ul class="app-breadcrumb breadcrumb">
 	    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
@@ -32,7 +31,7 @@
 	        <div class="info">
 	          <h4><b><i>Fleets</i></b></h4>
 	          <p><b>{{$fleet}}</b></p>
-	        </div>
+	        </div> 
 	        <a class="icon fa fa-plus fa-3x btn" href="{{route('fleet.index')}}"></a>
 	      </div>
 	    </div>
@@ -67,57 +66,36 @@
 	      <div class="widget-small info coloured-icon"><i class="icon fa fa-inr fa-3x"></i>
 	        <div class="info">
 	          <h4><b><i>Expences</i></b></h4>
-	          <p><b>20000</b></p>
+	          <p><b>{{$expenses}}</b></p>
 	        </div>
 	          <a class="icon fa fa-eye fa-3x btn" href="{{route('fleet.index')}}"></a>
 	      </div>
 	    </div>
 	</div>
-<div class="row">
-  <div class="col-md-6">
-  <form action="{{url('/get_chart')}}" method="POST">
-      @csrf
-    <div class="row">
-      <div class="col-md-10">
-        <input id="product_year" class="form-control datepicker"  name="product_year" value="" type="text" placeholder="Search For Product.." style="width: 460px;">
-      </div>
-      <div class="col-md-2">
-        <button type="submit" class="btn btn-default fa fa-search" style="width: 62px;"></button>
-      </div>
-    </div>
-  </form>
-  </div>
-  <div class="col-md-6">
-  <form action="{{url('/get_chart')}}" method="POST">
-      @csrf
-    <div class="row">
-      <div class="col-md-10">
-        <input id="trip_year" class="form-control datepicker"  name="trip_year" value="" type="text" placeholder="Search For Trip.." style="width: 460px;">
-      </div>
-      <div class="col-md-2">
-        <button type="submit" class="btn btn-default fa fa-search" style="width: 62px;"></button>
-      </div>
-    </div>
-  </form>
-  </div>
-</div>
   <div class="row">
-    <div class="col-md-6">
-      {!! $chart->html() !!}
+    <form action="{{url('/get_chart')}}" method="POST">
+      @csrf
+      <div class="col-md-10">
+        <input id="trip_year" class="form-control datepicker"  name="trip_year" value="" type="text" placeholder="Search For Trip.." style="width: 1000px;">
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-default fa fa-search pull-right" style="width: 62px;"></button>
+      </div>
+    </form>
+  </div>  
+  <div class="row">
+    <div class="col-md-12">
+      {!! $chart2->html() !!}
+      {{-- {!! $chart->html() !!} --}}
     </div>
-    <div class="col-md-6">
+    <div class="col-md-12">
       {!! $chart1->html() !!}
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-6 mt-4">
-      {!! $chart2->html() !!}
-    </div>
-  </div>
   {!! Charts::scripts() !!}
-  {!! $chart->script() !!}
-  {!! $chart1->script() !!}
   {!! $chart2->script() !!}
+  {{-- {!! $chart->script() !!} --}}
+  {!! $chart1->script() !!}
 </main>
 
 

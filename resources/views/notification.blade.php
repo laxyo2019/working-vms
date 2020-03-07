@@ -8,6 +8,8 @@ if(count(Auth::user()->unreadNotifications) !=0){ ?>
 ?>
   <ul class="app-notification dropdown-menu dropdown-menu-right" style="position: absolute; will-change: transform; top: 0px; left: 0px; width:315px;transform: translate3d(-221px, 50px, 0px);">
     <li class="app-notification__title">You have <b>{{count(Auth::user()->unreadNotifications)}}</b> new notifications.</li>
+    <li class="app-notification__footer"><a href="#" class="btn btn-primary">See all notifications.</a></li>
+
     <div class="app-notification__content" style="height: 300px; overflow-y: scroll;">
 
       @foreach(Auth::user()->unreadNotifications as $notification)
@@ -21,6 +23,5 @@ if(count(Auth::user()->unreadNotifications) !=0){ ?>
         @endforeach
       </div>
     </div>
-    <li class="app-notification__footer"><a href="#">See all notifications.</a></li>
   </ul>
 </li>

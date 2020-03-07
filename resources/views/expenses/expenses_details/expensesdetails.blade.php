@@ -1,68 +1,63 @@
 @extends('layouts.ACLadmin')
-@section('content')
+@section('title','Welcom: To Admin Panel')
+@section('meta')
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+@endsection
+@section('content') 
+
 <main class="app-content">
-	<div class="app-title">
-		<div>
-		  <h1><i class="fa fa-dashboard"></i> Expenses Detailes</h1>
+	  <div class="app-title">
+	    <div>
+
+	      <h1><i class="fa fa-dashboard"></i>Expenses Details</h1>
+	    </div>
+	    <ul class="app-breadcrumb breadcrumb">
+	      <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+	      <li class="breadcrumb-item"><a href="#">RC</a></li>
+
+	    </ul>
+	  </div>
+	  @if(session('success'))
+         <div class="alert alert-danger">
+            {{session('success')}}
+        </div>
+      @endif
+	<div class="row" id="account_user">
+		<div class="col-md-12 m-auto">
+			<div class="card">
+				
+				<div class="card-body " >
+					<div class="row">						
+			
+						<div class="col-sm-12 col-md-12 col-xl-12  table-responsive " id="mytable3">
+							<table class="table table-stripped table-bordered" id="account_table" style="width: 100%">
+  							<thead>
+                  <tr >
+                    <th style="width: 100px;">SR. NO</th>
+                    <th style="width: 320px;">VEHICLE NUMBER</th>
+                    <th style="width: 320px;">EXPENSE AMOUNT</th>
+                    <th style="width: 61px;">VIEW</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <?php $count = 0; ?>
+               
+                </tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-	<ul class="app-breadcrumb breadcrumb">
-	    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-	    <li class="breadcrumb-item"><a href="#">Expenses Detailes</a></li>
-	</ul> 
-	</div>
-	<div class="row">
-		<div class="col-md-3"></div>
-		<div class="col-md-3">
-			<label>YEAR/MONTHS WISE EXPENSES</label>
-			<input  name="date" class="form-control" id="date">
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-3">
-			<table>
-				<thead>
-					<tr>
-						<th>Vehicle NO</th>
-						<th>Total Expenses</th>
-					</tr>
-				</thead>
-				<tbody>
-				@foreach($users as $data)
-					
-						@foreach($data->vechicles as $data1)
-					<tr>
-						<td>{{$data1->vch_no ? $data1->vch_no : ''}}</td>
-						<td>{{$data->puc}}</td>
-					</tr>
-					@endforeach
-					{{-- <td>{{$data}}</td> --}}
-				@endforeach
-				</tbody>
-			</table>
-		</div>
-		
 	</div>
 </main>
-<script type="text/javascript">
-  $(document).ready(function(){
-       $('#date').datepicker({
-            format: "yyyy-MM",
-            weekStart: 1,
-            viewMode: "months",
-            minViewMode: "months"
-        });
-  });
-  $('#date').on('change',function(){
-  	var date = $('#date').val();
-  	$.ajax({
-  		url : '/expenses_details.show',
-  		type : 'POST',
-        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-  		data : {'date':date},
-  		success:function(data){
-  			console.log(data);
-  		}
-  	});
-  });
-  </script>
+<script>
+	$(document).ready(function(){		
+		$('#account_table').DataTable();		
+	})	
+	
+</script>
+
 @endsection

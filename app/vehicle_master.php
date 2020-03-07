@@ -34,4 +34,7 @@ class vehicle_master extends Model
     public function roadtax(){
     	return $this->belongsTo('App\Models\RoadtaxDetails','id','vch_id');
     }
+    public function type(){
+        return $this->belongsTo('App\Models\VehicleType','vch_type');
+    }
 }

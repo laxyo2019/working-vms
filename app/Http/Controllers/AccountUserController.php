@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Finance\Vehicle_finance_ins;
+use App\Models\Expenses\VehicleExpenses;
 use App\Models\Finance\Vehicle_finance;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
@@ -79,10 +80,18 @@ class AccountUserController extends Controller
                             ->responsive(true);
 
 // Donut Chart Start
+      $expenses   = VehicleExpenses::whereIn('created_by',$d_Id)->whereYear('date',date('Y'))->sum('amount');    
+
+      $party_fleets   = Fleet::where('fleet_owner',$owner)->select('fleet_code')->get();
+      $party_expenses = array();
+      foreach ($party_fleets as $value) {
+       
+        $party_expenses[$value->fleet_code] = VehicleExpenses::where('fleet_code',$value->fleet_code)->whereYear('date',date('Y'))->sum('amount'); 
+      };
       $chart2 =  Charts::create('donut', 'morris')
                             ->title('Expenses/Incomes :'." ".date('Y'))
                             ->labels(['Expences','Incomes'])
-                            ->values([250000,450000])
+                            ->values([$expenses,450000])
                             ->elementLabel('Total Expenses And Incomes')
                             ->dimensions(1000,500)
                             ->colors(['#ff0000','#00ff00'])
@@ -117,7 +126,7 @@ class AccountUserController extends Controller
             $i = $i + count($fleet->vehicles);
         }
         $fleet = Fleet::where('fleet_owner','=',$owner)->count();
-        return view('account_user.dashboard',compact('user','fleet','i','driver_count','no','running','standby','repair','unloaded','running_vch','standby_vch','repair_vch','unloaded_vch','chart','chart1','chart2'));
+        return view('account_user.dashboard',compact('user','fleet','i','driver_count','no','running','standby','repair','unloaded','running_vch','standby_vch','repair_vch','unloaded_vch','chart','chart1','chart2','expenses','party_expenses')); 
     }
     public function account_user()
     {

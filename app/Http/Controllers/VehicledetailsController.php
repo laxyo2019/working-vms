@@ -9,6 +9,7 @@ use App\Exports\vehicleDetailsExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\InsuranceType;
 use Illuminate\Http\Request;
+use App\Models\VehicleType;
 use App\vehicle_master;
 use App\vch_model;
 use App\vch_comp;
@@ -38,12 +39,12 @@ class VehicledetailsController extends Controller
     public function create()
     {
        $fleet_code = session('fleet_code');
-
        $model      = DB::table('vch_model')->where('fleet_code',$fleet_code)->get();
        $city       = DB::table('master_cities')->where('fleet_code',$fleet_code)->get();
        $company    = vch_comp::where('fleet_code',$fleet_code)->get();
+       $types      = VehicleType::where('fleet_code',$fleet_code)->get();
 
-       return view('vehicle_detail.create',compact('company','model','city'));
+       return view('vehicle_detail.create',compact('company','model','city','types'));
     }
 
     
@@ -69,7 +70,7 @@ class VehicledetailsController extends Controller
     { 
       
         $fleet_code     = session('fleet_code');
-        $vehicledetails =          vehicle_master::with('company','model','puc.agent','rc.agent','fitness.agent','insurance.agent','insurance.insurance_company','roadtax.agent','permit.agent')->find($id);
+        $vehicledetails = vehicle_master::with('company','model','puc.agent','rc.agent','fitness.agent','insurance.agent','insurance.insurance_company','roadtax.agent','permit.agent','type')->find($id);
         $res            = $vehicledetails->insurance->ins_comp;
         $ins_type       = InsuranceType::where('fleet_code',$fleet_code)->where('ins_id',$res)->first();
         
@@ -84,8 +85,9 @@ class VehicledetailsController extends Controller
        $edata      = DB::table('vch_mast')->where('id',$id)->first();
        $model_vch  = vch_model::find($edata->vch_model);
        $city       = DB::table('master_cities')->where('fleet_code',$fleet_code)->get();
-             
-       return view('vehicle_detail.edit',compact('company','model','edata','city','model_vch'));
+       $types      = VehicleType::where('fleet_code',$fleet_code)->get();
+            
+       return view('vehicle_detail.edit',compact('company','model','edata','city','model_vch','types'));
     }
  
     public function update(Request $request, $id)
@@ -148,8 +150,10 @@ class VehicledetailsController extends Controller
     {
         $vdata = $request->validate([ 'vch_no'                    => 'required',
                                       'vch_comp'                  => 'required',
+                                      'vch_type'                  => 'required',
                                       'vch_model'                 => 'required',
                                       'vch_km_reading'            => 'nullable',
+                                      'vch_imei'                  => 'nullable',
                                       'owner_name'                => 'nullable',
                                       'vch_class'                 => 'nullable',
                                       'owner_addr'                => 'nullable',

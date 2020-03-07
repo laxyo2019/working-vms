@@ -53,13 +53,13 @@
 					                        <div class="col-md-4 col-xl-4 mt-2 vch">
 				                               <span style="color: #FF0000;font-size:15px;">*</span><label for="Vehicle No.">Vehicle No.</label>	 
 
-				                               <select id="vch_id" name="vch_id" class="selectpicker form-control">
+				                               <select id="vch_id" name="vch_no" class="selectpicker form-control">
 			                                  <option value="0">Select Vehicles..</option>
 			                                  @foreach($vehicles as $vehicle)
 			                                    <option value="{{$vehicle->id}}">{{$vehicle->vch_no}}</option>
 			                                  @endforeach   
 			                                    </select> 
-				                                @error('vehicle_id')
+				                                @error('vch_no')
 						                            <span class="invalid-feedback d-block pull-right" role="alert">
 						                               <strong>{{ 'Please Select vehicle number' }}</strong>
 						                            </span>
@@ -68,20 +68,56 @@
 					                        <div class="col-md-4 col-xl-4 mt-2 trip_vch" style="display: none">
 				                               <span style="color: #FF0000;font-size:15px;">*</span><label for="Vehicle No.">Vehicle No.</label>	 
 
-				                               <select id="vch_id" name="vch_id" class="selectpicker form-control">
+				                               <select name="vch_no1" class="selectpicker form-control">
 			                                  <option value="0">Select Vehicles..</option>
 			                                  @foreach($trips as $trip)
 			                                    <option value="{{$trip->vch_id ? $trip->vch_id : '0'}}">{{$trip->vehicle ? $trip->vehicle->vch_no : 'NO TRIP RECORD'}}</option>
 			                                  @endforeach   
 			                                    </select> 
-				                                @error('vehicle_id')
+				                                @error('vch_no1')
 						                            <span class="invalid-feedback d-block pull-right" role="alert">
 						                               <strong>{{ 'Please Select vehicle number' }}</strong>
 						                            </span>
 						                         @enderror  
 					                        </div>        
 							            </div>
-
+							            <div class="row mt-2 exp_list" style="display: none">
+							            	<div class="col-md-4">
+							            		 <label for="exp_name">Expense Name</label>
+				                                
+				                                <input id="exp_name" class="form-control" name="exp_name[]" value="{{old('exp_name')}}" > 
+				                                @error('exp_name')
+						                            <span class="invalid-feedback d-block pull-right" role="alert">
+						                               <strong>{{ 'Please enter Expense Name' }}</strong>
+						                            </span>
+						                         @enderror  
+							            	</div>
+							            	<div class="col-md-3">
+							            		 <label for="exp_amt">Expense Amount</label>
+				                                
+				                                <input id="exp_amt" class="form-control" name="exp_amt[]" value="{{old('exp_amt')}}" > 
+				                                @error('exp_amt')
+						                            <span class="invalid-feedback d-block pull-right" role="alert">
+						                               <strong>{{ 'Please enter Expense Amount' }}</strong>
+						                            </span>
+						                         @enderror  
+							            	</div>
+							            	<div class="col-md-4">
+							            		 <label for="exp_des">Expense Description</label>
+				                                
+				                                <input id="exp_des" class="form-control" name="exp_des[]" value="{{old('exp_des')}}" > 
+				                                @error('exp_des')
+						                            <span class="invalid-feedback d-block pull-right" role="alert">
+						                               <strong>{{ 'Please enter Expense Description' }}</strong>
+						                            </span>
+						                         @enderror  
+							            	</div>
+							            	<div class="col-md-1 mt-5">
+							            		<button type="button" class="btn btn-success fa fa-plus " id="add_exp"></button>
+							            	</div>
+							            </div>
+							             <div id="field">
+						            	</div>
 							            <div class="row km" style="display: none">
 						                    <div class="col-md-4 col-xl-4 mt-2">
 				                                <label for="current_km">Current Km.</label>
@@ -96,12 +132,12 @@
 						                	
 								            <div class="col-md-4 col-xl-4 mt-2">
 				                                <label>Date</label>  
-						                       <input id="expanses_date"  class="form-control datepicker" readonly="true" name="expanses_date" value="{{old('expanses_date')}}">
+						                       <input id="exp_date"  class="form-control datepicker" readonly="true" name="fuel_fill_date" value="{{old('fuel_fill_date')}}">
 					                        </div>
 						                    <div class="col-md-4 col-xl-4 mt-2">
 				                                <label for="fuel_rate">Fuel Rate</label>
 				                                
-				                                <input id="fuel_rate" class="form-control" name="fuel_rate" value="{{old('fuel_rate')}}" type="number"> 
+				                                <input id="fuel_rate" class="form-control" name="fuel_rate" value="{{old('fuel_rate')}}"> 
 				                                @error('fuel_rate')
 						                            <span class="invalid-feedback d-block pull-right" role="alert">
 						                               <strong>{{ 'Please enter Fuel Rate' }}</strong>
@@ -382,8 +418,8 @@
 					                        <div class="col-md-12 col-xl-12 mt-2">
 				                                <label for="Vehicle No.">Address</label>
 				                                
-				                                <textarea id="party_add" class="form-control" name="party_add" value="{{old('party_add')}}" ></textarea> 
-				                                @error('party_add')
+				                                <textarea id="add" class="form-control" name="add" value="{{old('add')}}" ></textarea> 
+				                                @error('add')
 						                            <span class="invalid-feedback d-block pull-right" role="alert">
 						                               <strong>{{ 'Please enter address' }}</strong>
 						                            </span>
@@ -433,6 +469,9 @@
     </div>
   </div>
 </div>
+
+<!-- Modal Start -->
+
 <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -501,6 +540,7 @@
     		$('.filling').show();
     		$('.vch').show();
     		$('.trip_vch').hide();
+    		$('.exp_list').hide();
     		$('.other_exp').hide();
     	}else if(type == 'TRIP'){
     		$('.km').hide();
@@ -511,6 +551,7 @@
     		$('.filling').hide();
     		$('.vch').hide();
     		$('.trip_vch').show();
+    		$('.exp_list').show();
     		$('.other_exp').hide();
     	}else{
     		$('.km').hide();
@@ -521,6 +562,7 @@
     		$('.filling').hide();
     		$('.vch').show();
     		$('.trip_vch').hide();
+    		$('.exp_list').hide();
     		$('.other_exp').show();
     	}
     	});	
@@ -619,5 +661,17 @@ $(document).on("keyup",'#fuel_rate , #fuel_amt', function() {
         	$('#fuel_qty').val(res.toFixed(2));
         }
 });
+ var x =1;
+	$('#add_exp').on('click',function(){
+			                
+		$('#field').append('<div class="multi_rows row mt-2" id="'+x+'"><div class="col-md-4"><label>Expenses Name</label><input class="form-control" name="exp_name[]"></div><div class="col-md-3"><label>Expense Amount</label><input class="form-control" name="exp_amt[]"></div><div class="col-md-4"><label>Expense Description</label><input class="form-control" name="exp_des[]"></div><div class="col-md-1 mt-5"><button type="button" class="btn btn-danger fa fa-minus remove_button" data-id="'+x+'"></button></div></div>');
+	    x++;
+	});
+
+
+	$(document).on('click','.remove_button',function(){
+		var id = $(this).attr('data-id');
+	    $('#'+id).remove();   
+	});
 </script>
 @endsection

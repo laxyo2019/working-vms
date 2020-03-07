@@ -38,6 +38,10 @@
 	      	  	<div class="col-md-5">
 	      	  		<table class="table">
 	      	  			<tr>
+	      	  				<th>Vehicle Type:</th>
+	      	  				<td>{{$vehicledetails->type ? $vehicledetails->type->vch_type : 'NO RECORD'}}</td>
+	      	  			</tr>
+	      	  			<tr>
 	      	  				<th>Vehicle Class:</th>
 	      	  				<td>{{$vehicledetails->vch_class}}</td>
 	      	  			</tr>

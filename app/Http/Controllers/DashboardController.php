@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Expenses\VehicleExpenses;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Expenses\Accident;
 use App\Models\InsuranceDetails;
 use App\Models\RoadtaxDetails;
 use App\Models\FitnessDetails;
@@ -33,7 +35,6 @@ class DashboardController extends Controller
        $count_fleet = count($hasfleet);
        $fleet_code  = session('fleet_code');
        $PUCDetails  = PUCDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
-
         if($fleet_code){ 
            $vehicle         = get_vehicle()->get(); 
            $vch_count       = collect($vehicle)->count();  
@@ -42,23 +43,28 @@ class DashboardController extends Controller
            $driver_count    = collect($driver)->count();
 
            $insurance       = InsuranceDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
-           $inscount        =collect($insurance)->count();
+           $inscount        = collect($insurance)->count();
 
            
            $PUCDetails      = PUCDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
-           $puccount        =collect($PUCDetails)->count();
+           $puccount        = collect($PUCDetails)->count();
 
            $fitnessetails   = FitnessDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
-           $fitnesscount    =collect($fitnessetails)->count();
+           $fitnesscount    = collect($fitnessetails)->count();
 
            $roadtax         = RoadtaxDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
-           $roadcount       =collect($roadtax)->count();
+           $roadcount       = collect($roadtax)->count();
 
            $permit          = StatePermit::with('vehicle')->where('fleet_code',$fleet_code)->get();
-           $permitcount     =collect($permit)->count();
+           $permitcount     = collect($permit)->count();
 
            $rcdetails       = RcDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
            $rccount         = collect($rcdetails)->count();
+
+           $Accident        = Accident::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $acicount        = collect($Accident)->count();
+
+           $expenses        = VehicleExpenses::where('fleet_code',$fleet_code)->whereYear('date',date('Y'))->sum('amount');
        }
        else{
             $vehicle       = array();
@@ -77,9 +83,12 @@ class DashboardController extends Controller
             $permitcount   = 0;
             $rcdetails     = array();          
             $rccount       = 0;
+            $Accident      = array();          
+            $acicount      = 0;
+            $expenses      = 0;
         }
         
-        if($count_fleet != 0){
+        if($count_fleet != 0){ 
 
             if($count_fleet <= 1){
                 $fleet_id = Fleet::find($hasfleet[0]->fleet_id);
@@ -96,12 +105,12 @@ class DashboardController extends Controller
                 $data['fleet']    = 'no';
                 $data['fleet_id'] = array(); 
 
-                return view('dashboard1',compact('data','insurance','PUCDetails','fitnessetails','roadtax','permit','rcdetails','inscount','puccount','fitnesscount','roadcount','permitcount','rccount','vehicle','vch_count','driver','driver_count'));
+                return view('dashboard1',compact('data','insurance','PUCDetails','fitnessetails','roadtax','permit','rcdetails','inscount','puccount','fitnesscount','roadcount','permitcount','rccount','vehicle','vch_count','driver','driver_count','expenses','Accident','acicount'));
             }
             else{
                 $data['fleet_id'] = FleetUser::where('user_id',$id)->get();
                 $data['fleet']    = 'yes';
-                return view('dashboard1',compact('data','insurance','PUCDetails','fitnessetails','roadtax','permit','rcdetails','inscount','puccount','fitnesscount','roadcount','permitcount','rccount','vehicle','vch_count','driver','driver_count'));
+                return view('dashboard1',compact('data','insurance','PUCDetails','fitnessetails','roadtax','permit','rcdetails','inscount','puccount','fitnesscount','roadcount','permitcount','rccount','vehicle','vch_count','driver','driver_count','expenses','Accident','acicount'));
             }
         }
         else{

@@ -21,7 +21,25 @@
               <div id="add-city-form">
                 <form class="well well1 form-horizontal" method="post" action="{{route('vehicledetails.store')}}"  enctype="multipart/form-data">
                   {{csrf_field()}}
-                    <div class="col-md-3 col-xl-3 mt-2">
+                    <div class="col-md-4 col-xl-4 mt-2">
+                       <span style="color: #FF0000;font-size:15px;">*</span> <label for="vch_type">Vehicle Type</label><button type="button" class="pull-right fa fa-plus btn-success" data-toggle="modal" data-target="#exampleModal" ></button>
+                       <div class="inputGroupContainer">
+                            <div class="input-group">
+                              <select id="vch_type" name="vch_type" class="selectpicker form-control">
+                                 <option value="0">Select..</option>
+                                @foreach($types as $type)
+                                    <option value="{{$type->id}}">{{$type->vch_type}}</option>
+                                @endforeach    
+                              </select>
+                            </div>
+                        </div> 
+                        @error('vch_type')
+                          <span class="text-danger pull-right" role="alert">
+                              <strong style="font-size: smaller;">{{ $message }}</strong>
+                          </span>
+                        @enderror
+                    </div>
+                    <div class="col-md-4 col-xl-4 mt-2">
                        <span style="color: #FF0000;font-size:15px;">*</span> <label for="vch_class">Vehicle Class</label>
                         @error('vch_class')
                           <span class="text-danger pull-right" role="alert">
@@ -31,7 +49,7 @@
                        <input id="vch_class" name="vch_class" class="form-control" value="" >
 
                     </div>
-                    <div class="col-md-3 col-xl-3 mt-2">
+                    <div class="col-md-4 col-xl-4 mt-2">
                        <span style="color: #FF0000;font-size:15px;">*</span> <label for="Vehicle No.">Vehicle No.</label>
                        <input id="vch_no" name="vch_no" class="form-control" value="" >
                         @error('vch_no')
@@ -41,7 +59,7 @@
                         @enderror
                     </div>
                       
-                    <div class="col-md-3 col-xl-3 mt-2">
+                    <div class="col-md-4 col-xl-4 mt-2">
                         <span style="color: #FF0000;font-size:15px;">*</span> <label for="vehicle company">Vehicle Company</label>
                          <div class="inputGroupContainer">
                            <div class="input-group">
@@ -59,7 +77,7 @@
                           </span>
                         @enderror
                     </div>
-                    <div class="col-md-3 col-xl-3 mt-2">
+                    <div class="col-md-4 col-xl-4 mt-2">
                         <span style="color: #FF0000;font-size:15px;">*</span> <label for="vehicle_model ">Vehicle Model </label>
                         <div class="inputGroupContainer">
                            <div class="input-group">                            
@@ -74,8 +92,18 @@
                               </span>
                           @enderror 
                     </div>
-                
-                    <div class="col-md-3 col-xl-3 mt-2">
+                    
+                    <div class="col-md-4 col-xl-4 mt-2">
+                        <span style="color: #FF0000;font-size:15px;">*</span> <label for="vehicle_model ">Vehicle IMEI No </label>
+                        <input id="vch_imei" type="text" name="vch_imei" class="form-control  " value="">
+                        @error('vch_imei')
+                              <span class="text-danger pull-right" role="alert">
+                                  <strong style="font-size: smaller;">{{ "Please enter vehicle IMEI No" }}</strong>
+                              </span>
+                          @enderror 
+                    </div>
+
+                    <div class="col-md-4 col-xl-4 mt-2">
                         <label for=" Vehicle Owner Name"> Vehicle Owner Name</label>
                         @error('owner_name')
                           <span class="text-danger pull-right" role="alert">
@@ -84,7 +112,7 @@
                         @enderror
                         <input id="email" type="text" name="owner_name" class="form-control  " value="">
                     </div>
-                    <div class="col-md-3 col-xl-3 mt-2">
+                    <div class="col-md-4 col-xl-4 mt-2">
                         <label for="Owner Address">Owner Address</label>
                         @error('owner_addr')
                           <span class="text-danger pull-right" role="alert">
@@ -94,7 +122,7 @@
                         <input id="email1" type="text" class="form-control  " name="owner_addr" value="">
                     </div>
 
-                    <div class="col-md-3 col-xl-3 mt-2">
+                    <div class="col-md-4 col-xl-4 mt-2">
                         <label for=" Owner PAN Card No">Owner PAN Card No</label>
                         @error('owner_pan')
                           <span class="text-danger pull-right" role="alert">
@@ -304,7 +332,34 @@
     </div>
   </div>
 </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Vehicle Type</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="{{url('/add_vch_type')}}" method="post">
+        <div class="modal-body">
+            @csrf
+          <div class="row">
+            <div class="col-md-12">
+              <input name="vch_type" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success">Add </button>
+        </div>
+      </form>
+    </div>
   </div>
+</div>
 
 <script type="text/javascript">
   $(document).ready( function () {

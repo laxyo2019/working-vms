@@ -16,8 +16,35 @@
              <form class="well well1 form-horizontal" method="post" action="{{route('vehicledetails.update',$edata->id)}}"  enctype="multipart/form-data">
               {{csrf_field()}}
               @method('PATCH')
-              
-                <div class="col-md-4 col-xl-4 mt-2">
+                <div class="col-md-3 col-xl-3 mt-2">
+                       <span style="color: #FF0000;font-size:15px;">*</span> <label for="vch_type">Vehicle Type</label>
+                       <div class="inputGroupContainer">
+                           <div class="input-group">
+                              <select id="vch_type" name="vch_type" class="selectpicker form-control">
+                                 <option value="0">Select..</option>
+                                @foreach($types as $type)
+                                    <option value="{{$type->id}}">{{$type->vch_type}}</option>
+                                @endforeach   
+                              </select>
+                            </div>
+                        </div> 
+                        @error('vch_type')
+                          <span class="text-danger pull-right" role="alert">
+                              <strong style="font-size: smaller;">{{ $message }}</strong>
+                          </span>
+                        @enderror
+                    </div>
+                <div class="col-md-3 col-xl-3 mt-2">
+                   <span style="color: #FF0000;font-size:15px;">*</span> <label for="vch_class">Vehicle Class</label>
+                    @error('vch_class')
+                      <span class="text-danger pull-right" role="alert">
+                          <strong style="font-size: smaller;">{{ $message }}</strong>
+                      </span>
+                    @enderror
+                   <input id="vch_class" name="vch_class" class="form-control" value="{{old('vch_class') ?? $edata->vch_class}}" >
+
+                </div>
+                <div class="col-md-3 col-xl-3 mt-2">
                    <span style="color: #FF0000;font-size:15px;">*</span> <label for="Vehicle No.">Vehicle No.</label>
                     @error('vch_no')
                       <span class="text-danger pull-right" role="alert">
@@ -28,7 +55,7 @@
 
                 </div>
                   
-                <div class="col-md-4 col-xl-4 mt-2">
+                <div class="col-md-3 col-xl-3 mt-2">
                     <span style="color: #FF0000;font-size:15px;">*</span> <label for="vehicle company">Vehicle Company</label>
                      @error('vch_comp')
                           <span class="text-danger pull-right" role="alert">
@@ -48,7 +75,7 @@
                         </div>
                     </div> 
                 </div>
-                <div class="col-md-4 col-xl-4 mt-2">
+                <div class="col-md-3 col-xl-3 mt-2">
                     <span style="color: #FF0000;font-size:15px;">*</span> <label for="vehicle_model ">Vehicle Model </label>
                     @error('vch_model')
                           <span class="text-danger pull-right" role="alert">
@@ -64,8 +91,16 @@
                             </div>
                         </div> 
                     </div>
-            
-                <div class="col-md-6 col-xl-6 mt-2">
+                <div class="col-md-3 col-xl-3 mt-2">
+                    <span style="color: #FF0000;font-size:15px;">*</span> <label for="vehicle_model ">Vehicle IMEI No </label>
+                    <input id="vch_imei" type="text" name="vch_imei" class="form-control  " value="{{ $edata->vch_imei ? $edata->vch_imei : 'NO IMEI RECORD'}}">
+                    @error('vch_imei')
+                          <span class="text-danger pull-right" role="alert">
+                              <strong style="font-size: smaller;">{{ "Please enter vehicle IMEI No" }}</strong>
+                          </span>
+                      @enderror 
+                </div>
+                <div class="col-md-3 col-xl-3 mt-2">
                     <span style="color: #FF0000;font-size:15px;">*</span> <label for=" Vehicle Owner Name"> Vehicle Owner Name</label>
                     @error('owner_name')
                           <span class="text-danger pull-right" role="alert">
@@ -75,7 +110,7 @@
                     <input id="email" type="text" name="owner_name" class="form-control  " value="{{ old('owner_name') ?? $edata->owner_name}}">
 
                 </div>
-                <div class="col-md-6 col-xl-6 mt-2">
+                <div class="col-md-3 col-xl-3 mt-2">
                     <span style="color: #FF0000;font-size:15px;">*</span> <label for="Owner Address">Owner Address</label>
                     @error('owner_addr')
                           <span class="text-danger pull-right" role="alert">
@@ -86,7 +121,7 @@
 
                 </div>
 
-                <div class="col-md-6 col-xl-6 mt-2">
+                <div class="col-md-3 col-xl-3 mt-2">
                     <span style="color: #FF0000;font-size:15px;">*</span> <label for=" Owner PAN Card No">Owner PAN Card No</label>
                     @error('owner_pan')
                           <span class="text-danger pull-right" role="alert">
@@ -342,7 +377,7 @@
                                 </div>
                             </div>
                           <div class="form-group">
-                            <div class="col-md-6" style="margin-top: 24px;">
+                            <div class="col-md-6" style="margin-top: 23px;">
                               <input style="margin-right: -8px;" type="submit" value="Submit" class="btn btn-primary active pull-right">
                             </div>
                           </div>

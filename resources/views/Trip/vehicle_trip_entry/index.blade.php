@@ -25,7 +25,7 @@
                        
           </div> --}}
        
-            <table id="myTable">
+            <table id="myTable" class="table-responsive">
               <thead>
                 <tr >
                   <th style="width: 62px;">SR. NO</th>
