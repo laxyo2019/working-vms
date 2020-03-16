@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Expenses\VehicleExpenses;
+use App\Models\Finance\Vehicle_finance;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Expenses\Accident;
+use App\Models\Trip\Vehicle_Trip;
 use App\Models\InsuranceDetails;
 use App\Models\RoadtaxDetails;
 use App\Models\FitnessDetails;
@@ -13,6 +15,7 @@ use App\Models\StatePermit;
 use App\Models\PUCDetails;
 use App\Models\RcDetails;
 use App\vehicle_master;
+use App\VehicleStatus;
 use App\FleetUser;
 use App\Fleet;
 use App\User;
@@ -46,8 +49,8 @@ class DashboardController extends Controller
            $inscount        = collect($insurance)->count();
 
            
-           $PUCDetails      = PUCDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
-           $puccount        = collect($PUCDetails)->count();
+           $pucDetails      = PUCDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $puccount        = collect($pucDetails)->count();
 
            $fitnessetails   = FitnessDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
            $fitnesscount    = collect($fitnessetails)->count();
@@ -61,10 +64,25 @@ class DashboardController extends Controller
            $rcdetails       = RcDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
            $rccount         = collect($rcdetails)->count();
 
-           $Accident        = Accident::with('vehicle')->where('fleet_code',$fleet_code)->get();
-           $acicount        = collect($Accident)->count();
+           $accident        = Accident::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $acicount        = collect($accident)->count();
 
            $expenses        = VehicleExpenses::where('fleet_code',$fleet_code)->whereYear('date',date('Y'))->sum('amount');
+
+          $vch_finance      = Vehicle_finance::where('created_by',$id)->where('fleet_code',$fleet_code)->with('owner','vch_no')->get();
+
+          $vch_trip         = Vehicle_Trip::where('created_by',$id)->whereYear('starting_date',date('Y'))->where('fleet_code',$fleet_code)->with('owner','vehicle','from_city','to_city')->get();
+          $trip_count       = collect($vch_trip)->count();
+
+          $vehicleStatus    = VehicleStatus::where('created_by',$id)->where('fleet_code',$fleet_code)->with('vehicle')->get();
+          $running_vch      = collect($vehicleStatus)->where('status','Running');
+          $running          = count($running_vch);
+          $standby_vch      = collect($vehicleStatus)->where('status','StandBy');
+          $standby          = count($standby_vch);
+          $repair_vch       = collect($vehicleStatus)->where('status','Repair/Maintenance');
+          $repair           = count($repair_vch);
+          $unloaded_vch     = collect($vehicleStatus)->where('status','ReadyForLoad');
+          $unloaded         = count($unloaded_vch);
        }
        else{
             $vehicle       = array();
@@ -73,7 +91,7 @@ class DashboardController extends Controller
             $driver_count  = 0;
             $insurance     = array();          
             $inscount      = 0;
-            $PUCDetails    = array();          
+            $pucDetails    = array(); 
             $puccount      = 0;
             $fitnessetails = array();          
             $fitnesscount  = 0;
@@ -83,15 +101,26 @@ class DashboardController extends Controller
             $permitcount   = 0;
             $rcdetails     = array();          
             $rccount       = 0;
-            $Accident      = array();          
+            $accident      = array();          
             $acicount      = 0;
             $expenses      = 0;
+            $vch_finance   = array();
+            $vch_trip      = array();
+            $trip_count    = 0;
+            $running_vch   = array();
+            $running       = 0;
+            $standby_vch   = array();
+            $standby       = 0;
+            $repair_vch    = array();
+            $repair        = 0;
+            $unloaded_vch  = array();
+            $unloaded      = 0;
         }
         
         if($count_fleet != 0){ 
 
             if($count_fleet <= 1){
-                $fleet_id = Fleet::find($hasfleet[0]->fleet_id);
+                $fleet_id   = Fleet::find($hasfleet[0]->fleet_id);
                 $fleer_code = $fleet_id->fleet_code;
                
                 Session::put('fleet_code', $fleer_code);
@@ -105,12 +134,12 @@ class DashboardController extends Controller
                 $data['fleet']    = 'no';
                 $data['fleet_id'] = array(); 
 
-                return view('dashboard1',compact('data','insurance','PUCDetails','fitnessetails','roadtax','permit','rcdetails','inscount','puccount','fitnesscount','roadcount','permitcount','rccount','vehicle','vch_count','driver','driver_count','expenses','Accident','acicount'));
+                return view('dashboard1',compact('data','insurance','pucDetails','fitnessetails','roadtax','permit','rcdetails','inscount','puccount','fitnesscount','roadcount','permitcount','rccount','vehicle','vch_count','driver','driver_count','expenses','accident','acicount','running_vch','running','standby_vch','standby','repair_vch','repair','unloaded_vch','unloaded','vch_finance','vch_trip','trip_count'));
             }
             else{
                 $data['fleet_id'] = FleetUser::where('user_id',$id)->get();
                 $data['fleet']    = 'yes';
-                return view('dashboard1',compact('data','insurance','PUCDetails','fitnessetails','roadtax','permit','rcdetails','inscount','puccount','fitnesscount','roadcount','permitcount','rccount','vehicle','vch_count','driver','driver_count','expenses','Accident','acicount'));
+                return view('dashboard1',compact('data','insurance','pucDetails','fitnessetails','roadtax','permit','rcdetails','inscount','puccount','fitnesscount','roadcount','permitcount','rccount','vehicle','vch_count','driver','driver_count','expenses','accident','acicount','running_vch','running','standby_vch','standby','repair_vch','repair','unloaded_vch','unloaded','vch_finance','vch_trip','trip_count'));
             }
         }
         else{

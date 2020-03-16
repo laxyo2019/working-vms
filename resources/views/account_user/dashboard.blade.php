@@ -324,37 +324,10 @@
 
   });
 $(document).ready( function () {
-  
-    // header("Access-Control-Allow-Origin: *");
-
     $('#running_table').DataTable();
     $('#standby_table').DataTable();
     $('#ready_table').DataTable();
     $('#repair_table').DataTable();
-
-    // $('#get').on('click',function(){
-    //   $.ajax({
-    //     type:'GET',
-    //     url:'http://s0.apnagps.com/track/vms/api/565464',
-    //     success:function(res){
-    //       $.ajax({
-    //         type:'POST',
-    //         url:'{{route('api_data')}}',
-    //         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    //         data:{data:res},
-    //         success:function(res){
-
-    //           console.log(res);
-    //         }
-    //       });
-    //     },
-    //     error: function(xhr, status, error){
-    //         alert("Error!" + xhr.status);
-    //     }
-    //   });
-    // });
-
-
 
 });
  document.getElementById("running").onclick = function () {

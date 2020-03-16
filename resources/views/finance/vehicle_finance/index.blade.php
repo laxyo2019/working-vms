@@ -28,7 +28,7 @@
                   <th style="width: 410px;">REMAINING AMOUNT</th>
                   <th style="width: 410px;">TOTAL INSTALMENT</th>
                   <th style="width: 410px;">PER INSTALMENT AMOUNT</th>
-                  <th style="width: 61px;text-align: center;">ACTION</th>
+                  <th style="width: 410px;text-align: center;">ACTION</th>
                 </tr>
               </thead>
               <tbody>
@@ -42,8 +42,9 @@
                   <td style="width: 320px;">{{$vehicle->balance ? $vehicle->balance : '' }}</td>
                   <td style="width: 320px;">{{$vehicle->installment_no ? $vehicle->installment_no : '' }}</td>
                   <td style="width: 320px;">{{$vehicle->per_installment_amount ? $vehicle->per_installment_amount : '' }}</td>
-                  <td style="width: 61px;">
+                  <td style="width: 410px;">
                     <a style="padding: 2px 5px;" href="{{route('vehiclefinance.edit',$vehicle->id)}}" runat="server" class="btn btn-success" rel="tooltip" title="" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                    <a style="padding: 2px 5px;" href="{{route('vehiclefinance.show',$vehicle->id)}}" runat="server" class="btn btn-success" rel="tooltip" title="" data-original-title="Edit"><i class="fa fa-eye"></i></a>
                     <a style="padding: 2px 7px;" onclick="javascript:return confirm('Do You Really Want To Delete This?');" href="{{route('vehiclefinance_destroy',$vehicle->id)}}" class="btn btn-inverse" rel="tooltip" title="" data-original-title="Delete"><i class="fa fa-times"></i></a>
                   </td>
                 </tr>

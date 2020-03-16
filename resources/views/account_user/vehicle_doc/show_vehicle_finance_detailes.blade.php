@@ -48,8 +48,8 @@
             </div>
           </div>
 					<div class="row mt-4">			
-						<div class="col-sm-12 col-md-12 col-xl-12  table-responsive " id="mytable3">
-							<table class="table table-stripped table-bordered" id="account_table" style="width: 100%">
+						<div class="col-sm-12 col-md-12 col-xl-12">
+							<table class="table table-responsive" id="account_table" style="width: 100%">
   								<thead>
                     <tr>
                       <th>VEHICLE NUMBER</th>

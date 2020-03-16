@@ -44,40 +44,6 @@ class AccountUserController extends Controller
         $u_fleet = User::where('id',$owner)->with('fleet_name.vehicles')->first();
         $d_Id =$this->get_owners_id();
         $i=0;
-        
-  // For Product Chats
-        $products = Product::select(DB::raw("(SUM(prize)) as sum"),DB::raw("MONTHNAME(created_at) as monthname"))
-                            ->whereYear('created_at',date('Y'))
-                            ->groupBy('monthname')
-                            ->orderBy('created_at', 'ASC')
-                            ->get();
-          $months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-          
-          $final_array    = array();
-          $product_months = array();
-          foreach ($products as $value) {
-            $product_months [] = $value->monthname;
-            $final_array[]     = $value->sum;
-          }   
-          $month_diff          = array_diff($months,$product_months);
-          $diff_product        = array();
-          foreach ($month_diff as $key => $value) {
-              $diff_product[] = [
-                'sum'       => '0',
-                'monthname' => $value,
-              ] ; 
-          } 
-        if(empty($product_months)){
-            $product_months = $months;
-        }
-
-       $chart =  Charts::create('bar', 'highcharts')
-                            ->title('PRODUCT')
-                            ->elementLabel('Total Product In '." ".date('Y'))
-                            ->labels($product_months)
-                            ->values($final_array)
-                            ->dimensions(1000,500)
-                            ->responsive(true);
 
 // Donut Chart Start
       $expenses   = VehicleExpenses::whereIn('created_by',$d_Id)->whereYear('date',date('Y'))->sum('amount');    
@@ -126,7 +92,7 @@ class AccountUserController extends Controller
             $i = $i + count($fleet->vehicles);
         }
         $fleet = Fleet::where('fleet_owner','=',$owner)->count();
-        return view('account_user.dashboard',compact('user','fleet','i','driver_count','no','running','standby','repair','unloaded','running_vch','standby_vch','repair_vch','unloaded_vch','chart','chart1','chart2','expenses','party_expenses')); 
+        return view('account_user.dashboard',compact('user','fleet','i','driver_count','no','running','standby','repair','unloaded','running_vch','standby_vch','repair_vch','unloaded_vch','chart1','chart2','expenses','party_expenses')); 
     }
     public function account_user()
     {

@@ -121,7 +121,10 @@ class VehiclefinanceController extends Controller
      */
     public function show($id)
     {
-        dd("this is show controller");
+        $vch_finance     = Vehicle_finance::find($id)->with('vch_no')->first();
+        $vch_finance_ins = Vehicle_finance_ins::where('request_id',$id)->get();
+        return view('finance.vehicle_finance.show',compact('vch_finance','vch_finance_ins'));
+
     }
 
     /**
