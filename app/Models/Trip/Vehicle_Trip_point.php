@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Vehicle_Trip_point extends Model
 {
     protected $table = 'vehicle_trip_point';
-    protected $guarded = [];
+    protected $guarded = [];  
 
     public function from_city(){
         return $this->belongsTo('App\City','trip_from_city');

@@ -58,7 +58,8 @@ class TestNotification extends Notification
             'id' => '',
             'title' => $this->data['title'],
             'message' => $this->data['message'],
-            'date'      => $this->data['date']
+            'date'      => $this->data['date'],
+            'url'      => $this->data['url'],
         ];
     }
 }

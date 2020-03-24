@@ -22,7 +22,7 @@
 		                        	<div class="row">
 						                <div class="col-md-6 col-xl-6 mt-2">
 						                  <span style="color: #FF0000;font-size:15px;">*</span>  <label class="">Vehicle NO</label>		                    
-					                       <select id='vch_id' name="vch_id" class="selectpicker form-control">
+					                        <select id='vch_id' name="vch_id" class="selectpicker form-control">
 					                            <option value="0">Select..</option>
 					                            @foreach($vehicles as $vehicle)
 					                            	<option value="{{$vehicle->vehicle->id}}" style="font-family: cursive;" {{$vehicle->vehicle->id == $data->vch_id ? 'selected' : ''}}> 
@@ -55,7 +55,7 @@
 					                         @enderror
 				                                 
 				                        </div>
-				                       </div>
+				                       </div> 
 				                       <div class="row">
 		                        		<div class="col-md-6 col-xl-6 mt-2">
 						                  <span style="color: #FF0000;font-size:15px;">*</span>  <label class="trip_from_state">Trip From(State)</label>		                    
@@ -72,7 +72,7 @@
 					                          @enderror
 						                </div>
 						                <div class="col-md-6 col-xl-6 mt-2">
-						                  <span style="color: #FF0000;font-size:15px;">*</span>  <label class="trip_from_city">Trip From(City)</label>		                    
+						                  <span style="color: #FF0000;font-size:15px;">*</span>  <label class="trip_from_city">Trip From(City)</label><span ><button type="button" class="btn btn-success fa fa-plus pull-right" id="add_destination" style="margin-left: 310px;"></button></span>			                    
 					                       <select id='trip_from_city' name="trip_from_city" class="selectpicker form-control">
 					                            <option value="0" selected=" true " >Select..</option>
 					                            @foreach($city as $city1)
@@ -85,6 +85,9 @@
 					                              </span>
 					                          @enderror
 						                </div>
+						            </div>
+						            <div id="field">
+						            	
 						            </div>
 						            <div class="row">
 						                <div class="col-md-6 col-xl-6 mt-2">
@@ -256,6 +259,40 @@
 			   } ; 
 		});
 	});
+    	@php
+    		$i =0; 
+    		while ($i < count($trips)) {
+
+    	@endphp
+    			$('#field').append('<div class="multi_rows row" id="'+{{$i}}+'"><div class="col-md-6 col-xl-6 mt-2"><label>Trip To(State)</label><select name="trip_to_state_list[]" class="selectpicker form-control add_state"><option value="">Select State</option><?php foreach($state as $st){?><option value="{{$st->id}}" {{$trips[$i]['trip_to_state_list'] == $st->id ? 'selected' : '' }}>{{$st->state_name}}</option> <?php } ?></select></div><div class="col-md-6 col-xl-6 mt-2"><label>Trip To(City)</label><span><a class="remove_button btn btn-danger fa fa-minus pull-right" style="margin-left:382px;" data-id="'+{{$i}}+'"></a></span><select name="trip_to_city_list[]" class="selectpicker form-control " id="add_city'+{{$i}}+'"><option value="0">Select..</option></select></div></div>');
+    			var state_id4 =  "{{ $trips[$i]['trip_to_state_list'] }}";
+    			var city_id4 = "add_city{{$i}}";
+    			var select_city = "{{ $trips[$i]['trip_to_city_list'] }}";
+
+
+    			city_fetch(state_id4,city_id4,select_city);
+    	@php
+    		$i++;
+    	}
+
+    	@endphp
+});
+		 var x ={{$i}};
+	$('#add_destination').on('click',function(){
+			                
+		$('#field').append('<div class="multi_rows row" id="'+x+'"><div class="col-md-6 col-xl-6 mt-2"><label>Trip To(State)</label><select name="trip_to_state_list[]" class="selectpicker form-control add_state"><option value="">Select State</option><?php foreach($state as $st){?><option value="{{$st->id}}">{{$st->state_name}}</option> <?php } ?></select></div><div class="col-md-6 col-xl-6 mt-2"><label>Trip To(City)</label><span><a class="remove_button btn btn-danger fa fa-minus pull-right" style="margin-left:382px;" data-id="'+x+'"></a></span><select name="trip_to_city_list[]" class="selectpicker form-control " id="add_city'+x+'"><option value="0">Select..</option></select></div></div>');
+	    x++;
+	});
+$(document).on("click",".remove_button",function(){ 
+	 	var id = $(this).attr('data-id');
+	        $('#'+id).remove();   
+    });
+$(document).on('change','.add_state',function(){
+	var state_id = $(this).val();
+	var parent = $(this).parent().parent().attr('id');
+	var city_id = "add_city"+parent;
+	
+	city_fetch(state_id,city_id)
 });
     $('#trip_from_state').on('change',function(){
         var state_id = $('#trip_from_state').val();
@@ -280,13 +317,15 @@
                 }
             })
     })
-    function city_fetch(state_id,city_id){
+    function city_fetch(state_id,city_id,select_city = null){
     	var city = "#"+city_id;
+    	
+    	
     	$.ajax({
                 url: "/drivercity",
                 type: 'POST',
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                data: {'id':state_id},
+                data: {'id':state_id,select_city:select_city},
                 success: function (data) {
                    $(city).html(data);
                 }

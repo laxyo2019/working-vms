@@ -47,7 +47,7 @@
 					                            <option value="0" selected=" true " >Select..</option>
 					                            @foreach($drivers as $driver)
 					                            	<option value="{{$driver->name}}">{{$driver->name}}</option>
-					                            @endforeach
+					                            @endforeach 
 					                        </select>
 			                                @error('driver_name')
 					                            <span class="invalid-feedback d-block pull-right" role="alert">
@@ -73,7 +73,7 @@
 					                          @enderror
 						                </div>
 						                <div class="col-md-6 col-xl-6 mt-2">
-						                  <span style="color: #FF0000;font-size:15px;">*</span>  <label class="trip_from_city">Starting Trip From(City)</label><span style="font-size:10px;"><button type="button" class="btn btn-success fa fa-plus" id="add_destination" style="margin-left: 310px;"></button></span>		                    		                    
+						                  <span style="color: #FF0000;font-size:15px;">*</span>  <label class="trip_from_city">Starting Trip From(City)</label><span ><button type="button" class="btn btn-success fa fa-plus pull-right" id="add_destination" style="margin-left: 310px;"></button></span>		                    		                    
 					                       <select id='trip_from_city' name="trip_from_city" class="selectpicker form-control">
 					                            <option value="0" selected=" true " >Select..</option>
 					                         </select>  
@@ -454,14 +454,14 @@
 	$('#add_destination').on('click',function(){
     	// var id =$(".multi_rows").attr('id');
 			                
-		$('#field').append('<div class="multi_rows row" id="'+x+'"><div class="col-md-6 col-xl-6 mt-2"><label>Trip To(State)</label><select name="trip_to_state_list[]" class="selectpicker form-control add_state"><option value="">Select State</option><?php foreach($state as $st){?><option value="{{$st->id}}">{{$st->state_name}}</option> <?php } ?></select></div><div class="col-md-6 col-xl-6 mt-2"><label>Trip To(City)</label><span style="font-size:10px;"><a class="remove_button btn btn-danger fa fa-minus" style="margin-left:382px;" data-id="'+x+'"></a></span><select name="trip_to_city_list[]" class="selectpicker form-control " id="add_city'+x+'"><option value="0">Select..</option></select></div></div>');
+		$('#field').append('<div class="multi_rows row" id="'+x+'"><div class="col-md-6 col-xl-6 mt-2"><label>Trip To(State)</label><select name="trip_to_state_list[]" class="selectpicker form-control add_state"><option value="">Select State</option><?php foreach($state as $st){?><option value="{{$st->id}}">{{$st->state_name}}</option> <?php } ?></select></div><div class="col-md-6 col-xl-6 mt-2"><label>Trip To(City)</label><span><a class="remove_button btn btn-danger fa fa-minus pull-right" style="margin-left:382px;" data-id="'+x+'"></a></span><select name="trip_to_city_list[]" class="selectpicker form-control " id="add_city'+x+'"><option value="0">Select..</option></select></div></div>');
 		// $('.multi_rows').attr('id',x)
 	    // $('.remove_button').attr('data-id',x)
 	    x++;
 	});
 $(document).on("click",".remove_button",function(){ 
 	 	var id = $(this).attr('data-id');
-	        $(this).parent('div').remove();
+	        // $(this).parent('div').remove();
 	        $('#'+id).remove();        
 	        // x--;
     });
@@ -582,14 +582,14 @@ $(document).on('change','.add_state',function(){
                 }
             })
     })
-    function city_fetch(state_id,city_id){
+    function city_fetch(state_id,city_id,select_city = null){
     	var city = "#"+city_id; 
     	console.log(city);
 		$.ajax({
 		    url: "/drivercity",
 		    type: 'POST',
 		    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-		    data: {'id':state_id},
+		    data: {'id':state_id,select_city:select_city},
 		    success: function (data) {
 		       $(city).html(data);
 		    }

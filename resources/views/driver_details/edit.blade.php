@@ -169,18 +169,32 @@
   $(document).ready( function () {
     $('#myTable').DataTable();
     
+
+    var state_id = '{{$edata->state_id}}';
+    var select_city = "{{$edata->city_id}}";
+    city_fetch(state_id,select_city);
+
+
     $('#state_id').on('change',function(){
-        var state_id = $('#state_id').val();
-        $.ajax({
+      var state_id = $('#state_id').val();
+      var select_city = '';
+      city_fetch(state_id,select_city);
+    })
+
+    function city_fetch(state_id,select_city){
+    
+          $.ajax({
                 url: "/drivercity",
                 type: 'POST',
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                data: {'id':state_id},
+                data: {'id':state_id,select_city:select_city},
                 success: function (data) {
                    $('#city_id').html(data);
                 }
             })
-    })
+      }
+
+   
     $(".image").change(function () {
         var img_id = $(this).attr('id');
         filePreview(this,img_id);

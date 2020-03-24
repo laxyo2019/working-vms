@@ -62,12 +62,16 @@ class VehicleTripController extends Controller
     public function edit($id)
     {
         $data        = Vehicle_Trip::find($id);
+        $trips       = Vehicle_Trip_point::where('request_id',$id)->get();
+         // return $trips[0]['trip_to_state_list'];
+        $count       = collect($trips)->count();
+        // return $count;
         $data_vch_id = $data->vch_id;
         $vehicles    = VehicleStatus::where('fleet_code',session('fleet_code'))->where('status','StandBy')->orWhere('status','ReadyForLoad')->orwhere('vch_id',$data_vch_id)->with('vehicle')->get();
         $drivers     = Driver::where('fleet_code',session('fleet_code'))->get();
         $state       = get_state()->get();
         $city        = get_city()->get();
-        return view('Trip.vehicle_trip_entry.edit',compact('vehicles','drivers','state','city','data'));
+        return view('Trip.vehicle_trip_entry.edit',compact('trips','vehicles','drivers','state','city','data','count'));
     }
     public function update(Request $request, $id)
     {

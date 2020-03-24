@@ -31,7 +31,7 @@ class VehicledetailsController extends Controller
         }
 
         $fleet_code = session('fleet_code');
-        $model      = DB::table('vch_mast')->where('fleet_code',$fleet_code)->get();
+        $model      = vehicle_master::where('fleet_code',$fleet_code)->with('type')->get();
         return view('vehicle_detail.show',compact('model'));
     }
 
@@ -82,7 +82,7 @@ class VehicledetailsController extends Controller
        $fleet_code = session('fleet_code');
        $model      = DB::table('vch_model')->get();
        $company    = vch_comp::where('fleet_code',$fleet_code)->get();
-       $edata      = DB::table('vch_mast')->where('id',$id)->first();
+       $edata      = vehicle_master::where('id',$id)->with('type')->first();
        $model_vch  = vch_model::find($edata->vch_model);
        $city       = DB::table('master_cities')->where('fleet_code',$fleet_code)->get();
        $types      = VehicleType::where('fleet_code',$fleet_code)->get();

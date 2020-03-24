@@ -60,13 +60,16 @@ class HomeController extends Controller
               'id' => $puc->id,
               'title' => 'PUC EXPIRE Notification',
               'message' => $puc->vehicle->vch_no,
-              'date' => $puc->valid_till
+              'date' => $puc->valid_till,
+              'url' => 'pucdetails'
             ];
 
             $user = User::find($puc->created_by);
           $user->notify(new TestNotification($data));
+
             if($user->parent_id !=null){
               $users = User::find($user->parent_id);
+              $data['url'] = 'account_puc_details';
             $users->notify(new TestNotification($data));
 
             }
@@ -78,13 +81,15 @@ class HomeController extends Controller
               'id' => $rc->id,
               'title' => 'RC EXPIRE Notification',
               'message' => $rc->vehicle->vch_no,
-              'date' => $rc->valid_till
+              'date' => $rc->valid_till,
+              'url' => 'rcdetails'
             ];
 
             $user = User::find($rc->created_by);
           $user->notify(new TestNotification($data));
             if($user->parent_id !=null){
               $users = User::find($user->parent_id);
+              $data['url'] = 'account_rc_details';
             $users->notify(new TestNotification($data));
 
             }
@@ -96,13 +101,15 @@ class HomeController extends Controller
               'id' => $ins->id,
               'title' => 'INSURANCE EXPIRE Notification',
               'message' => $ins->vehicle->vch_no,
-              'date' => $ins->valid_till
+              'date' => $ins->valid_till,
+              'url' => 'insurance'
             ];
 
             $user = User::find($ins->created_by);
           $user->notify(new TestNotification($data));
             if($user->parent_id !=null){
               $users = User::find($user->parent_id);
+              $data['url'] = 'account_insurance_details';
             $users->notify(new TestNotification($data));
 
             }
@@ -114,13 +121,15 @@ class HomeController extends Controller
               'id' => $fit->id,
               'title' => 'FITNESS EXPIRE Notification',
               'message' => $fit->vehicle->vch_no,
-              'date' => $fit->valid_till
+              'date' => $fit->valid_till,
+              'url' => 'fitness'
             ];
 
             $user = User::find($fit->created_by);
           $user->notify(new TestNotification($data));
             if($user->parent_id !=null){
               $users = User::find($user->parent_id);
+              $data['url'] = 'account_fitness_details';
             $users->notify(new TestNotification($data));
 
             }
@@ -132,13 +141,15 @@ class HomeController extends Controller
               'id' => $rod->id,
               'title' => 'ROAD-TAX EXPIRE Notification',
               'message' => $rod->vehicle->vch_no,
-              'date' => $rod->valid_till
+              'date' => $rod->valid_till,
+              'url' => 'roadtax'
             ];
 
             $user = User::find($rod->created_by);
           $user->notify(new TestNotification($data));
             if($user->parent_id !=null){
               $users = User::find($user->parent_id);
+              $data['url'] = 'account_roadtax_details';
             $users->notify(new TestNotification($data));
 
             }
@@ -150,13 +161,15 @@ class HomeController extends Controller
               'id' => $per->id,
               'title' => 'PERMIT EXPIRE Notification',
               'message' => $per->vehicle->vch_no,
-              'date' => $per->valid_till
+              'date' => $per->valid_till,
+              'url' => 'statepermit'
             ];
 
             $user = User::find($per->created_by);
           $user->notify(new TestNotification($data));
             if($user->parent_id !=null){
               $users = User::find($user->parent_id);
+              $data['url'] = 'account_permit_details';
             $users->notify(new TestNotification($data));
 
             }
@@ -221,5 +234,12 @@ class HomeController extends Controller
         }
         // GSDailyMove::insert($data);
       }
+    }
+
+    public function notification_read($id){
+      $notification = auth()->user()->unreadNotifications->where('id',$id)->first();
+       $notification->markAsRead();
+       // return "asdasd";
+       return redirect($notification->data['url']);
     }
 }

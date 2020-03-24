@@ -30,6 +30,7 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css" />
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="{{ asset('js/app.js') }}"></script>
+       
         <script src="{{asset('js/main_admin.js')}}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.0/moment.min.js"></script>
         <script src="{{asset('js/bootstrap-datetimepicker.min.js')}}"></script>
@@ -47,6 +48,7 @@
         <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"></script>
         <script src="https://kit.fontawesome.com/a076d05399.js"></script>
         <!-- Styles -->
+         <script src="{{ asset('js/helper.js') }}"></script>
     </head>
     <body class="app sidebar-mini rtl">
      <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" >
@@ -81,7 +83,6 @@
                                             </ul>
                                         </li>
                                         <li><a href="{{route('vch_status.index')}}">Vehicle Status</a></li>
-                                        <li><a href="{{route('vch_tyre.index')}}">Vehicle Tyre SetUp</a></li>
                                     </ul>
                                 </li>
                                 <li  class='<?php if( (Request::segment(1) == 'fitness') || (Request::segment(1) == 'pucdetails') ||  (Request::segment(1) == 'roadtax') || (Request::segment(1) == 'rcdetails') || (Request::segment(1) == 'insurance') || (Request::segment(1) == 'statepermit') ){ echo 'active'; }?>' id="L3"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Documents</span>
@@ -147,7 +148,13 @@
                                         <li><a href="{{route('Trip.index')}}">Trip Sheet</a></li>
                                     </ul>
                                 </li>
-                                
+                                <li id="L10"><a href="#" data-toggle="dropdown" class='dropdown-toggle'><span>Tyre</span>
+                                    <span class=""></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{route('vch_tyre.index')}}">Tyre SetUp</a></li>
+                                        <li><a href="{{route('Tyre_info.index')}}">Tyre information</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                            
                             <div class="user">

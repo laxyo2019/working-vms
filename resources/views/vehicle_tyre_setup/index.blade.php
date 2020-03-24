@@ -18,21 +18,25 @@
                   <th >SR. NO</th>
                   <th >VEHICLE NO</th>
                   <th >NO OF TYRE</th>
+                  <th >NO OF ACCESSORIES</th>
                   <th >ACTION</th>
                 </tr>
               </thead>
               <tbody>
                 @php $count =1; @endphp
-                {{-- @foreach($data as $data)
+                @foreach($data as $data)
                 <tr>
                   <td>{{$count++}}</td>
-                  <td>{{$data->vch_type}}</td>
+                  <td>{{$data->vehicle ? $data->vehicle->vch_no : 'NO RECORD'}}</td>
+                  <td>{{$data->total_tyre ? $data->total_tyre : 'NO RECORD'}}{{-- <span class="btn btn-success fa fa-eye" style="margin-left: 20px;"></span> --}}</td>
+                  <td>{{$data->total_acce ? $data->total_acce : 'NO RECORD'}}{{-- <span class="btn btn-success fa fa-eye" style="margin-left: 20px;"></span> --}}</td>
                   <td>
-                    <a style="padding: 2px 5px;" href="{{route('vch_type.edit',$data->id)}}" runat="server" class="btn btn-success" rel="tooltip" title="" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                    <a style="padding: 2px 8px;" onclick="javascript:return confirm('Do You Really Want To Delete This?');" href="{{route('vch_type_delete',$data->id)}}" class="btn btn-inverse" rel="tooltip" title="" data-original-title="Delete"><i class="fa fa-times"></i></a>
+                    {{-- <a style="padding: 2px 5px;" href="{{route('vch_tyre.edit',$data->id)}}" runat="server" class="btn btn-success" rel="tooltip" title="" data-original-title="Edit"><i class="fa fa-edit"></i></a> --}}
+                    <a style="padding: 2px 5px;" href="{{route('vch_tyre.show',$data->id)}}" runat="server" class="btn btn-success" rel="tooltip" title="" data-original-title="Edit"><i class="fa fa-eye"></i></a>
+                    <a style="padding: 2px 8px;" onclick="javascript:return confirm('Do You Really Want To Delete This?');" href="{{route('vch_tyre_delete',$data->id)}}" class="btn btn-inverse" rel="tooltip" title="" data-original-title="Delete"><i class="fa fa-times"></i></a>
                   </td>
                 </tr>
-                @endforeach --}}
+                @endforeach
               </tbody>
             </table>
             

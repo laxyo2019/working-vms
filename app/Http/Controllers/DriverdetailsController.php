@@ -119,11 +119,12 @@ class DriverdetailsController extends Controller
 
     public function get_city(Request $request){
         $id   = $request->id;
+        $select_city = $request->select_city ? $request->select_city : null ;
         $city = DB::table('master_cities')->where('state_id',$id)->get();
         ?>
         <option value="0">Select..</option>
     <?php    foreach ($city as $cities) { ?>
-            <option value='<?php echo $cities->id ;?>'><?php echo $cities->city_name ;?>
+            <option value='<?php echo $cities->id ;?>' <?php echo $select_city == $cities->id ?  'selected' : '' ; ?> ><?php echo $cities->city_name ;?>
         </option>
     <?php  } 
     }

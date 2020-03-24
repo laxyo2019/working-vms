@@ -161,6 +161,7 @@
     
     $('#state_id').on('change',function(){
         var state_id = $('#state_id').val();
+        
         $.ajax({
                 url: "/drivercity",
                 type: 'POST',

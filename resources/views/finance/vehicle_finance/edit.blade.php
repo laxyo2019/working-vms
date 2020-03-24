@@ -386,60 +386,30 @@ $(document).ready( function () {
     $(function() {
         $( ".datepicker" ).datepicker({format:'yyyy-mm-dd'});
      });
-    if( $('#customer_state_id').val() != null){
-    var customer_state = $('#customer_state_id').val();    
-    var city_id        = {{$finances->customer_city_id }};
-    $.ajax({
-            url: "/customer_city_edit",
-            type: 'POST',
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            data: {'id':customer_state,'city_id':city_id},
-            success: function (data) {
-             $('#customer_city_id').html(data);
-            }
-        })
-    }
-    if( $('#guranter_state_id').val() != null){
-    var guranter_state_id = $('#guranter_state_id').val();    
-    var city_id        = {{$finances->guranter_city_id }};
-    $.ajax({
-            url: "/customer_city_edit",
-            type: 'POST',
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            data: {'id':guranter_state_id,'city_id':city_id},
-            success: function (data) {
-             $('#guranter_city_id').html(data);
-            }
-        })
-    }
+   var customer_state  = "{{$finances->customer_state_id }}";
+   var customer_city  = "{{$finances->customer_city_id }}";
+   if(customer_state !=''){
+      city_fetch(customer_state,'customer_city_id',customer_city);
+   }
+
+   var guranter_state  = "{{$finances->guranter_state_id }}";
+   var guranter_city  = "{{$finances->guranter_city_id }}";
+   if(guranter_state !=''){
+      city_fetch(guranter_state,'guranter_city_id',guranter_city);
+   }
+
+
+
     $('#customer_state_id').on('change',function(){
             var state_id = $('#customer_state_id').val();
-            $.ajax({
-                    url: "/drivercity",
-                    type: 'POST',
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    data: {'id':state_id},
-                    success: function (data) {
-                      console.log(data);
-                       $('#customer_city_id').html(data);
-                    }
-                })
+            city_fetch(state_id,'customer_city_id')
            })
     
     $('#guranter_state_id').on('change',function(){
-           
-            var state_id = $('#guranter_state_id').val();
-            $.ajax({
-                    url: "/drivercity",
-                    type: 'POST',
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    data: {'id':state_id},
-                    success: function (data) {
-                      console.log(data);
-                       $('#guranter_city_id').html(data);
-                    }
-                })
-           })
+      var state_id = $('#guranter_state_id').val();
+
+      city_fetch(state_id,'guranter_city_id')
+     })
     
     $('#contract_period').on('keyup',function(){
             var condate = $('#contract_date').val();
@@ -534,6 +504,22 @@ $(document).ready( function () {
           }
             
     });
+
+
+
+
+     function city_fetch(state_id,city_id,select_city =null){
+          var city = "#"+city_id;
+          $.ajax({
+                url: "/drivercity",
+                type: 'POST',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                data: {'id':state_id,select_city:select_city},
+                success: function (data) {
+                   $(city).html(data);
+                }
+            })
+      }
    
 })
  

@@ -3,7 +3,7 @@
 <div class="container">
   <div id="ContentPlaceHolder1_PnlShow"  style="display: inline;">
     <div class="row">
-      <div class="col-sm-12">
+      <div class="col-sm-12"> 
         <div class="box box-color orange box-condensed box-bordered">
           <div class="box-title">
             <div class="col-sm-6 col-md-6">
@@ -23,7 +23,7 @@
                               <select id="vch_type" name="vch_type" class="selectpicker form-control">
                                  <option value="0">Select..</option>
                                 @foreach($types as $type)
-                                    <option value="{{$type->id}}">{{$type->vch_type}}</option>
+                                    <option value="{{$type->id}}" {{$edata->vch_type == $type->id ?  'selected':''}}>{{$type->vch_type}}</option>
                                 @endforeach   
                               </select>
                             </div>

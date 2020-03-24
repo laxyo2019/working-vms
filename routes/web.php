@@ -10,6 +10,7 @@
 		})->name('register');
 
 		Route::get('/test_notify','HomeController@test_notify');
+		Route::get('/notification_read/{id}','HomeController@notification_read')->name('notification_read');
 		Route::get('/api_data', 'HomeController@api_data')->name('api_data');
 
 Route::group(['middleware' => ['role:superadmin']], function () {
@@ -86,6 +87,7 @@ Route::group(['middleware' => ['role:fleets']], function () {
 		Route::resource('/vch_type','VehicleTypeController');
 		Route::get('/vch_type_delete/{id}','VehicleTypeController@destroy')->name('vch_type_delete');
 		Route::post('/add_vch_type','VehicleTypeController@add_vch_type')->name('add_vch_type');
+		Route::post('/vch_type_info','VehicleTypeController@vch_type_info')->name('vch_type_info');
 		//End VehicleTypeController
 
 		//Start State contoller
@@ -146,7 +148,7 @@ Route::group(['middleware' => ['role:fleets']], function () {
 
 		//Start VehicleTyreSetup
 		Route::resource('/vch_tyre','VehicleTyreSetup');
-		// Route::post('/status','VehicleTyreSetup@store');
+		Route::get('/vch_tyre_delete/{id}','VehicleTyreSetup@destroy')->name('vch_tyre_delete');
 		//End VehicleTyreSetup
 
 		//strat filtercontroller
@@ -513,4 +515,8 @@ Route::group(['middleware' => ['role:fleets']], function () {
 		Route::post('/vch_status_get','Trip\VehicleTripController@vch_status_get');
 		Route::post('/get_state','Trip\VehicleTripController@get_state');
 		// End VehicleTripController
+
+		// Start VehicleTyreInfoController
+		Route::resource('/Tyre_info','VehicleTyreInfoController');
+		// End VehicleTyreInfoController
 });

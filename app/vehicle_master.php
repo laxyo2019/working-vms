@@ -37,4 +37,10 @@ class vehicle_master extends Model
     public function type(){
         return $this->belongsTo('App\Models\VehicleType','vch_type');
     }
+    public function imei(){
+        return $this->hasOne('App\GpsDailyData','imei','vch_imei');
+    }
+    public function tyre(){
+        return $this->hasMany('App\Models\Tyre\TyreDetailsList','vch_no','id');
+    }
 }
