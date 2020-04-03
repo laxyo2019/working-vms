@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Models\RoadtaxDetails;
 use Illuminate\Http\Request;
 use App\vehicle_master;
+use Carbon\Carbon;
 use Session;
 use File;
 use Auth;
@@ -20,8 +21,10 @@ class RoadtaxDetailsController extends Controller
     {
 
         $fleet_code = session('fleet_code');
+        $carbondate = Carbon::now()->addDays('15')->format('Y-m-d');
+        $curr  = Carbon::now()->format('Y-m-d');
         $roadtax    = RoadtaxDetails::where('fleet_code',$fleet_code)->get();
-        return view('document.roadtax.show',compact('roadtax'));
+        return view('document.roadtax.show',compact('roadtax','carbondate','curr'));
         
     }
 

@@ -24,9 +24,10 @@ class VehicleTyreInfoController extends Controller
         $vch_id   = collect($data)->pluck('id');
         $vch_imei = collect($data)->pluck('vch_imei');
         $tyre_list       = TyreDetailsList::where('fleet_code',$fleet_code)->orWhereIn('vch_no',$vch_id)->get();
-        $gps_imei        = GpsDailyData::WhereIn('imei',$data)->select('duty_date','imei','reading')->with(['vehicle'=>function($query){ 
-            $query->select('vch_imei','id')->with('tyre')->get(); 
+        $gps_imei        = GpsDailyData::WhereIn('imei',$vch_imei)->select('duty_date','imei','reading')->with(['vehicle'=>function($query){ 
+            $query->select('vch_imei','id','vch_no')->with('tyre')->get(); 
         }])->get();
+        // return $gps_imei;
         return view('tyre_info.index',compact('gps_imei')); 
     }
 

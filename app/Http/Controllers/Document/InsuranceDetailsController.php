@@ -11,6 +11,7 @@ use App\Models\InsuranceCompany;
 use App\Models\InsuranceDetails;
 use Illuminate\Http\Request;
 use App\vehicle_master;
+use Carbon\Carbon;
 use Session;
 use File;
 use Auth;
@@ -21,9 +22,10 @@ class InsuranceDetailsController extends Controller
     public function index()
     {
         $fleet_code = session('fleet_code');
-
+        $carbondate = Carbon::now()->addDays('15')->format('Y-m-d');
+        $curr  = Carbon::now()->format('Y-m-d');
         $insurance  = InsuranceDetails::where('fleet_code',$fleet_code)->get();        
-        return view('document.insurance.show',compact('insurance'));
+        return view('document.insurance.show',compact('insurance','carbondate','curr'));
     }
    
     public function create()

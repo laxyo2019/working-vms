@@ -9,6 +9,7 @@ use App\Exports\PUCDetailsExport;
 use App\Imports\PUCDetailsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\PUCDetails;
+use Carbon\Carbon;
 use Session;
 use File;
 use DB;
@@ -20,8 +21,11 @@ class PUCDetailsController extends Controller
     public function index()
     {
         $fleet_code = session('fleet_code');
+        $carbondate = Carbon::now()->addDays('15')->format('Y-m-d');
+        $curr  = Carbon::now()->format('Y-m-d');
         $pucDetails = PUCDetails::where('fleet_code',$fleet_code)->get();
-        return view('document.puc_details.show',compact('pucDetails'));
+        // return $curr;
+        return view('document.puc_details.show',compact('pucDetails','carbondate','curr'));
     }
 
     public function create()

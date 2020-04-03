@@ -54,6 +54,7 @@ Route::group(['middleware' => ['role:account']], function () {
 		Route::post('checkAccount','AccountUserController@checkAccount');
 		Route::post('AuthLogout','AccountUserController@AuthLogout');
 		Route::get('/account_users', 'AccountUserController@account_user')->name('account_users');
+		Route::get('account_tyre_details','AccountUserController@account_tyre_details')->name('account_tyre_details');
 		Route::get('account_puc_details','AccountUserController@account_puc_details')->name('account_puc_details');
 		Route::get('account_rc_details','AccountUserController@account_rc_details')->name('account_rc_details');
 		Route::get('account_fitness_details','AccountUserController@account_fitness_details')->name('account_fitness_details');

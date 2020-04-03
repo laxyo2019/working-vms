@@ -59,6 +59,7 @@
                   <th>ACTION</th>
                 </tr>
               </thead>
+              <tbody>
               <?php $count = 0; ?>
               @foreach($model as $models)
                <?php

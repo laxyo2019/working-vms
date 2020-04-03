@@ -10,13 +10,14 @@
               <h3> VEHICLE TYRE INFORMATION </h3>
           </div>
           <div class="col-sm-6 col-md-6 pull-right">
-              <a style="margin-bottom: 5px;" href="{{route('vch_type.create')}}" class="btn btn-inverse pull-right" ><i style="margin-right: 5px; " class="fas fa-plus"></i>ADD NEW</a>
+              
           </div>
             <table id="myTable">
               <thead>
                 <tr >
                   <th >SR. NO</th>
                   <th >VEHICLE NO</th>
+                  <th >VEHICLE IMEI NO</th>
                   <th >VEHICLE CURRENT KM.</th>
                   <th >DATA DATE</th>
                   <th >TYRE NO</th>
@@ -25,7 +26,37 @@
                 </tr>
               </thead>
               <tbody>
-               
+                <?php $count = 0; ?>
+              @foreach($gps_imei as $gps)
+              @if($gps->vehicle->tyre != null)
+                @foreach($gps->vehicle->tyre as $tyre)
+                  <?php
+                    $km = $tyre->vch_cur_km + $tyre->tyre_exp_km - 100 ;
+                    $total_km = $tyre->vch_cur_km + $tyre->tyre_exp_km ;
+                    $gps_km = $gps->reading;
+                   
+                  ?>
+               <tr>
+                  <td>{{++$count}}</td>
+                  <td>{{$gps->vehicle ? $gps->vehicle->vch_no:'NO RECORD FOUND' }}</td>
+                  <td>{{$gps->imei ? $gps->imei : 'NO RECORD FOUND' }}</td>
+                  <td>{{$gps->reading ? $gps->reading : 'NO RECORD FOUND' }}</td>
+                  <td>{{$gps->duty_date ? $gps->duty_date : 'NO RECORD' }}</td>
+                  <td>{{$tyre->tyre_no ? $tyre->tyre_no : 'NO RECORD' }}</td>
+                  <td>{{$tyre->tyre_position ? $tyre->tyre_position : 'NO RECORD' }}</td>
+                  @if($km <= $gps_km && $gps_km <= $total_km)
+                    <td style="color: red" class="blinking"><b>{{'NEED TO CHANGE TYRE' }}</b></td>
+            
+                  @elseif($gps_km >= $total_km)
+                    <td style="color: red" class="blinking"><b>{{'TYRE Expired..' }}</b></td>
+                
+                  @else
+                    <td>{{'NO NEED TO CHANGE..' }}</td>
+                  @endif
+                </tr>
+                @endforeach
+              @endif
+              @endforeach
               </tbody>
             </table>
             

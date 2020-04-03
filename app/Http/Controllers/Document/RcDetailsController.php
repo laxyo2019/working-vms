@@ -9,6 +9,7 @@ use App\Imports\RCDetailsImport;
 use Illuminate\Http\Request;
 use App\Models\RcDetails;
 use App\vehicle_master;
+use Carbon\Carbon;
 use Session;
 use File;
 use Auth;
@@ -21,8 +22,9 @@ class RcDetailsController extends Controller
     { 
         $fleet_code = session('fleet_code');
         $rcDetails = RcDetails::where('fleet_code',$fleet_code)->get();
-        
-        return view('document.rc_details.show',compact('rcDetails'));
+        $carbondate = Carbon::now()->addDays('15')->format('Y-m-d');
+        $curr  = Carbon::now()->format('Y-m-d');
+        return view('document.rc_details.show',compact('rcDetails','carbondate','curr'));
     }
 
     public function create()

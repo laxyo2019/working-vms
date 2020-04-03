@@ -49,7 +49,21 @@
                   <td style="padding-left: 20px">{{$vch_no->vch_no }}</td>
                   <td style="padding-left: 20px">{{$Insurance->ins_total_amt}}</td>
                   <td style="padding-left: 20px">{{$Insurance->valid_from}}</td>
-                  <td style="padding-left: 20px">{{$Insurance->valid_till}}</td>
+                  <?php
+                      if(strtotime($Insurance->valid_till) <= strtotime($carbondate) && strtotime($Insurance->valid_till) >= strtotime($curr) ){
+                        ?>
+                        <td style="padding-left: 20px;color: red;">{{$Insurance->valid_till}}<span class="blinking" style="color: red;"><br><b>RENEW DATE...</b> </span></td>
+                        <?php
+                      }elseif(strtotime($Insurance->valid_till) < strtotime($curr)){
+                        ?>
+                        <td style="padding-left: 20px;">{{$Insurance->valid_till}}<span class="blinking" style="color: red;"><b> EXPIRED...</b> </span></td>
+                        <?php
+                      }else{ 
+                        ?>
+                  <td style="padding-left: 20px;">{{$Insurance->valid_till}}</td>
+                  <?php
+                      }
+                  ?>
                   <td style="width:10%; text-align:center;">
                     <a style="padding: 2px 5px;" href="{{route('insurance.edit',$Insurance->id)}}" runat="server" class="btn btn-success" rel="tooltip" title="" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                     <a style="padding: 2px 7px;" onclick="javascript:return confirm('Do You Really Want To Delete This?');" href="{{route('insurance.delete',$Insurance->id)}}" class="btn btn-inverse" rel="tooltip" title="" data-original-title="Delete"><i class="fa fa-times"></i></a>

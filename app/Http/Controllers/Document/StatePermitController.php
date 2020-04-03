@@ -10,6 +10,7 @@ use App\Imports\StatePermitImport;
 use Illuminate\Http\Request;
 use App\Models\StatePermit;
 use App\vehicle_master;
+use Carbon\Carbon;
 use App\State;
 use Session;
 use File;
@@ -21,8 +22,10 @@ class StatePermitController extends Controller
     public function index()
     {
         $fleet_code = session('fleet_code');
+        $carbondate = Carbon::now()->addDays('15')->format('Y-m-d');
+        $curr  = Carbon::now()->format('Y-m-d');
         $state      = StatePermit::where('fleet_code',$fleet_code)->get();
-        return view('document.statepermit.show',compact('state'));
+        return view('document.statepermit.show',compact('state','carbondate','curr'));
     }
 
    

@@ -6,10 +6,12 @@ use App\Models\Expenses\VehicleExpenses;
 use App\Models\Finance\Vehicle_finance;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Tyre\TyreDetailsList;
 use App\Models\Trip\Vehicle_Trip;
 use App\Models\InsuranceDetails;
 use App\Models\FitnessDetails;
 use App\Models\RoadtaxDetails;
+use App\Models\Tyre\TyreInfo;
 use Illuminate\Http\Request;
 use App\Models\StatePermit;
 use App\Charts\PulseChart;
@@ -19,6 +21,8 @@ use App\Mail\UserRequest;
 use App\Models\RcDetails;
 use App\Models\Account;
 use App\VehicleStatus;
+use App\vehicle_master;
+use App\GpsDailyData;
 use App\FleetUser;
 use Carbon\Carbon;
 use App\SendCode;
@@ -92,7 +96,7 @@ class AccountUserController extends Controller
             $i = $i + count($fleet->vehicles);
         }
         $fleet = Fleet::where('fleet_owner','=',$owner)->count();
-        return view('account_user.dashboard',compact('user','fleet','i','driver_count','no','running','standby','repair','unloaded','running_vch','standby_vch','repair_vch','unloaded_vch','chart1','chart2','expenses','party_expenses')); 
+        return view('account_user.dashboard',compact('user','fleet','i','driver_count','running','standby','repair','unloaded','running_vch','standby_vch','repair_vch','unloaded_vch','chart1','chart2','expenses','party_expenses')); 
     }
     public function account_user()
     {
@@ -402,6 +406,19 @@ class AccountUserController extends Controller
       $data = Vehicle_Trip::whereIn('created_by',$d_Id)->with('owner','vehicle','from_city','to_city')->get();
 
         return view('account_user.vehicle_doc.vehicle_trip',compact('data'));
+    }
+    public function account_tyre_details(){
+      $d_Id =$this->get_owners_id();
+
+      $data     = vehicle_master::whereIn('created_by',$d_Id)->select('id','vch_imei')->get();
+        $vch_id   = collect($data)->pluck('id');
+        $vch_imei = collect($data)->pluck('vch_imei');
+        $tyre_list       = TyreDetailsList::WhereIn('vch_no',$vch_id)->get();
+        $gps_imei        = GpsDailyData::WhereIn('imei',$vch_imei)->select('duty_date','imei','reading')->with(['vehicle'=>function($query){ 
+            $query->select('vch_imei','id','vch_no')->with('tyre')->get(); 
+        }])->get();
+
+        return view('account_user.vehicle_doc.vehicle_tyre',compact('gps_imei'));
     }
     public function get_owners_id(){
       $owner = Auth::user()->id;

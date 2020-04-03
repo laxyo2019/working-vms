@@ -69,7 +69,6 @@
                                                 <li><a href="{{route ('agent.index')}}">Agent</a></li>
                                                 <li><a href="{{route ('company.index')}}">Insurance Company</a></li>
                                                 <li><a href="{{route ('insurance_type.index')}}">Insurance Type</a></li>
-                                                <li><a href="#">Expense Type Setup</a></li>
                                             </ul>
                                         </li>
                                         <li class='dropdown-submenu'><a href="#">Vehicle Setup</a>
@@ -77,8 +76,8 @@
                                                 <li><a href="{{route('vch_type.index')}}">Vehicle Type</a></li>
                                                 <li><a href="{{route('vehicle.index')}}">Vehicle Company</a></li>
                                                 <li><a href="{{route('vehicleModel.index')}}">Vehicle Model</a></li>
-                                                <li><a href="{{route('vehicledetails.index')}}">Vehicle Details</a></li>
-                                                <li><a href="{{route('kmupdate.index')}}">Vehicle KM Update</a></li>
+                                                <li><a href="{{route('vehicledetails.index')}}">Vehicle Details</a></li>{{-- 
+                                                <li><a href="{{route('kmupdate.index')}}">Vehicle KM Update</a></li> --}}
                                                 <li><a href="{{route('driver.index')}}">Driver Details</a></li>
                                             </ul>
                                         </li>

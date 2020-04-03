@@ -84,6 +84,7 @@
           <li><a class="app-menu__item active" href="{{route('fleet.index')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Fleets</span></a></li>
           <li><a class="app-menu__item active" href="{{route('expenses_details.index')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Expenses Details</span></a></li>
           <li><a class="app-menu__item active" href="{{route('account_trip_details')}}"><i class="fa fa-car pr-3" aria-hidden="true"></i><span class="app-menu__label">Trips</span></a></li>
+          <li><a class="app-menu__item active" href="{{route('account_tyre_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Tyre Details</span></a></li>
           <li><a class="app-menu__item active" href="{{route('account_puc_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">PUC Details</span></a></li>
           <li><a class="app-menu__item active" href="{{route('account_rc_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">RC Details</span></a></li>
           <li><a class="app-menu__item active" href="{{route('account_fitness_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Fitness Details</span></a></li>

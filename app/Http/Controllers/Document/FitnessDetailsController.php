@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Models\FitnessDetails;
 use Illuminate\Http\Request;
 use App\vehicle_master;
+use Carbon\Carbon;
 use Session;
 use File;
 use Auth;
@@ -19,8 +20,10 @@ class FitnessDetailsController extends Controller
     public function index()
     {
         $fleet_code = session('fleet_code');
+        $carbondate = Carbon::now()->addDays('15')->format('Y-m-d');
+        $curr  = Carbon::now()->format('Y-m-d');
         $fitness = FitnessDetails::where('fleet_code',$fleet_code)->get();
-        return view('document.fitness.show',compact('fitness'));
+        return view('document.fitness.show',compact('fitness','carbondate','curr'));
     }
     public function create()
     {
