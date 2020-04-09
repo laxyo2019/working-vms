@@ -1,6 +1,6 @@
 @extends('layouts.ACLadmin')
 @section('title','Welcom: To Admin Panel')
-@section('meta')
+@section('meta') 
     <meta name="description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
     <!-- Twitter meta-->
     <meta property="twitter:card" content="summary_large_image">
@@ -73,7 +73,7 @@
 											<td>{{$roles->name}}</td>
 											<td  style="width: 16.66%;text-align: center;">
 												<a href="{{route('admin.edit',[$roles->id])}}"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>
-												<a href="{{route('delete',$roles->id)}}"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a>
+												<a href="{{route('delete_roles',$roles->id)}}"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a>
 												<a href="{{route('admin.show',[$roles->id])}}"><i class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
 											</td>
 										</tr>
@@ -119,6 +119,7 @@
 									<th>SNo.</th>
 									<th>User</th>
 									<th>Email</th>
+									<th>Type</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -129,6 +130,7 @@
 										<td style="width: 16.66%">{{ ++$count}}</td>
 										<td>{{$users->name}}</td>
 										<td>{{$users->email}}</td>
+										<td>{{$users->acc_type == 'A' ? 'SuperAdmin' : ($users->acc_type == 'B' ? 'User' : ($users->acc_type == 'C' ? 'Manager' : ($users->acc_type == 'D' ? 'Admin' : 'NO RECORD')) )}}</td>
 										<td style="width: 16.66%;text-align: center;">
 											<a href="{{route('users.edit',$users->id)}}"><i class="fa-lg fa fa-pencil-square-o" aria-hidden="true"></i></a>
 											<a href="{{route('destroy',$users->id)}}"><i class="fa-lg fa fa-trash" aria-hidden="true"></i></a>

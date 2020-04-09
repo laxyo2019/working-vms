@@ -42,7 +42,8 @@ class AccountUserController extends Controller
     }
 
     public function index()
-    {
+    { 
+      
         $owner = Auth::user()->id;
         $user = User::where('acc_type','=','C')->count();
         $u_fleet = User::where('id',$owner)->with('fleet_name.vehicles')->first();

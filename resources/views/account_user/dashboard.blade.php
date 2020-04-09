@@ -10,7 +10,7 @@
 	    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
 	    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
 	</ul> 
-	</div>
+	</div> 
 		@if(session('success'))
 	    <div class="alert alert-danger">
 	        {{session('success')}} 
@@ -18,7 +18,7 @@
 		@endif 
 	<div class="row" id="dashbord_account">
 	    <div class="col-md-4 col-lg-4">
-	      <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
+	      <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i> 
 	        <div class="info">
 	          <h4><b><i>Users</i></b></h4>
 	          <p><b>{{$user}}</b></p>

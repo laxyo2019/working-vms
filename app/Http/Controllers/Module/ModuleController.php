@@ -1,22 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\ACL;
+namespace App\Http\Controllers\Module;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller;
-use Spatie\Permission\Models\Permission;
-use DB;
 
-class PermissionController extends Controller
+class ModuleController extends Controller
 {
-     public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
-    { 
-    
+    {
+        return view('module.index');
     }
 
     /**
@@ -26,7 +24,8 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        return view('acl.permissions.create');
+        return view('module.create');
+       
     }
 
     /**
@@ -38,10 +37,8 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate(['name' => 'required']);
-        $data['created_at'] = date("Y-m-d H:i:s");  
-        $name = $request->name;
 
-        $role = Permission::create(['name' => $name]);
+        Permission::create($data);
         return redirect('admin');
     }
 
@@ -53,7 +50,7 @@ class PermissionController extends Controller
      */
     public function show($id)
     {
-        
+        //
     }
 
     /**
@@ -64,8 +61,7 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-         $data = DB::table('permissions')->find($id);
-        return view('acl.permissions.edit',compact('data'));
+        //
     }
 
     /**
@@ -77,14 +73,7 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $id  = $request->id;
-        $this->validate($request,['name' => 'required','guard_name'=>'required']);
-        
-        $update['name'] = $request->name;
-        $update['guard_name'] = $request->guard_name;
-        $update['updated_at'] = date("Y-m-d H:i:s");
-        DB::table('permissions')->where('id',$id)->update($update);
-        return redirect('admin');
+        //
     }
 
     /**
@@ -95,7 +84,6 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('permissions')->where('id',$id)->delete();
-         return redirect('admin');
+        //
     }
 }

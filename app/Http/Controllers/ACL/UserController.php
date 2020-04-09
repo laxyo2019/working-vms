@@ -115,6 +115,7 @@ class UserController extends Controller
     }
 
     public function changesRole(Request $request){
+        
         $userId = $request->userId;
         $roleId = $request->roleId;
 

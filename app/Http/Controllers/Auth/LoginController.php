@@ -55,14 +55,16 @@ class LoginController extends Controller
                     Session::put('user_rol','admin');
                     return $login = '/admin';
                     break;
-                case 'C':
-                    Session::put('user_rol','fleet');
-                    return $login = '/dashboard';
-                    break;
                 case 'B':
-                    Session::put('user_rol','account');
+                
+                    Session::put('user_rol','user');
                     return $login = '/accountuser';
                     break;    
+                case 'C':
+               
+                    Session::put('user_rol','manager');
+                    return $login = '/dashboard';
+                    break;
                 default:
                     return $login='/';
             }

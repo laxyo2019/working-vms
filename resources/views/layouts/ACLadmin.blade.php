@@ -55,7 +55,7 @@
         <!-- User Menu-->
         <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="fa fa-user fa-lg"></i></a>
           <ul class="dropdown-menu settings-menu dropdown-menu-right">
-            <li><a class="dropdown-item" href="#"><i class="fa fa-cog fa-lg"></i> Settings</a></li>
+            <li><a class="dropdown-item" href="{{route('change_password',Auth::user()->id)}}"><i class="fa fa-cog fa-lg"></i> Change Password</a></li>
             <li><a class="dropdown-item" href="#"><i class="fa fa-user fa-lg"></i> Profile</a></li>
             <li> 
               <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><span class="fa fa-sign-out fa-lg"></span>Logout</a>
@@ -75,22 +75,43 @@
         </div>
         <ul class="app-menu">
         <?php if(session('user_rol') == 'admin' ) { ?>  
-          <li><a class="app-menu__item active" href="{{url('admin')}}"><i class="app-menu__icon fa faces-dashboard"></i><span class="app-menu__label">ACL</span></a></li>
+          <li><a class="app-menu__item active" href="{{url('admin')}}"><i class="app-menu__icon fa faces-dashboard"></i><span class="app-menu__label">ACL</span></a></li> 
           <li><a class="app-menu__item active" href="{{url('account')}}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Account</span></a></li>
+          <li><a class="app-menu__item active" href="{{url('module')}}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Modules</span></a></li>
        <?php  }
         else{ ?>
           <li><a class="app-menu__item active" href="{{url('accountuser')}}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a></li>
           <li><a class="app-menu__item active" href="{{route('account_users')}}"><i class="app-menu__icon fa fa-user"></i><span class="app-menu__label">Users</span></a></li>
           <li><a class="app-menu__item active" href="{{route('fleet.index')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Fleets</span></a></li>
+
+          @can('can_see_expenses_details')
+
           <li><a class="app-menu__item active" href="{{route('expenses_details.index')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Expenses Details</span></a></li>
+
+          @endcan
+
+          @can('can_see_trip_details')
           <li><a class="app-menu__item active" href="{{route('account_trip_details')}}"><i class="fa fa-car pr-3" aria-hidden="true"></i><span class="app-menu__label">Trips</span></a></li>
+          @endcan
+
+          @can('can_see_tyre_details')
+
           <li><a class="app-menu__item active" href="{{route('account_tyre_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Tyre Details</span></a></li>
-          <li><a class="app-menu__item active" href="{{route('account_puc_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">PUC Details</span></a></li>
-          <li><a class="app-menu__item active" href="{{route('account_rc_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">RC Details</span></a></li>
-          <li><a class="app-menu__item active" href="{{route('account_fitness_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Fitness Details</span></a></li>
-          <li><a class="app-menu__item active" href="{{route('account_insurance_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Insurance Details</span></a></li>
-          <li><a class="app-menu__item active" href="{{route('account_permit_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Permit Details</span></a></li>
-          <li><a class="app-menu__item active" href="{{route('account_roadtax_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">RoadTax Details</span></a></li>
+          @endcan
+
+          @can('can_see_document_details')
+
+
+            <li><a class="app-menu__item active" href="{{route('account_puc_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">PUC Details</span></a></li>
+            <li><a class="app-menu__item active" href="{{route('account_rc_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">RC Details</span></a></li>
+            <li><a class="app-menu__item active" href="{{route('account_fitness_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Fitness Details</span></a></li>
+            <li><a class="app-menu__item active" href="{{route('account_insurance_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Insurance Details</span></a></li>
+            <li><a class="app-menu__item active" href="{{route('account_permit_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Permit Details</span></a></li>
+
+            <li><a class="app-menu__item active" href="{{route('account_roadtax_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">RoadTax Details</span></a></li>
+
+          @endcan
+
           <li><a class="app-menu__item active" href="{{route('account_finance_details')}}"><i class="fa fa-truck pr-3" aria-hidden="true"></i><span class="app-menu__label">Vehicle Finance Details</span></a></li>
       <?php } ?>            
         </ul>

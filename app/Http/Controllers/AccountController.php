@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Session;
 use App\Models\Account;
+use Auth; 
 use DB; 
 use App\User;
 use Mail;
@@ -86,5 +88,41 @@ class AccountController extends Controller
     {
        $name = 'Krunal';
        return 'Email was sent';
+    }
+    public function change_password($id)
+    { 
+        $user = Auth::User();
+        $user_role = $user->getRoleNames();
+        foreach ($user_role as $value) {
+          $role = $value;
+        }
+        if($role == 'superadmin'){        
+        $user = User::find($id);
+        return view('account_admin.change_password',compact('user'));
+        }
+        if($role  =="account"){
+        $user = User::find($id);
+        return view('account_user.change_password',compact('user'));
+        }
+    }
+    public function password_update(Request $request, $id)
+    { 
+         $data = $request->validate(['old_password' =>'required',
+                                     'new_password'=>'required'   
+                                    ]);
+       $current_password = Auth::User()->password;    
+           
+     if (!(Hash::check($request->old_password, Auth::user()->password))) 
+      { 
+         return redirect()->back()->with('error','Old password not matched');
+        }
+        else{
+          
+           $user_id = Auth::User()->id;                       
+            $obj_user = User::find($user_id);
+            $obj_user->password = Hash::make($data['new_password']);
+            $obj_user->save();
+            return redirect()->back()->with("error","Password changed successfully !");
+        }
     }
 }

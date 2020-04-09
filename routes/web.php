@@ -13,13 +13,20 @@
 		Route::get('/notification_read/{id}','HomeController@notification_read')->name('notification_read');
 		Route::get('/api_data', 'HomeController@api_data')->name('api_data');
 
+		//For PassWord Change & update Password
+		Route::get('change_password/{id}', 'AccountController@change_password')->name('change_password');
+		Route::post('password_update/{id}', 'AccountController@password_update')->name('password_update'); 
+
+		//End 
+		Route::resource('/module', 'Module\ModuleController');
+
 Route::group(['middleware' => ['role:superadmin']], function () {
 		// This Route start For RolesController
 
 		Route::resource('/admin', 'ACL\RolesController');
-		Route::get('/delete/{id}','ACL\RolesController@destroy')->name('delete');
+		Route::get('/delete_roles/{id}','ACL\RolesController@destroy')->name('delete_roles');
 		Route::post('/save_changes','ACL\RolesController@saveChanges')->name('saveChanges');
-		// End RolesController
+		// End RolesController 
 
 		// Start Permission Conroller 
 		Route::resource('permissions', 'ACL\PermissionController');
@@ -36,9 +43,10 @@ Route::group(['middleware' => ['role:superadmin']], function () {
 		Route::resource('/account', 'AccountController');
 		Route::get('account_delete/{id}', 'AccountController@destroy')->name('account.destroy');
 		//End AccountController
+
 });
 
-Route::group(['middleware' => ['role:account']], function () {	
+Route::group(['middleware' => ['role:user']], function () {	
 
 		//Start FleetController
 		Route::resource('/fleet','FleetController');
@@ -77,7 +85,7 @@ Route::group(['middleware' => ['role:account']], function () {
 		Route::post('/expenses_details.show','ExpensesDetailsController@expenses_details');
 });
 
-Route::group(['middleware' => ['role:fleets']], function () {
+Route::group(['middleware' => ['role:manager']], function () {
 
      	//Strat Dashboard Controller
 		Route::resource('/dashboard','DashboardController');

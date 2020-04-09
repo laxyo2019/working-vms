@@ -156,7 +156,7 @@
                                 </li>
                             </ul>
                            
-                            <div class="user">
+                            <div class="user"> 
                                   
                                 <div class="dropdown">
                                     <a href="#" class='dropdown-toggle' data-toggle="dropdown">

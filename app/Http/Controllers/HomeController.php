@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Finance\Vehicle_finance_ins;
 use App\Notifications\TestNotification;
 use App\Models\InsuranceDetails;
 use App\Models\FitnessDetails;
@@ -34,11 +35,11 @@ class HomeController extends Controller
             return redirect('admin');
         }
         else if($acc_type == 'C'){
-            Session::put('user_rol','fleet');
+            Session::put('user_rol','manager');
           return redirect('dashboard');   
         }
         else if($acc_type == 'B'){
-            Session::put('user_rol','account');
+            Session::put('user_rol','user');
           return redirect('accountuser');   
         }
         elseif($acc_type == '') {
@@ -48,15 +49,37 @@ class HomeController extends Controller
     }
     public function test_notify(){
       $today = Carbon::now()->addDays('15')->format('Y-m-d');
+      $fins  = Vehicle_finance_ins::whereBetween('fist_ins_date_lst',[date('Y-m-d'),$today])->with('vch')->get();
       $pucs  = PUCDetails::whereBetween('valid_till',[date('Y-m-d'),$today])->with('vehicle')->get();
       $rcs   = RcDetails::whereBetween('valid_till',[date('Y-m-d'),$today])->with('vehicle')->get();
       $inss  = InsuranceDetails::whereBetween('valid_till',[date('Y-m-d'),$today])->with('vehicle')->get();
       $fits  = FitnessDetails::whereBetween('valid_till',[date('Y-m-d'),$today])->with('vehicle')->get();
       $rods  = RoadtaxDetails::whereBetween('valid_till',[date('Y-m-d'),$today])->with('vehicle')->get();
       $pers  = StatePermit::whereBetween('valid_till',[date('Y-m-d'),$today])->with('vehicle')->get();
+         if(count($fins) !=0){
+        foreach ($fins as $fin) {
+            $data = [ 
+              'id' => $fin->id,
+              'title' => 'INSTALMENT EXPIRE Notification',
+              'message' => $fin->vehicle->vch_no,
+              'date' => $fin->fist_ins_date_lst,
+              'url' => 'vehiclefinance'
+            ];
+
+            $user = User::find($fin->created_by);
+          $user->notify(new TestNotification($data));
+
+            if($user->parent_id !=null){
+              $users = User::find($user->parent_id);
+              $data['url'] = 'account_finance_details';
+            $users->notify(new TestNotification($data));
+
+            }
+        }
+      }
       if(count($pucs) !=0){
         foreach ($pucs as $puc) {
-            $data = [
+            $data = [ 
               'id' => $puc->id,
               'title' => 'PUC EXPIRE Notification',
               'message' => $puc->vehicle->vch_no,

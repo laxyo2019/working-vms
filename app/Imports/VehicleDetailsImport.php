@@ -18,12 +18,13 @@ class VehicleDetailsImport implements ToCollection,WithHeadingRow
     * @param Collection $collection
     */
     public function collection(Collection $rows)
-    {  //dd($rows);
+    {  
         $error = array();
         $fleet_code = session('fleet_code');
         
         foreach ($rows as $row) 
-        {   
+        {    
+
         	$data = vch_comp::where('fleet_code',$fleet_code)->where('comp_name',$row['vehicle_company'])->first();
 
         	$model = vch_model::where('fleet_code',$fleet_code)->where('model_name',$row['vehicle_model'])->first();
@@ -54,7 +55,8 @@ class VehicleDetailsImport implements ToCollection,WithHeadingRow
 
                                 $registration_date   = $registration_date == null ?  null : $registration_date->format('Y-m-d') ;
                                     if(empty($comp))
-                                    { 
+                                    {  
+                                        // dd($row['manufacture_year']);
                                         vehicle_master::create([
 
                                                     'fleet_code'           =>$fleet_code,

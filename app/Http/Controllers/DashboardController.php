@@ -66,8 +66,8 @@ class DashboardController extends Controller
 
            $accident        = Accident::with('vehicle')->where('fleet_code',$fleet_code)->get();
            $acicount        = collect($accident)->count();
-
            $expenses        = VehicleExpenses::where('fleet_code',$fleet_code)->whereYear('date',date('Y'))->sum('amount');
+
 
           $vch_finance      = Vehicle_finance::where('created_by',$id)->where('fleet_code',$fleet_code)->with('owner','vch_no')->get();
 
@@ -133,6 +133,51 @@ class DashboardController extends Controller
                           
                 $data['fleet']    = 'no';
                 $data['fleet_id'] = array(); 
+
+                 $vehicle         = get_vehicle()->get(); 
+           $vch_count       = collect($vehicle)->count();  
+
+           $driver          = get_driver()->get(); 
+           $driver_count    = collect($driver)->count();
+// return $driver;
+           $insurance       = InsuranceDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $inscount        = collect($insurance)->count();
+
+           
+           $pucDetails      = PUCDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $puccount        = collect($pucDetails)->count();
+
+           $fitnessetails   = FitnessDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $fitnesscount    = collect($fitnessetails)->count();
+
+           $roadtax         = RoadtaxDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $roadcount       = collect($roadtax)->count();
+
+           $permit          = StatePermit::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $permitcount     = collect($permit)->count();
+
+           $rcdetails       = RcDetails::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $rccount         = collect($rcdetails)->count();
+
+           $accident        = Accident::with('vehicle')->where('fleet_code',$fleet_code)->get();
+           $acicount        = collect($accident)->count();
+           $expenses        = VehicleExpenses::where('fleet_code',$fleet_code)->whereYear('date',date('Y'))->sum('amount');
+
+
+          $vch_finance      = Vehicle_finance::where('created_by',$id)->where('fleet_code',$fleet_code)->with('owner','vch_no')->get();
+
+          $vch_trip         = Vehicle_Trip::where('created_by',$id)->whereYear('starting_date',date('Y'))->where('fleet_code',$fleet_code)->with('owner','vehicle','from_city','to_city')->get();
+          $trip_count       = collect($vch_trip)->count();
+
+          $vehicleStatus    = VehicleStatus::where('created_by',$id)->where('fleet_code',$fleet_code)->with('vehicle')->get();
+          $running_vch      = collect($vehicleStatus)->where('status','Running');
+          $running          = count($running_vch);
+          $standby_vch      = collect($vehicleStatus)->where('status','StandBy');
+          $standby          = count($standby_vch);
+          $repair_vch       = collect($vehicleStatus)->where('status','Repair/Maintenance');
+          $repair           = count($repair_vch);
+          $unloaded_vch     = collect($vehicleStatus)->where('status','ReadyForLoad');
+          $unloaded         = count($unloaded_vch);
 
                 return view('dashboard1',compact('data','insurance','pucDetails','fitnessetails','roadtax','permit','rcdetails','inscount','puccount','fitnesscount','roadcount','permitcount','rccount','vehicle','vch_count','driver','driver_count','expenses','accident','acicount','running_vch','running','standby_vch','standby','repair_vch','repair','unloaded_vch','unloaded','vch_finance','vch_trip','trip_count'));
             }

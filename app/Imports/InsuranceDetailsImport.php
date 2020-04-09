@@ -23,14 +23,13 @@ class InsuranceDetailsImport implements ToCollection,WithHeadingRow
         $fleet_code = session('fleet_code');
 
         foreach ($rows as $row) {
-            $row['fleet_code'] =  $fleet_code;
+            $fleet_code = $row['fleet_code'];
             if(!empty($row['vehicle_number']))
             {              
                 $ins_comp  = InsuranceCompany::where('fleet_code',$fleet_code)->where('comp_name', 'like',$row['insurance_company'])->first();
                 
                 $ins_type  = InsuranceType::where('fleet_code',$fleet_code)->where('type_name', 'like',$row['insurance_type'])->first();
                 $vch_num  = vehicle_master::where('fleet_code',$fleet_code)->where('vch_no',$row['vehicle_number'])->first();
-                
                 $valid_date   = !empty($row['insurancs_valid_from']) ?   Date::excelToDateTimeObject($row['insurancs_valid_from']) : null;
                 $expire_date  = !empty($row['insurance_valid_till']) ? Date::excelToDateTimeObject($row['insurance_valid_till']) : null ;
                 $valid_date   = $valid_date == null ? null : $valid_date->format('Y-m-d');
@@ -39,6 +38,7 @@ class InsuranceDetailsImport implements ToCollection,WithHeadingRow
                 $comp = InsuranceDetails::where('fleet_code',$fleet_code)->where('ins_policy_no', $row['insurance_policy_number'])->first();
                 if(!empty($row['insurance_policy_number'])){
                     if(empty($com)){
+                // dd(Auth::user()->id);
                     
                     InsuranceDetails::create([
                     'fleet_code'  => $row['fleet_code'],

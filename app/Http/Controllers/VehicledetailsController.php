@@ -13,7 +13,7 @@ use App\Models\VehicleType;
 use App\vehicle_master;
 use App\vch_model;
 use App\vch_comp;
-use Session;
+use Session; 
 use File;
 use Auth;
 use DB;
@@ -71,7 +71,7 @@ class VehicledetailsController extends Controller
       
         $fleet_code     = session('fleet_code');
         $vehicledetails = vehicle_master::with('company','model','puc.agent','rc.agent','fitness.agent','insurance.agent','insurance.insurance_company','roadtax.agent','permit.agent','type')->find($id);
-        $res            = $vehicledetails->insurance->ins_comp;
+        $res            = $vehicledetails->insurance ? $vehicledetails->insurance->ins_comp : null;
         $ins_type       = InsuranceType::where('fleet_code',$fleet_code)->where('ins_id',$res)->first();
         
         return view('vehicle_detail.detail',compact('vehicledetails','ins_type'));
