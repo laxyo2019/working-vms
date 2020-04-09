@@ -48,7 +48,6 @@
                   <td style="padding-left: 20px">{{$vch_no->vch_no }}</td>
                   <td style="padding-left: 20px">{{$State->permit_amt}}</td>
                   <td style="padding-left: 20px">{{$State->valid_from}}</td>
-                  <td style="padding-left: 20px">{{$State->valid_till}}</td>
                   <?php
                       if(strtotime($State->valid_till) <= strtotime($carbondate) && strtotime($State->valid_till) >= strtotime($curr) ){
                         ?>

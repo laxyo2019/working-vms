@@ -1,70 +1,58 @@
-@extends('state.main') 
+@extends('layouts.ACLadmin')
+@section('title','Welcom: To Admin Panel')
+@section('meta')
+    <meta name="description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
+    <!-- Twitter meta-->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:site" content="@pratikborsadiya">
+    <meta property="twitter:creator" content="@pratikborsadiya">
+    <!-- Open Graph Meta-->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Vali Admin">
+    <meta property="og:title" content="Vali - Free Bootstrap 4 admin theme">
+    <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
+    <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
+    <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+@endsection
 @section('content')
-<div class="container">
-  <div id="ContentPlaceHolder1_PnlShow"  style="display: inline;">
+
+ <main class="app-content">
+    <div class="app-title">
+      <div>
+        <h1><i class="fa fa-dashboard"></i>ACL</h1>
+      </div>
+      <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="#">ACL</a></li>
+      </ul>
+    </div>
     <div class="row">
-      <div class="col-sm-12">
-        <div class="box box-color orange box-condensed box-bordered">
-          <div class="box-title">
-            <div class="col-sm-6 col-md-6">
-                <h3> STATE DETAILS </h3>
-            </div>
-            <div class="col-sm-6 col-md-6">
-                <a class="btn btn-inverse pull-right" href="{{route('state.index')}}">Back</a>
-            </div>
-            <div id="add-state-form">
-               <form class="form-horizontal" method="post" action="{{route('state.store')}}">
-                {{csrf_field()}}
-                  <div class="row">
-                   <div class="col-md-2 col-sm-2">
-                   </div> 
-                    <div class="col-md-2 col-sm-2 state-form-input">
-                      <label class="control-label pull-right" for="email"><span style="color: #FF0000; font-size:20px;">*</span>State Name :</label>                   
-                    </div>
-                    <div class="col-md-5 col-sm-5 state-form-input">    
-                        <input class="form-control " id="email" name="state">                      
-                      @error('state')
-                      <span class="invalid-feedback d-block" role="alert">
-                         <strong>{{ 'Please enter state name in characters' }}</strong>
-                      </span>
-                     @enderror
-                    </div>
-                  </div>
-                  <div class="row mt-3" >
-                    <div class="col-md-2 col-sm-2">
-                    </div> 
-                    <div class="col-md-2 col-sm-2 state-form-input">
-                      <label class="control-label pull-right" for="email"><span style="color: #FF0000; font-size:20px;">*</span>State Short Name :</label>                   
-                    </div>
-                    <div class="col-md-5 col-sm-5 state-form-input ">             
-                      <input class="form-control" id="pwd" name="state_short">
-                      @error('state_short')
-                      <span class="invalid-feedback d-block" role="alert">
-                         <strong>{{ 'Please enter state short code in characters' }}</strong>
-                      </span>
-                     @enderror
-                    </div>                     
-                      
-                  </div>                                   
-                  <div class="row">         
-                      <div class="col-sm-12 col-sm-10 text-center mt-3">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                      </div>
-                  </div>  
-                </form>
+    <div class="col-md-12 m-auto">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <form style="width:100%;" class="form-block" method="post" action="{{route('module.store')}}">
+              {{csrf_field()}}
+              <div class="form-group" style="margin-left: 20px;text-align: center;">  
+                <label  for="name">Module Name</label>
+                <input style="max-width: 20%;position: relative;left: 425px;" class="form-control" type="text" name="name" >
+                @error('name')
+                  <span class="invalid-feedback d-block" role="alert">
+                  <strong>{{ $message }}</strong>
+                  </span>
+                @enderror
+                <input  style="margin-top: 10px;" class="btn btn-primary" type="submit" name="submit" value="Submit">
               </div>
-            </div>
+            </form>   
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>    
+</main>     
 
-<script type="text/javascript">
-  $(document).ready( function () {
-    $('#myTable').DataTable();
-} );
-
-</script>
 @endsection

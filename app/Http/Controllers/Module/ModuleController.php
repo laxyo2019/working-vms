@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Module;
 
-use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request; 
+use App\Models\Module;
+use Auth;
 
 class ModuleController extends Controller
 {
@@ -13,8 +15,9 @@ class ModuleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('module.index');
+    { 
+        $data = Module::where('created_by',Auth::user()->id)->get();
+        return view('module.index',compact('data'));
     }
 
     /**
@@ -36,9 +39,10 @@ class ModuleController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate(['name' => 'required']);
+        $data = $request->validate(['name' => 'required|unique:modules']);
+        $data['created_by'] = Auth::user()->id;
 
-        Permission::create($data);
+        Module::create($data);
         return redirect('admin');
     }
 

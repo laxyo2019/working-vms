@@ -77,7 +77,8 @@
         <?php if(session('user_rol') == 'admin' ) { ?>  
           <li><a class="app-menu__item active" href="{{url('admin')}}"><i class="app-menu__icon fa faces-dashboard"></i><span class="app-menu__label">ACL</span></a></li> 
           <li><a class="app-menu__item active" href="{{url('account')}}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Account</span></a></li>
-          <li><a class="app-menu__item active" href="{{url('module')}}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Modules</span></a></li>
+          <li><a class="app-menu__item active" href="{{route('module.create')}}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Create Modules</span></a></li>
+          <li><a class="app-menu__item active" href="{{url('module')}}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Modules List</span></a></li>
        <?php  }
         else{ ?>
           <li><a class="app-menu__item active" href="{{url('accountuser')}}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a></li>

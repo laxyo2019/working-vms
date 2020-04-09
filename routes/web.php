@@ -19,6 +19,7 @@
 
 		//End 
 		Route::resource('/module', 'Module\ModuleController');
+		Route::get('/module_destroy/{id}','Module\ModuleController@destroy')->name('module_destroy');
 
 Route::group(['middleware' => ['role:superadmin']], function () {
 		// This Route start For RolesController
