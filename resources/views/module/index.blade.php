@@ -41,7 +41,6 @@
                   <tr >
                     <th >SR. NO</th>
                     <th >MODULE NAME</th>
-                    <th >ACTION</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -50,10 +49,6 @@
                   <tr>
                     <td>{{$count++}}</td>
                     <td>{{$data->name}}</td>
-                    <td>
-                      <a style="padding:2px 5px;" href="{{route('module.edit',$data->id)}}" runat="server" class="btn btn-success" rel="tooltip" title="" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                      <a style="padding:2px 8px;" onclick="javascript:return confirm('Do You Really Want To Delete This?');" href="{{url('module_destroy',$data->id)}}" class="btn btn-inverse" rel="tooltip" title="" data-original-title="Delete"><i class="fa fa-times"></i></a>
-                    </td>
                   </tr>
                   @endforeach
                 </tbody>

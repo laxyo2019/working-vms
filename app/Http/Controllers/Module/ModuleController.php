@@ -16,7 +16,7 @@ class ModuleController extends Controller
      */
     public function index()
     { 
-        $data = Module::where('created_by',Auth::user()->id)->get();
+        $data = Module::all();
         return view('module.index',compact('data'));
     }
 
@@ -88,6 +88,8 @@ class ModuleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Module::find($id)->delete();
+        return redirect('module');
+
     }
 }

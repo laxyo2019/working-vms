@@ -4,10 +4,10 @@ namespace App\Http\Controllers\ACL;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\User;
+use DB;
 
 
 class RolesController extends Controller

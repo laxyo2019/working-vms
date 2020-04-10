@@ -5,6 +5,8 @@ namespace App\Http\Controllers\ACL;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Permission;
+use App\Models\Module;
+use Auth;
 use DB;
 
 class PermissionController extends Controller
@@ -25,8 +27,10 @@ class PermissionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('acl.permissions.create');
+    { 
+        $modules = Module::all();
+
+        return view('acl.permissions.create',compact('modules'));
     }
 
     /**
@@ -37,11 +41,14 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate(['name' => 'required']);
+        $data = $request->validate([
+            'name' => 'required',
+            'module_id' => 'required'
+        ]);
         $data['created_at'] = date("Y-m-d H:i:s");  
-        $name = $request->name;
+        // $name = $request->name;
 
-        $role = Permission::create(['name' => $name]);
+        $role = Permission::create($data);
         return redirect('admin');
     }
 

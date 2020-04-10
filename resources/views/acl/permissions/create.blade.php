@@ -34,21 +34,40 @@
 		<div class="col-md-12 m-auto">
 			<div class="card">
 				<div class="card-header">
-					<div class="row">
 						<form style="width:100%;" class="form-block" method="post" action="{{route('permissions.store')}}">
 							{{csrf_field()}}
-							<div class="form-group" style="margin-left: 20px;text-align: center;">	
-								<label  for="name">Permission Name</label>
-								<input style="max-width: 20%;position: relative;left: 425px;" class="form-control" type="text" name="name" >
-								@error('name')
+						<div class="row">
+							<div class="form-group col-md-6">
+								<label>Module Name</label>
+								<select name="module_id" class="selectpicker form-control" id="vehicle_no1">
+			                            <option value="0" selected=" true " disabled="true">Select Module..</option>
+			                            @foreach($modules as $module)
+			                               <option value="{{$module->id}}">{{$module->name}}</option>
+			                            @endforeach     
+			                        </select>
+			                         @error('module_id')
+			                              <span class="invalid-feedback d-block pull-right" role="alert">
+			                                  <strong>{{ 'Please Select Module Name' }}</strong>
+			                              </span>
+			                          @enderror
+							</div>
+							<div class="form-group col-md-6">
+								<label>Permission Name</label>
+								<input type="text" name="name" class="form-control">
+			                         @error('name')
 									<span class="invalid-feedback d-block" role="alert">
 									<strong>{{ $message }}</strong>
 									</span>
 								@enderror
-								<input  style="margin-top: 10px;" class="btn btn-primary" type="submit" name="submit" value="Submit">
 							</div>
-						</form>		
-					</div>
+						</div>
+						<div class="row">
+							<div class="col-md-5"></div>
+							<div class="form-group col-md-3" >	
+								<input  style="margin-top: 10px;margin-left: 50px;" class="btn btn-primary" type="submit" name="submit" value="Submit">
+							</div>
+						</div>
+					</form>		
 				</div>
 			</div>
 		</div>

@@ -21,7 +21,6 @@ class InsuranceDetailsImport implements ToCollection,WithHeadingRow
     {  
         $error = array();
         $fleet_code = session('fleet_code');
-
         foreach ($rows as $row) {
             $fleet_code = $row['fleet_code'];
             if(!empty($row['vehicle_number']))
@@ -35,10 +34,9 @@ class InsuranceDetailsImport implements ToCollection,WithHeadingRow
                 $valid_date   = $valid_date == null ? null : $valid_date->format('Y-m-d');
                 $expire_date  = $expire_date == null ?  null : $expire_date->format('Y-m-d');
 
-                $comp = InsuranceDetails::where('fleet_code',$fleet_code)->where('ins_policy_no', $row['insurance_policy_number'])->first();
                 if(!empty($row['insurance_policy_number'])){
+                $comp = InsuranceDetails::where('fleet_code',$fleet_code)->where('ins_policy_no', $row['insurance_policy_number'])->first();
                     if(empty($com)){
-                // dd(Auth::user()->id);
                     
                     InsuranceDetails::create([
                     'fleet_code'  => $row['fleet_code'],

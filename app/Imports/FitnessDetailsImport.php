@@ -33,7 +33,8 @@ class FitnessDetailsImport implements ToCollection,WithHeadingRow
                     $valid_date   = $valid_date == null ? null : $valid_date->format('Y-m-d');
                     $expire_date  = $expire_date == null ?  null : $expire_date->format('Y-m-d');
                     $comp = FitnessDetails::where('fleet_code',$fleet_code)->where('fitness_no', $row['fitness_no'])->first();
-                if(empty($comp)){                    
+                if(empty($comp)){     
+                // dd($expire_date);               
                         FitnessDetails::create([
                         'fleet_code'  => $row['fleet_code'],
                         'vch_id'      => $vch_num->id ,
