@@ -72,9 +72,10 @@ class VehicledetailsController extends Controller
         $fleet_code     = session('fleet_code');
         $vehicledetails = vehicle_master::with('company','model','puc.agent','rc.agent','fitness.agent','insurance.agent','insurance.insurance_company','roadtax.agent','permit.agent','type')->find($id);
         $res            = $vehicledetails->insurance ? $vehicledetails->insurance->ins_comp : null;
-        $ins_type       = InsuranceType::where('fleet_code',$fleet_code)->where('ins_id',$res)->first();
+        // $ins_type       = InsuranceType::where('fleet_code',$fleet_code)->where('ins_id',$res)->first();
+        // return $ins_type;
         
-        return view('vehicle_detail.detail',compact('vehicledetails','ins_type'));
+        return view('vehicle_detail.detail',compact('vehicledetails'));
     }
 
     public function edit($id)

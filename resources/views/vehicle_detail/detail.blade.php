@@ -11,17 +11,17 @@
       <div class="box box-color orange box-condensed box-bordered">
         <div class="box-title">
           	<div class="row">
-		        <div class="col-sm-4 col-md-4">
+		        <div class="col-md-10 col-md-4">
 		            <button type="button" class="btn btn-secondary" id="vehicle_details">Vehicle Details</button>
-		        </div>
-	            <div class="col-sm-8 col-md-8">
 	               <button type="button" class="btn btn-secondary" id="puc_details">PUC Details</button>
 	               <button type="button" class="btn btn-secondary" id="rc_details">RC Details</button>
 	               <button type="button" class="btn btn-secondary" id="fitness_details">Fitness Details</button>
 	               <button type="button" class="btn btn-secondary" id="roadtax_details">Road Tax DEtails</button>
 	               <button type="button" class="btn btn-secondary" id="insurance_details">Insurance Details</button>
 	               <button type="button" class="btn btn-secondary" id="permit_details">Permit Details</button>
-	               
+	      	  	</div>
+	      	  	<div class="col-md-2">
+	      	  		<a class="btn btn-inverse pull-right" href="{{route('vehicledetails.index')}}">Back</a>
 	      	  	</div>
       	  </div>
         </div>
@@ -153,11 +153,11 @@
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>Agent Name:</th>
-	      	  				<td>{{$vehicledetails->puc->agent == null ? 'No Name' :$vehicledetails->puc->agent->agent_name}}</td>
+	      	  				<td>{{$vehicledetails->puc == null ? 'No Record' : ($vehicledetails->puc->agent == null ? 'No Name' :$vehicledetails->puc->agent->agent_name)}}</td>
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>PUC No:</th>
-	      	  				<td>{{$vehicledetails->puc->puc_no}}</td>
+	      	  				<td>{{$vehicledetails->puc ? $vehicledetails->puc->puc_no : 'No Record'}}</td>
 	      	  			</tr>
 	      	  		</table>
 	      	  	</div>
@@ -165,15 +165,15 @@
 	      	  		<table class="table">
 	      	  			<tr>
 	      	  				<th>PUC Amount:</th>
-	      	  				<td>{{$vehicledetails->puc->puc_amt}}</td>
+	      	  				<td>{{$vehicledetails->puc ? $vehicledetails->puc->puc_amt : 'No Record'}}</td>
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>Valid From:</th>
-	      	  				<td>{{$vehicledetails->puc->valid_from}}</td>
+	      	  				<td>{{$vehicledetails->puc ? $vehicledetails->puc->valid_from : 'No Record'}}</td>
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>Expiry Date:</th>
-	      	  				<td>{{$vehicledetails->puc->valid_till}}</td>
+	      	  				<td>{{$vehicledetails->puc ? $vehicledetails->puc->valid_till : 'No Record'}}</td>
 	      	  			</tr>
 	      	  		</table>
 	      	  	</div>
@@ -202,7 +202,7 @@
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>Agent Name:</th>
-	      	  				<td>{{$vehicledetails->rc == null ? 'NO RECORD' :$vehicledetails->rc->agent->agent_name}}</td>
+	      	  				<td>{{$vehicledetails->rc == null ? 'No Record' : ($vehicledetails->rc->agent == null ? 'No Name' :$vehicledetails->rc->agent->agent_name)}}</td>
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>RC No:</th>
@@ -251,7 +251,7 @@
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>Agent Name:</th>
-	      	  				<td>{{$vehicledetails->fitness->agent == null ? 'NO RECORD' :$vehicledetails->fitness->agent->agent_name}}</td>
+	      	  				<td>{{$vehicledetails->fitness == null ? 'No Record' : ($vehicledetails->fitness->agent == null ? 'No Name' :$vehicledetails->fitness->agent->agent_name)}}</td>
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>Fitness No:</th>
@@ -296,7 +296,7 @@
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>Agent Name:</th>
-	      	  				<td>{{$vehicledetails->roadtax == null ? 'NO NAME' :$vehicledetails->roadtax->agent->agent_name}}</td>
+	      	  				<td>{{$vehicledetails->roadtax == null ? 'No Record' : ($vehicledetails->roadtax->agent == null ? 'No Name' :$vehicledetails->roadtax->agent->agent_name)}}</td>
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>Goods & Service Tax No:</th>
@@ -350,23 +350,23 @@
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>Agent Name:</th>
-	      	  				<td>{{$vehicledetails->insurance->agent == null ? 'No Name' :$vehicledetails->insurance->agent->agent_name}}</td>
+	      	  				<td>{{$vehicledetails->insurance == null ? 'No Record' : ($vehicledetails->insurance->agent == null ? 'No Name' :$vehicledetails->insurance->agent->agent_name)}}</td>
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>Insurance Company:</th>
-	      	  				<td>{{$vehicledetails->insurance->insurance_company->comp_name ? $vehicledetails->insurance->insurance_company->comp_name : 'NO RECORD'}}</td>
+	      	  				<td>{{$vehicledetails->insurance  == null ? 'No Record' : ($vehicledetails->insurance->insurance_company == null ? 'No Record' :  $vehicledetails->insurance->insurance_company->comp_name )}}</td>
 	      	  			</tr>
-	      	  			<tr>
+	      	  			{{-- <tr>
 	      	  				<th>Insurance Type</th>
 	      	  				<td>{{$ins_type->type_name ? $ins_type->type_name : 'NO RECORD'}}</td>
-	      	  			</tr>
+	      	  			</tr> --}}
 	      	  			<tr>
 	      	  				<th>Insured's Name:</th>
-	      	  				<td>{{$vehicledetails->insurance->insured_name ? $vehicledetails->insurance->insured_name :'NO RECORD'}}</td>
+	      	  				<td>{{$vehicledetails->insurance == null ? 'No Record' : ($vehicledetails->insurance->insured_name ? $vehicledetails->insurance->insured_name :'NO RECORD')}}</td>
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>NCB Discount</th>
-	      	  				<td>{{$vehicledetails->insurance->ncb_discount ? $vehicledetails->insurance->ncb_discount : 'NO RECORD'}}</td>
+	      	  				<td>{{$vehicledetails->insurance == null ? 'No Record' :  ($vehicledetails->insurance->ncb_discount ? $vehicledetails->insurance->ncb_discount : 'NO RECORD')}}</td>
 	      	  			</tr>
 	      	  		</table>
 	      	  	</div>
@@ -374,27 +374,27 @@
 	      	  		<table class="table">
 	      	  			<tr>
 	      	  				<th>Insurance Policy No:</th>
-	      	  				<td>{{$vehicledetails->insurance->ins_policy_no ? $vehicledetails->insurance->ins_policy_no : 'NO RECORD'}}</td>
+	      	  				<td>{{$vehicledetails->insurance == null ? 'No Record' : ($vehicledetails->insurance->ins_policy_no ? $vehicledetails->insurance->ins_policy_no : 'NO RECORD')}}</td>
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>Insurance Prev Policy No:</th>
-	      	  				<td>{{$vehicledetails->insurance->ins_pre_policy_no ? $vehicledetails->insurance->ins_pre_policy_no : 'NO RECORD'}}</td>
+	      	  				<td>{{$vehicledetails->insurance == null ? 'No Record' : ($vehicledetails->insurance->ins_pre_policy_no ? $vehicledetails->insurance->ins_pre_policy_no : 'NO RECORD')}}</td>
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>Insurance Total Amount:</th>
-	      	  				<td>{{$vehicledetails->insurance->ins_total_amt ? $vehicledetails->insurance->ins_total_amt : 'NO RECORD'}}</td>
+	      	  				<td>{{$vehicledetails->insurance == null ? 'No Record' : ($vehicledetails->insurance->ins_total_amt ? $vehicledetails->insurance->ins_total_amt : 'NO RECORD')}}</td>
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>Hypothecation Agreement:</th>
-	      	  				<td>{{$vehicledetails->insurance->hypothecation_agreement ? $vehicledetails->insurance->hypothecation_agreement : 'NO RECORD'}}</td>
+	      	  				<td>{{$vehicledetails->insurance == null ? 'No Record' : ($vehicledetails->insurance->hypothecation_agreement ? $vehicledetails->insurance->hypothecation_agreement : 'NO RECORD')}}</td>
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>Valid From:</th>
-	      	  				<td>{{$vehicledetails->insurance->valid_from ? $vehicledetails->insurance->valid_from : 'NO RECORD'}}</td>
+	      	  				<td>{{$vehicledetails->insurance == null ? 'No Record' : ($vehicledetails->insurance->valid_from ? $vehicledetails->insurance->valid_from : 'NO RECORD')}}</td>
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>Expiry Date:</th>
-	      	  				<td>{{$vehicledetails->insurance->valid_till ? $vehicledetails->insurance->valid_till : 'NO RECORD'}}</td>
+	      	  				<td>{{$vehicledetails->insurance == null ? 'No Record' : ($vehicledetails->insurance->valid_till ? $vehicledetails->insurance->valid_till : 'NO RECORD')}}</td>
 	      	  			</tr>
 	      	  		</table>
 	      	  	</div>
@@ -419,35 +419,35 @@
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>Agent Name:</th>
-	      	  				<td>{{$vehicledetails->permit->agent == null ? 'No Name' :$vehicledetails->permit->agent->agent_name}}</td>
+	      	  				<td>{{$vehicledetails->permit == null ? 'No Record' : ($vehicledetails->permit->agent == null ? 'No Name' :$vehicledetails->permit->agent->agent_name)}}</td>
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>Permit No:</th>
-	      	  				<td>{{$vehicledetails->permit->permit_no ? $vehicledetails->permit->permit_no : 'NO RECORD'}}</td>
+	      	  				<td>{{$vehicledetails->permit == null ? 'No Record' : ($vehicledetails->permit->permit_no ? $vehicledetails->permit->permit_no : 'NO RECORD')}}</td>
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>Permit Amount:</th>
-	      	  				<td>{{$vehicledetails->permit->permit_amt ? $vehicledetails->permit->permit_amt : 'NO RECORD'}}</td>
+	      	  				<td>{{$vehicledetails->permit == null ? 'No Record' : ($vehicledetails->permit->permit_amt ? $vehicledetails->permit->permit_amt : 'NO RECORD')}}</td>
 	      	  			</tr>
 	      	  		</table>
 	      	  	</div>
 	      	  	<div class="col-md-5">
 	      	  		<table class="table">
-	      	  			<tr>
+	      	  			<{{-- tr>
 	      	  				<th>State:</th>
-	      	  				<td>{{$vehicledetails->permit->valid_from}}</td>
-	      	  			</tr>
+	      	  				<td>{{$vehicledetails->permit == null ? 'No Record' : ($vehicledetails->permit->valid_from)}}</td>
+	      	  			</tr> --}}
 	      	  			<tr>
 	      	  				<th>All India Permit:</th>
-	      	  				<td>{{$vehicledetails->permit->all_india_permit == '0' ? 'NO' : 'YES'}}</td>
+	      	  				<td>{{$vehicledetails->permit == null ? 'No Record' : ($vehicledetails->permit->all_india_permit == null ? 'No Record' : ($vehicledetails->permit->all_india_permit == '0' ? 'NO' : 'YES'))}}</td>
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>Valid From:</th>
-	      	  				<td>{{$vehicledetails->permit->valid_from ? $vehicledetails->permit->valid_from : 'NO RECORD'}}</td>
+	      	  				<td>{{$vehicledetails->permit == null ? 'No Record' : ($vehicledetails->permit->valid_from ? $vehicledetails->permit->valid_from : 'NO RECORD')}}</td>
 	      	  			</tr>
 	      	  			<tr>
 	      	  				<th>Expiry Date:</th>
-	      	  				<td>{{$vehicledetails->permit->valid_till ? $vehicledetails->permit->valid_till :'NO RECORD'}}</td>
+	      	  				<td>{{$vehicledetails->permit == null ? 'No Record' : ($vehicledetails->permit->valid_till ? $vehicledetails->permit->valid_till :'NO RECORD')}}</td>
 	      	  			</tr>
 	      	  		</table>
 	      	  	</div>
