@@ -29,7 +29,7 @@ class VehicleTypeController extends Controller
     public function store(Request $request)
     {
         $fleet_code = Session('fleet_code');
-        $data       = $request->validate([ 'vch_type'     => 'required|unique:vch_types']);
+        $data       = $request->validate([ 'vch_type'     => 'required']);
         $data['vch_type']     = strtoupper($data['vch_type']);
         $data['fleet_code']   = $fleet_code;
         $data['created_by']  = Auth::user()->id;
@@ -60,7 +60,7 @@ class VehicleTypeController extends Controller
     }
     public function add_vch_type(Request $request){
         $fleet_code = Session('fleet_code');
-        $data       = $request->validate([ 'vch_type'     => 'required|unique:vch_types']);
+        $data       = $request->validate([ 'vch_type'     => 'required']);
         $data['vch_type']     = strtoupper($data['vch_type']);
         $data['fleet_code']   = $fleet_code;
         $data['created_by']  = Auth::user()->id;

@@ -11,7 +11,7 @@ use App\Models\InsuranceType;
 use Illuminate\Http\Request;
 use App\Models\VehicleType;
 use App\vehicle_master;
-use App\vch_model;
+use App\vch_model; 
 use App\vch_comp;
 use Session; 
 use File;
@@ -86,7 +86,7 @@ class VehicledetailsController extends Controller
        $model_vch  = vch_model::find($edata->vch_model);
        $city       = DB::table('master_cities')->where('fleet_code',$fleet_code)->get();
        $types      = VehicleType::where('fleet_code',$fleet_code)->get();
-            
+            // return $model;
        return view('vehicle_detail.edit',compact('company','model','edata','city','model_vch','types'));
     }
  

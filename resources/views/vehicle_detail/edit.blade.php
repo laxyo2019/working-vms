@@ -67,10 +67,12 @@
                        <div class="input-group">
                           <select id="vch_comp" name="vch_comp" class="selectpicker form-control">
                              <option disabled="true">Select..</option>
-                            @foreach($company as $comp)
-                                <option  value="{{$comp->id}}" 
-                                	{{$edata->vch_comp == $comp->id ? 'selected' : ''}}>{{$comp->comp_name}}</option>
-                            @endforeach    
+                            @if(!empty($company )) 
+                              @foreach($company as $comp)
+                                  <option  value="{{$comp->id}}" 
+                                  	{{$edata->vch_comp == $comp->id ? 'selected' : ''}}>{{$comp->comp_name}}</option>
+                              @endforeach 
+                            @endif   
                           </select>
                         </div>
                     </div> 

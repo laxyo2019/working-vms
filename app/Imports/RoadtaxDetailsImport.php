@@ -16,11 +16,11 @@ class RoadtaxDetailsImport implements ToCollection,WithHeadingRow
 
     public function collection(Collection $rows)
     {   
-        // dd($rows); 
         $error = array();
         $fleet_code = session('fleet_code');
 
         foreach ($rows as $row) {
+        // dd($row); 
             $row['fleet_code'] =  $fleet_code;
             if(!empty($row['vehicle_number']))
             {

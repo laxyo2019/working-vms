@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Session;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use App\Models\VehicleType;
 use App\vehicle_master;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use App\vch_comp;
@@ -26,6 +27,9 @@ class VehicleDetailsImport implements ToCollection,WithHeadingRow
         {    
 
         	$data = vch_comp::where('fleet_code',$fleet_code)->where('comp_name',$row['vehicle_company'])->first();
+
+            $vch_type = VehicleType::where('fleet_code',$fleet_code)->where('vch_type',$row['vehicle_type'])->first();
+            
 
         	$model = vch_model::where('fleet_code',$fleet_code)->where('model_name',$row['vehicle_model'])->first();
            
@@ -61,6 +65,7 @@ class VehicleDetailsImport implements ToCollection,WithHeadingRow
 
                                                     'fleet_code'           =>$fleet_code,
                                                     'vch_no'               =>$row['vehicle_number'],
+                                                    'vch_type'             => $vch_type ? $vch_type->id : 'NO RECORD',
                                                     'vch_class'            =>$row['vehicle_class'],
                                                     'vch_km_reading'       =>$row['km_reading'],
                                                     'vch_comp'             =>!empty($data->id) ? $data->id :0,
