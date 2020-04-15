@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\InsuranceCompany;
+use App\Models\InsuranceType;
 use App\Models\InsuranceDetails;
 use Illuminate\Http\Request;
 use App\vehicle_master;
@@ -247,5 +248,9 @@ class InsuranceDetailsController extends Controller
         $data  = vehicle_master::find($id);
         return json_encode($data);
 
+    }
+    public function get_comp(Request $request){
+       $data = InsuranceType::where('ins_id',$request->id)->get();
+       return $data;
     }
 }

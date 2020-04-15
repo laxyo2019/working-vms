@@ -82,21 +82,30 @@
             <div class="card">
               <div class="card-header">
                 <div class="row">
+                  <div class="col-sm-12 col-md-12">
+                    @foreach($modules as $module)
+                      <button class="btn btn-primary module" value="{{$module->id}}">{{$module->name}}</button>
+                    @endforeach
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 m-auto">
+            <div class="card">
+              <div class="card-header">
+                <div class="row">
                   <div class="col-md-3 col-sm-3">
                     <label>Name</label><br>
                     <span><?php echo $data['user']['name'] ; ?></span>
                     <input id="id" type="hidden" name="id" value="<?php echo $data['user']['id'] ; ?>">
                   </div>
                   <div class="col-sm-9 col-md-9">
-                    <label>Permissions</label>
-                    <form>
-                    <?php foreach($data['permissions'] as $permission){ ?>
-                        <label class="checkbox-inline">
-                          <input name="permission_id" class="taskchecker1" <?php if(in_array($permission->id,$permission_ids)){echo 'checked'; }?>
-                          type="checkbox" value="{{$permission->id}}">{{$permission->name}}
-                        </label>
-                    <?php } ?>
-                    </form>
+                    <label>Permissions </label>
+                    <div id="per">
+                      
+                    </div>
+                  
                   </div>
                 </div>
               </div>
@@ -146,14 +155,13 @@
   $(document).ready(function(){
     $('#role_table2').DataTable();
 
-    $(".taskchecker").on("change", function() {
+$(document).on("change",".taskchecker",function(){ 
         var id  = $('#id').val();
         var val = [];        
         
           $("input[name='role_val']:checked").each(function(){
               val.push($(this).val());
            });
-                  
          $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -162,6 +170,22 @@
         $.post("/changes_role", {'userId':id, 'roleId':val}, function() {
 
         });
+    })
+
+    $(".module").on("click", function() {
+        var id  = $(this).val();
+        var model_id  = $('#id').val();
+        $.ajax({
+        url: "/module_id",
+        type: 'POST',
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        data: {'id':id,'model_id':model_id},
+        success: function (data) {
+              console.log(data);
+              $('#per').empty();
+              $('#per').html(data);
+        }
+      });
     })
 
     $('.roles_table,.permissions_table,.users_table').on('click',function(){
@@ -184,14 +208,14 @@
       }
     });
 
-    $(".taskchecker1").on("change", function() {
+$(document).on("change",".taskchecker1",function(){ 
         var id  = $('#id').val();
         var val = [];
 
           $("input[name='permission_id']:checked").each(function(i){
               val.push($(this).val());
            });
-          
+          // alert(val);
          $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

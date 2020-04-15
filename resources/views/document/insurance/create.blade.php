@@ -50,11 +50,11 @@
 			                              </span>
 			                          @enderror
 				                </div>
-
+ 
 				                <div class="col-md-3 col-xl-3 mt-2">
 				                    <label class="">Select Insurance Company</label>
 				                    
-			                       <select name="ins_comp" class="selectpicker form-control">
+			                       <select name="ins_comp" class="selectpicker form-control" id="ins">
 			                            <option value="0" selected=" true " disabled="true">Select..</option>
 			                            @foreach($ins_company as $company)
 			                               <option value="{{$company->id}}">{{$company->comp_name}}</option>
@@ -68,15 +68,9 @@
 				                </div>
 
 				                <div class="col-md-3 col-xl-3 mt-2">
-				                    <label class="">Select Insurance Type</label>				                    
-			                        <select name="ins_type" class="selectpicker form-control">
-			                            
-			                            <option value="1" selected=" true ">Vehicle Insurance</option>
-			                            <option value="2">Medical Insurance</option>
-			                            <option value="3">WC Insurance</option>
-			                            <option value="4">AR Policy</option>
-			                            <option value="5">Fire Insurance</option>
-			                        </select>
+				                    <label class="">Select Insurance Type</label>			
+				                    <select name="ins_type" class="selectpicker form-control" id="ins_type">
+				                    </select>
 			                        @error('ins_type')
 			                              <span class="invalid-feedback d-block pull-right" role="alert">
 			                                  <strong>{{ 'Please Select Insurance Type' }}</strong>
@@ -502,6 +496,8 @@
         $( ".datepicker" ).datepicker({format:'yyyy-mm-dd'});
     });
 
+   
+
     $('#type').on('change',function(){
     	var type = $(this).val();
     	if(type == 'cheque'){
@@ -610,6 +606,23 @@
         filePreview(this,img_id);
     });
 });
+
+ $('#ins').on('change',function(){
+    	var id = $(this).val();
+    	$.ajax({ 
+            url: "/get_comp",
+            type: 'POST',
+		    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            data: {'id':id},
+            success: function (data) {
+            		// console.log(data);
+            		$('#ins_type').empty();
+            		$.each(data,function(i,v){
+            		$('#ins_type').append('<option value="'+v.id+'">'+v.type_name+'</option>');
+            		})
+            }
+        })
+    });
 
 function filePreview(input,img_id) {
 

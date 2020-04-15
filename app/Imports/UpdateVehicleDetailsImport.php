@@ -26,7 +26,6 @@ class UpdateVehicleDetailsImport implements ToCollection,WithHeadingRow
         	$data = vch_comp::where('fleet_code',$fleet_code)->where('comp_name',$row['vehicle_company'])->first();
 
             $vch_type = VehicleType::where('fleet_code',$fleet_code)->where('vch_type',$row['vehicle_type'])->first();
-// dd($vch_type->id);
 
            
         	$model = vch_model::where('fleet_code',$fleet_code)->where('model_name',$row['vehicle_model'])->first();
@@ -46,6 +45,7 @@ class UpdateVehicleDetailsImport implements ToCollection,WithHeadingRow
                 
                     $comp = vehicle_master::where('fleet_code',$fleet_code)->where('vch_no', $row['vehicle_number'])->first();
 
+                    // dd($row['registration_date']);
                     $invoice_date   = !empty($row['invoice_date']) ?   Date::excelToDateTimeObject($row['invoice_date']) : null;
                     $registration_date = !empty($row['registration_date']) ? Date::excelToDateTimeObject($row['registration_date']) : null ;
                     $invoice_date   = $invoice_date == null ? null : $invoice_date->format('Y-m-d');

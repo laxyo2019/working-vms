@@ -57,10 +57,10 @@
 				                <div class="col-md-3 col-xl-3 mt-2">
 				                    <label class="">Select Insurance Company</label>
 				                    
-			                       <select name="ins_comp" class="selectpicker form-control">
+			                       <select name="ins_comp" class="selectpicker form-control" id="ins">
 			                            <option value="0" selected=" true " disabled="true">Select..</option>
 			                            @foreach($ins_company as $company)
-			                               <option {{ $data->ins_comp == $company->id ? 'selected':'' }} value="{{$company->id}}">{{$company->comp_name}}</option>
+			                               <option value="{{$company->id}}">{{$company->comp_name}}</option>
 			                            @endforeach     
 			                        </select>
 			                        @error('ins_comp')
@@ -71,16 +71,9 @@
 				                </div>
 
 				                <div class="col-md-3 col-xl-3 mt-2">
-				                    <label class="">Select Insurance Type</label>
-				                    
-			                       <select name="ins_type" class="selectpicker form-control">
-			                            <option value="1" {{$data->ins_type  == 1 ? 'selected' :''}} >Vehicle Insurance</option>
-			                            <option value="2" {{$data->ins_type  == 2 ? 'selected' :''}}>Medical Insurance</option>
-			                            <option value="3" {{$data->ins_type  == 3 ? 'selected' :''}}>WC Insurance</option>
-			                            <option value="4" {{$data->ins_type  == 4 ? 'selected' :''}}>AR Policy</option>
-			                            <option value="5" {{$data->ins_type  == 5 ? 'selected' :''}}>Fire Insurance</option>
-			                            
-			                        </select>
+				                    <label class="">Select Insurance Type</label>			
+				                    <select name="ins_type" class="selectpicker form-control" id="ins_type">
+				                    </select>
 			                        @error('ins_type')
 			                              <span class="invalid-feedback d-block pull-right" role="alert">
 			                                  <strong>{{ 'Please Select Insurance Type' }}</strong>
@@ -626,6 +619,23 @@
     });
 });
 
+ $('#ins').on('change',function(){
+    	var id = $(this).val();
+    	$.ajax({ 
+            url: "/get_comp",
+            type: 'POST',
+		    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            data: {'id':id},
+            success: function (data) {
+            		// console.log(data);
+            		$('#ins_type').empty();
+            		$.each(data,function(i,v){
+            		$('#ins_type').append('<option value="'+v.id+'">'+v.type_name+'</option>');
+            		})
+            }
+        })
+    });
+ 
   function filePreview(input,img_id) {
 
     if (input.files && input.files[0]) {

@@ -24,10 +24,13 @@ class InsuranceDetailsImport implements ToCollection,WithHeadingRow
         foreach ($rows as $row) {
             $fleet_code = $row['fleet_code'];
             if(!empty($row['vehicle_number']))
-            {              
+            {   
+            if($row['insurance_company'] !== null) {         
+            // dd($row['insurance_company']) ;
                 $ins_comp  = InsuranceCompany::where('fleet_code',$fleet_code)->where('comp_name', 'like',$row['insurance_company'])->first();
                 
                 $ins_type  = InsuranceType::where('fleet_code',$fleet_code)->where('type_name', 'like',$row['insurance_type'])->first();
+                }
                 $vch_num  = vehicle_master::where('fleet_code',$fleet_code)->where('vch_no',$row['vehicle_number'])->first();
                 $valid_date   = !empty($row['insurancs_valid_from']) ?   Date::excelToDateTimeObject($row['insurancs_valid_from']) : null;
                 $expire_date  = !empty($row['insurance_valid_till']) ? Date::excelToDateTimeObject($row['insurance_valid_till']) : null ;
@@ -41,8 +44,8 @@ class InsuranceDetailsImport implements ToCollection,WithHeadingRow
                     InsuranceDetails::create([
                     'fleet_code'  => $row['fleet_code'],
                     'vch_id'      => $vch_num->id,
-                    'ins_comp' => $ins_comp->id,
-                    'ins_type' => $ins_type->id,
+                    // 'ins_comp' => $ins_comp->id,
+                    // 'ins_type' => $ins_type->id,
                     'insured_name' => $row['insureds_name'],
                     'ins_policy_no' => $row['insurance_policy_number'],
                     'ins_total_amt'     => $row['insurance_total_amount'],

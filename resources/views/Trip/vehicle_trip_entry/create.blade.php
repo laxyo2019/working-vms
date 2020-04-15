@@ -584,7 +584,7 @@ $(document).on('change','.add_state',function(){
     })
     function city_fetch(state_id,city_id,select_city = null){
     	var city = "#"+city_id; 
-    	console.log(city);
+    	// console.log(city);
 		$.ajax({
 		    url: "/drivercity",
 		    type: 'POST',

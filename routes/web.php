@@ -22,7 +22,7 @@
 		Route::get('/module_destroy/{id}','Module\ModuleController@destroy')->name('module_destroy');
 
 Route::group(['middleware' => ['role:superadmin']], function () {
-		// This Route start For RolesController
+		// This Route start For RolesController 
 
 		Route::resource('/admin', 'ACL\RolesController');
 		Route::get('/delete_roles/{id}','ACL\RolesController@destroy')->name('delete_roles');
@@ -39,6 +39,7 @@ Route::group(['middleware' => ['role:superadmin']], function () {
 		Route::get('/destroy/{id}', 'ACL\UserController@destroy')->name('destroy');
 		Route::post('/changes_role','ACL\UserController@changesRole')->name('changesRole');
 		Route::post('/changePermission','ACL\UserController@changePermission')->name('changePermission');	
+		Route::post('/module_id','ACL\UserController@module_permission')->name('module_id');	
 
 		//Start AccountController
 		Route::resource('/account', 'AccountController');
@@ -244,6 +245,8 @@ Route::group(['middleware' => ['role:manager']], function () {
 		Route::post('/insuranceDetailsImport','Document\InsuranceDetailsController@import')->name('insurance.import');
 		Route::get('/insuranceDetailsDownload','Document\InsuranceDetailsController@download')->name('insurance.download');
 		Route::post('/getDetails','Document\InsuranceDetailsController@getDetails');
+		Route::post('/get_comp','Document\InsuranceDetailsController@get_comp')->name('get_comp');
+		
 		//end insuranceDetailsContrller
 
 		//strat StatePermitContrller 
@@ -287,6 +290,7 @@ Route::group(['middleware' => ['role:manager']], function () {
 		//end InsuranceCompanyController
 
 		//strat InsuranceTypeController 
+
 		Route::resource('/insurance_type','InsuranceTypeController');
 		Route::get('/insurance_type_delete/{id}','InsuranceTypeController@destroy')->name('insurance_type_delete');
 		Route::post('/insurance_type_export','InsuranceTypeController@import')->name('insurance_type.import');

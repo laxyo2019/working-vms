@@ -114,7 +114,7 @@ class DriverdetailsController extends Controller
                 $vdata['image'] = $old_data->image;    
             }
        }
-        return $vdata;
+        return $vdata; 
     }
 
     public function get_city(Request $request){

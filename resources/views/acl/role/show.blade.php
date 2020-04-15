@@ -18,7 +18,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 @endsection
-@section('content')
+@section('content') 
 
   <main class="app-content">
 	  <div class="app-title">
@@ -66,12 +66,13 @@
         	$(':checkbox:checked').each(function(i){
         		  val[i] = $(this).val();
        		 });
+   			// alert(val);
    			 $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
          	 });
-  			$.post("/saveChanges", {'roleId':id, 'permissionId':val}, function() {
+  			$.post("/save_changes", {'roleId':id, 'permissionId':val}, function() {
 
   			});
 		})

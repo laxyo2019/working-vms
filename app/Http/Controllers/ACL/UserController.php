@@ -8,7 +8,8 @@ use App\User;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use DB;
+use App\Models\Module;
+use DB; 
 
 class UserController extends Controller
 {
@@ -63,6 +64,7 @@ class UserController extends Controller
     public function show($id)
     {
         $data  = array();
+        $modules             = Module::all();
         $data['user']        = User::find($id);
         $data['role']        = Role::get();
         $data['permissions'] = Permission::get();
@@ -81,7 +83,7 @@ class UserController extends Controller
             $role_ids[] = $roles->role_id; 
         }
 
-        return view('acl.users.show',compact('data','permission_ids','user','role_ids','type'));
+        return view('acl.users.show',compact('data','permission_ids','user','role_ids','type','modules'));
     }
 
     
@@ -127,6 +129,24 @@ class UserController extends Controller
         $user         = User::findOrFail($request->userId);
         $permissionid = $request->permissionId;
         $user->syncPermissions($permissionid);
+    }
+
+    public function module_permission(Request $request){
+        // return $request->model_id;
+        $data = Permission::where('module_id',$request->id)->get();
+        $permission          = DB::table('model_has_permissions')->where('model_id',$request->model_id)->get();
+        $permission_ids = array();
+        foreach ($permission as $ids) {
+            $permission_ids[] = $ids->permission_id; 
+        }
+
+         foreach ($data as $permission) { ?>
+            <label class="checkbox-inline">
+              <input name="permission_id" class="taskchecker1" <?php if(in_array($permission->id,$permission_ids)){echo 'checked'; }?>
+              type="checkbox" value="<?php echo $permission->id ;?>"><?php echo $permission->name ;?>
+            </label>
+           
+    <?php  } 
     }
 }
 
